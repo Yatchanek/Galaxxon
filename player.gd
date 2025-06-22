@@ -20,10 +20,14 @@ const ACCELERATION : float = 100.0
 @export var controller_type : ControllerType = ControllerType.KEYBOARD
 
 
-@onready var body : MeshInstance3D = $Body
+@onready var body_pivot : Node3D = $BodyPivot
+@onready var body : MeshInstance3D = $BodyPivot/Body
+@onready var shoot_timer : Timer = $ShootTimer
+
+
 var velocity : Vector3 = Vector3.ZERO
 
-
+var can_shoot : bool = true
 
 func _physics_process(delta: float) -> void:
 	if controller_type == ControllerType.MOUSE:
@@ -42,19 +46,19 @@ func _physics_process(delta: float) -> void:
 
 		if abs(velocity.x) > 0.1:
 			var target_transform : Transform3D = Transform3D.IDENTITY.rotated(Vector3.FORWARD, PI / 5 * sign(velocity.x))
-			body.transform = body.transform.interpolate_with(target_transform, 0.1)
+			body_pivot.transform = body_pivot.transform.interpolate_with(target_transform, 0.1)
 		else:
-			body.transform = body.transform.interpolate_with(Transform3D.IDENTITY, 0.1)
+			body_pivot.transform = body_pivot.transform.interpolate_with(Transform3D.IDENTITY, 0.1)
 
 	else:
 		var direction : Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		if direction.x != 0:
 			velocity.x = move_toward(velocity.x, direction.x * HORIZONTAL_SPEED, ACCELERATION * delta)
 			var target_transform : Transform3D = Transform3D.IDENTITY.rotated(Vector3.FORWARD, PI / 5 * direction.x)
-			body.transform = body.transform.interpolate_with(target_transform, 0.1)
+			body_pivot.transform = body_pivot.transform.interpolate_with(target_transform, 0.1)
 		else:
 			velocity.x = move_toward(velocity.x, direction.x * HORIZONTAL_SPEED, ACCELERATION * 3.0 * delta)
-			body.transform = body.transform.interpolate_with(Transform3D.IDENTITY, 0.1)
+			body_pivot.transform = body_pivot.transform.interpolate_with(Transform3D.IDENTITY, 0.1)
 
 		if direction.y != 0:
 			if steering_mode == SteeringMode.GALAGA:
@@ -72,3 +76,15 @@ func _physics_process(delta: float) -> void:
 	position.x = clamp(position.x, -31, 31)
 	position.z = clamp(position.z, -33, 0)
 	position.y = clamp(position.y, -3.5, 15)
+
+	if Input.is_action_pressed("ui_accept") and can_shoot:
+		can_shoot = false
+		BulletPool.release_from_pool($Marker3D, true)
+		shoot_timer.start()
+
+
+
+func _on_shoot_timer_timeout() -> void:
+	can_shoot = true
+
+

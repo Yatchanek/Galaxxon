@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bu881agq7bkoc"]
+
+[ext_resource type="Script" uid="uid://dufaoa4a0ltqi" path="res://hitbox.gd" id="1_orx6n"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xrojb"]
+resource_local_to_scene = true
+
+[node name="Hitbox" type="Area3D"]
+collision_layer = 0
+collision_mask = 16
+monitorable = false
+script = ExtResource("1_orx6n")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_xrojb")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

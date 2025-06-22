@@ -6,14 +6,15 @@
 
 [sub_resource type="Curve3D" id="Curve3D_4f4uk"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 40, 0, 0, 6.46687, 0, -7.52594, -6.46687, 0, 7.52594, 20, 0, 0, 6.46687, 0, 7.52594, -6.46687, 0, -7.52594, 0, 0, 0, 6.46687, 0, -7.52594, -6.46687, 0, 7.52594, -20, 0, 0, 0, 0, 0, 0, 0, 0, -40, 0, 0),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 40, 0, 0, 6.70042, 0, -7.91219, -6.70042, 0, 7.91219, 20, 0, 0, 6.70042, 0, 7.91219, -6.70042, 0, -7.91219, 0, 0, 0, 6.70042, 0, -7.91219, -6.70042, 0, 7.91219, -20, 0, 0, 0, 0, 0, 0, 0, 0, -40, 0, 0),
+"tilts": PackedFloat32Array(0, 0.392699, -0.392699, 0.392699, 0)
 }
 point_count = 5
 
 [node name="PathEnemySpawner" type="Node3D"]
 script = ExtResource("1_tblie")
 path_enemy_scene = ExtResource("2_4f4uk")
+enemy_count = 1000
 
 [node name="EnemyPath" parent="." instance=ExtResource("1_yuvxl")]
 curve = SubResource("Curve3D_4f4uk")

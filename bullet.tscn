@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://dsvrbcqig88fv"]
+
+[ext_resource type="Script" uid="uid://dfnbjyyrj7tta" path="res://bullet.gd" id="1_v7oki"]
+[ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://hurtbox.gd" id="2_v8qja"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v7oki"]
+albedo_color = Color(5, 5, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rtl8c"]
+material = SubResource("StandardMaterial3D_v7oki")
+radius = 0.25
+height = 1.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t4vbm"]
+size = Vector3(0.5, 0.5, 1)
+
+[node name="Bullet" type="Node3D"]
+script = ExtResource("1_v7oki")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_rtl8c")
+
+[node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+script = ExtResource("2_v8qja")
+actor = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+shape = SubResource("BoxShape3D_t4vbm")
