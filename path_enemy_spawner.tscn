@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvhtewhaposf5"]
+
+[ext_resource type="Script" uid="uid://cn2idf0txvn3j" path="res://path_enemy_spawner.gd" id="1_tblie"]
+[ext_resource type="PackedScene" uid="uid://8ygurfsu7m80" path="res://enemy_path.tscn" id="1_yuvxl"]
+[ext_resource type="PackedScene" uid="uid://cx3e7usydavlx" path="res://path_enemy.tscn" id="2_4f4uk"]
+
+[sub_resource type="Curve3D" id="Curve3D_4f4uk"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 40, 0, 0, 6.46687, 0, -7.52594, -6.46687, 0, 7.52594, 20, 0, 0, 6.46687, 0, 7.52594, -6.46687, 0, -7.52594, 0, 0, 0, 6.46687, 0, -7.52594, -6.46687, 0, 7.52594, -20, 0, 0, 0, 0, 0, 0, 0, 0, -40, 0, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="PathEnemySpawner" type="Node3D"]
+script = ExtResource("1_tblie")
+path_enemy_scene = ExtResource("2_4f4uk")
+
+[node name="EnemyPath" parent="." instance=ExtResource("1_yuvxl")]
+curve = SubResource("Curve3D_4f4uk")
+point_num = 3
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

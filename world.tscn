@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://g7u1uank1std"]
+
+[ext_resource type="Script" uid="uid://cn012ndn2bvy8" path="res://world.gd" id="1_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://42m5coqfeveg" path="res://player.tscn" id="1_f3sb7"]
+[ext_resource type="Shader" uid="uid://ds4psquedce46" path="res://bkg.gdshader" id="2_tlwt5"]
+[ext_resource type="Texture2D" uid="uid://d4htv2b22v1hw" path="res://bkg.png" id="3_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://bvhtewhaposf5" path="res://path_enemy_spawner.tscn" id="5_036b0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_036b0"]
+render_priority = 0
+shader = ExtResource("2_tlwt5")
+shader_parameter/albedo_tex = ExtResource("3_aqk2v")
+shader_parameter/speed_scale = 0.09
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_f3sb7"]
+material = SubResource("ShaderMaterial_036b0")
+size = Vector2(75, 50)
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_aqk2v")
+
+[node name="GalagaCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10.399, -17)
+projection = 1
+current = true
+size = 40.0
+
+[node name="ZaxxonCamera" type="Camera3D" parent="."]
+transform = Transform3D(0.688465, -0.243945, 0.683013, 0.084186, 0.96225, 0.258819, -0.720367, -0.120688, 0.683013, 50.1827, 13.6722, 21.3193)
+projection = 1
+size = 40.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0)
+
+[node name="Player" parent="." node_paths=PackedStringArray("world") instance=ExtResource("1_f3sb7")]
+world = NodePath("..")
+
+[node name="Background" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, -13.7602)
+mesh = SubResource("PlaneMesh_f3sb7")
+
+[node name="PathEnemySpawner" parent="." instance=ExtResource("5_036b0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -22.7984)
