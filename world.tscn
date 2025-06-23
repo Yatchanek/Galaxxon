@@ -1,11 +1,19 @@
-[gd_scene load_steps=10 format=3 uid="uid://g7u1uank1std"]
+[gd_scene load_steps=12 format=3 uid="uid://g7u1uank1std"]
 
 [ext_resource type="Script" uid="uid://cn012ndn2bvy8" path="res://world.gd" id="1_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://42m5coqfeveg" path="res://player.tscn" id="1_f3sb7"]
 [ext_resource type="Shader" uid="uid://ds4psquedce46" path="res://bkg.gdshader" id="2_tlwt5"]
 [ext_resource type="Texture2D" uid="uid://d4htv2b22v1hw" path="res://bkg.png" id="3_aqk2v"]
-[ext_resource type="PackedScene" uid="uid://bvhtewhaposf5" path="res://path_enemy_spawner.tscn" id="5_036b0"]
-[ext_resource type="PackedScene" uid="uid://dppaho64ksomi" path="res://enemy.tscn" id="6_dwbse"]
+[ext_resource type="Script" uid="uid://b243f52hq6y1h" path="res://hud.gd" id="3_pkg7o"]
+[ext_resource type="PackedScene" uid="uid://b6uy32367mh8b" path="res://wave_spawner.tscn" id="5_036b0"]
+[ext_resource type="PackedScene" uid="uid://dppaho64ksomi" path="res://sine_enemy.tscn" id="6_dwbse"]
+
+[sub_resource type="Environment" id="Environment_dwbse"]
+glow_enabled = true
+glow_bloom = 0.2
+
+[sub_resource type="LabelSettings" id="LabelSettings_dwbse"]
+font_size = 47
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_036b0"]
 render_priority = 0
@@ -15,17 +23,13 @@ shader_parameter/speed_scale = 0.09
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_f3sb7"]
 material = SubResource("ShaderMaterial_036b0")
-size = Vector2(75, 50)
-
-[sub_resource type="Environment" id="Environment_dwbse"]
-glow_enabled = true
-glow_bloom = 0.2
+size = Vector2(60, 50)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_aqk2v")
 
 [node name="GalagaCamera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10.399, -17)
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 9, 16.4736, -13.4165)
 projection = 1
 current = true
 size = 40.0
@@ -42,12 +46,43 @@ light_energy = 3.0
 [node name="Player" parent="." node_paths=PackedStringArray("world") instance=ExtResource("1_f3sb7")]
 world = NodePath("..")
 
-[node name="Background" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, -13.7602)
-mesh = SubResource("PlaneMesh_f3sb7")
-
-[node name="PathEnemySpawner" parent="." instance=ExtResource("5_036b0")]
-sine_enemy_scene = ExtResource("6_dwbse")
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_dwbse")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 3
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("3_pkg7o")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.241156, 0.241156, 0.241156, 1)
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/HUD"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 23.0
+offset_right = 478.0
+offset_bottom = 88.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_dwbse")
+
+[node name="Background" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -5, -15.6546)
+mesh = SubResource("PlaneMesh_f3sb7")
+
+[node name="WaveSpawner" parent="." instance=ExtResource("5_036b0")]
+enemy_scene = ExtResource("6_dwbse")

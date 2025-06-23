@@ -6,7 +6,7 @@ uniform float speed_scale : hint_range(0.0, 1.0, 0.01);
 
 
 void fragment() {
-	float resolution = 1280.0 / 720.0;
+	float resolution = 60.0 / 50.0;
 	vec2 uv = UV;
 	uv -= 0.5;
 	uv.y /= resolution;

@@ -23,11 +23,19 @@ const ACCELERATION : float = 100.0
 @onready var body_pivot : Node3D = $BodyPivot
 @onready var body : MeshInstance3D = $BodyPivot/Body
 @onready var shoot_timer : Timer = $ShootTimer
-
+@onready var main_weapon_slot : Node3D = $MainWeaponSlot
 
 var velocity : Vector3 = Vector3.ZERO
 
 var can_shoot : bool = true
+
+var shoot_interval : float = 0.1
+var power_level : int = 9
+var bullet_power : int = 1
+
+var spread_fire : bool = true
+
+
 
 func _physics_process(delta: float) -> void:
 	if controller_type == ControllerType.MOUSE:
@@ -73,14 +81,11 @@ func _physics_process(delta: float) -> void:
 
 
 	position += velocity * delta
-	position.x = clamp(position.x, -31, 31)
-	position.z = clamp(position.z, -33, 0)
+	position.x = clamp(position.x, -23, 23)
+	position.z = clamp(position.z, -40, 0)
 	position.y = clamp(position.y, -3.5, 15)
 
-	if Input.is_action_pressed("ui_accept") and can_shoot:
-		can_shoot = false
-		BulletPool.release_from_pool($Marker3D, true)
-		shoot_timer.start()
+
 
 
 

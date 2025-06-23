@@ -17,7 +17,6 @@ func _ready() -> void:
     var max_z : int = 15
 
     var interval : float = width / (point_num + 1)
-    print(interval)
     max_x = interval * 0.4
     min_x = max_x * 0.75
 

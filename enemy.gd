@@ -1,51 +1,41 @@
 extends Node3D
-class_name SineEnemy
+class_name Enemy
 
-@onready var body_pivot : Node3D = $BodyPivot
+@onready var body_pivot = $BodyPivot
 
-@export var turning : bool = true
-@export var yawing : bool = true
+@export var hp : int = 5
+@export var speed : float = 30.0
+
+@export var body_colors : Array[Color] = []
 
 var velocity : Vector3
-var angle : float = 0.0
-var angle_2 : float = 0.0
-var speed : float = 15.0
-
 var rotation_quat : Quaternion
 
+
 func _ready() -> void:
-	velocity = -basis.z * speed
+	velocity = -global_basis.z * speed
 	rotation_quat = body_pivot.transform.basis.get_rotation_quaternion()
+	set_colors()
 
-	if global_basis.z.dot(Vector3.FORWARD) > 0.5:
-		turning = false
-		yawing = false
-
-func _process(delta: float) -> void:
-	angle += delta * 4.0
-
-
-func _physics_process(delta: float) -> void:
-	velocity = -global_basis.z.rotated(Vector3.UP, PI / 6 * sin(angle)) * speed
-	position += velocity * delta
-	
-	if turning:
-		rotation_quat = Quaternion(Vector3.UP, PI / 6 * sin(angle))
-
-	if yawing:
-		if velocity.z > 0:
-			if turning:
-				rotation_quat *= Quaternion(Vector3.BACK, PI / 6 + PI / 8 * abs(velocity.z) / speed)
-			else:
-				rotation_quat = Quaternion(Vector3.BACK, PI / 6 + PI / 8 * abs(velocity.z) / speed)
-		else:
-			if turning:
-				rotation_quat *= Quaternion(Vector3.BACK, -PI / 6 - PI / 8 * abs(velocity.z) / speed)
-			else:
-				rotation_quat = Quaternion(Vector3.BACK, -PI / 6 - PI / 8 * abs(velocity.z) / speed)
-
-	body_pivot.rotation = body_pivot.transform.basis.get_rotation_quaternion().slerp(rotation_quat, 0.05).get_euler()
+func set_colors():
+	for i in body_pivot.get_child_count():
+		var body_part = body_pivot.get_child(i)
+		body_part.set_instance_shader_parameter("body_color", body_colors[i])
 
 
-	if (velocity.x > 0 and position.x > 40) or (velocity.x < 0 and position.x < -40) or (velocity.y > 0 and position.y < 2):
-		queue_free()
+func take_damage(amount : float):
+	hp -= amount
+	if hp <= 0:
+		die()
+	else:
+		blink()
+
+func blink():
+	for i in body_pivot.get_child_count():
+		var body_part : MeshInstance3D = body_pivot.get_child(i)
+		body_part.set_instance_shader_parameter("body_color", Color.WHITE)
+		await get_tree().create_timer(0.075).timeout
+		body_part.set_instance_shader_parameter("body_color", body_colors[i])
+
+func die():
+	pass

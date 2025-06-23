@@ -1,24 +1,16 @@
 [gd_scene load_steps=6 format=3 uid="uid://42m5coqfeveg"]
 
 [ext_resource type="Script" uid="uid://80aaxx0ho1tj" path="res://player.gd" id="1_4flbx"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4flbx"]
-albedo_color = Color(0.381703, 0.381703, 0.381703, 1)
-metallic = 0.5
-roughness = 0.4
+[ext_resource type="Material" uid="uid://dqcixbsnrlyye" path="res://body_material.tres" id="2_onrkg"]
+[ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://basic_cannon_weapon.tscn" id="3_i3pqv"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_onrkg"]
-material = SubResource("StandardMaterial3D_4flbx")
+material = ExtResource("2_onrkg")
 height = 4.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_onrkg"]
-albedo_color = Color(0.600552, 0.650064, 0.0330196, 1)
-metallic = 0.5
-roughness = 0.3
-
 [sub_resource type="PrismMesh" id="PrismMesh_fj7yv"]
-material = SubResource("StandardMaterial3D_onrkg")
-size = Vector3(5, 2, 0.25)
+material = ExtResource("2_onrkg")
+size = Vector3(5, 3, 0.25)
 
 [node name="Player" type="Node3D"]
 script = ExtResource("1_4flbx")
@@ -27,19 +19,24 @@ script = ExtResource("1_4flbx")
 
 [node name="Body" type="MeshInstance3D" parent="BodyPivot"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+instance_shader_parameters/body_color = Color(0.281187, 0.281187, 0.281187, 1)
 mesh = SubResource("CapsuleMesh_onrkg")
 skeleton = NodePath("../..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="BodyPivot"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+instance_shader_parameters/body_color = Color(0.603922, 0.764706, 0, 1)
 mesh = SubResource("PrismMesh_fj7yv")
 skeleton = NodePath("../Body")
-
-[node name="Marker3D" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.15412)
 
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
+
+[node name="MainWeaponSlot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+
+[node name="BasicCannonWeapon" parent="MainWeaponSlot" instance=ExtResource("3_i3pqv")]
+is_player_weapon = false
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://dppaho64ksomi"]
+
+[ext_resource type="Script" uid="uid://c5186jr5uk3wk" path="res://sine_enemy.gd" id="1_7k104"]
+[ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://hitbox.tscn" id="2_4gyqm"]
+[ext_resource type="Material" uid="uid://dqcixbsnrlyye" path="res://body_material.tres" id="2_qi2p4"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_7k104"]
+material = ExtResource("2_qi2p4")
+size = Vector3(3, 2.5, 0.3)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_4gyqm"]
+material = ExtResource("2_qi2p4")
+radius = 0.3
+height = 3.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qi2p4"]
+resource_local_to_scene = true
+size = Vector3(3, 0.3, 2.5)
+
+[node name="SineEnemy" type="Node3D"]
+script = ExtResource("1_7k104")
+speed = 10.0
+body_colors = Array[Color]([Color(1, 0, 0, 1), Color(0, 1, 0, 1)])
+
+[node name="BodyPivot" type="Node3D" parent="."]
+
+[node name="Wings" type="MeshInstance3D" parent="BodyPivot"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.5)
+instance_shader_parameters/body_color = Color(0, 0, 0, 1)
+mesh = SubResource("PrismMesh_7k104")
+skeleton = NodePath("../..")
+
+[node name="Body" type="MeshInstance3D" parent="BodyPivot"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.25)
+instance_shader_parameters/body_color = Color(0, 0, 0, 1)
+mesh = SubResource("CapsuleMesh_4gyqm")
+
+[node name="Hitbox" parent="BodyPivot/Body" node_paths=PackedStringArray("actor") instance=ExtResource("2_4gyqm")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.25, 1.09278e-08)
+actor = NodePath("../../..")
+
+[node name="CollisionShape3D" parent="BodyPivot/Body/Hitbox" index="0"]
+shape = SubResource("BoxShape3D_qi2p4")
+
+[editable path="BodyPivot/Body/Hitbox"]

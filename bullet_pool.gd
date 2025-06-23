@@ -14,12 +14,14 @@ func _ready() -> void:
 		add_child.call_deferred(bullet)
 
 
-func release_from_pool(spawning_spot : Marker3D, for_player : bool = false):
+func release_from_pool(spawning_spot : Marker3D, for_player : bool = false, power_level : int = 1):
 	if pool.is_empty():
 		return
 	var bullet : Bullet = pool.pop_back()
 	bullet.global_transform = spawning_spot.global_transform
 	bullet.visible = true
+	bullet.power_level = power_level
+	bullet.set_damage()
 	bullet.adjust_collision(for_player)
 	bullet.start()
 
