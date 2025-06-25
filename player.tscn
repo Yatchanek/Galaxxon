@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://42m5coqfeveg"]
+[gd_scene load_steps=8 format=3 uid="uid://42m5coqfeveg"]
 
 [ext_resource type="Script" uid="uid://80aaxx0ho1tj" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="Material" uid="uid://dqcixbsnrlyye" path="res://body_material.tres" id="2_onrkg"]
 [ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://basic_cannon_weapon.tscn" id="3_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://mato0xxl1qce" path="res://laser_weapon.tscn" id="4_hqtel"]
+[ext_resource type="PackedScene" uid="uid://kn6jwqy71lme" path="res://rocket_launcher.tscn" id="5_sweqy"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_onrkg"]
 material = ExtResource("2_onrkg")
@@ -14,6 +16,8 @@ size = Vector3(5, 3, 0.25)
 
 [node name="Player" type="Node3D"]
 script = ExtResource("1_4flbx")
+cannon_weapon_scene = ExtResource("3_i3pqv")
+laser_weapon_scene = ExtResource("4_hqtel")
 
 [node name="BodyPivot" type="Node3D" parent="."]
 
@@ -37,6 +41,17 @@ one_shot = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
 
 [node name="BasicCannonWeapon" parent="MainWeaponSlot" instance=ExtResource("3_i3pqv")]
-is_player_weapon = false
+
+[node name="SecondaryWeaponSlots" type="Node3D" parent="."]
+
+[node name="Slot1" type="Node3D" parent="SecondaryWeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75, 0, -0.5)
+
+[node name="RocketLauncher" parent="SecondaryWeaponSlots/Slot1" instance=ExtResource("5_sweqy")]
+
+[node name="Slot2" type="Node3D" parent="SecondaryWeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.75, 0, -0.5)
+
+[node name="RocketLauncher" parent="SecondaryWeaponSlots/Slot2" instance=ExtResource("5_sweqy")]
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

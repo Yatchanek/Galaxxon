@@ -3,6 +3,7 @@ class_name Enemy
 
 @onready var body_pivot = $BodyPivot
 
+@export var hitbox : HitBox
 @export var hp : int = 5
 @export var speed : float = 30.0
 

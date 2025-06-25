@@ -15,6 +15,9 @@ const HORIZONTAL_SPEED : int = 40
 const VERTICAL_SPEED : int = 40
 const ACCELERATION : float = 100.0
 
+@export var cannon_weapon_scene : PackedScene
+@export var laser_weapon_scene : PackedScene
+
 @export var world : World 
 @export var steering_mode : SteeringMode = SteeringMode.GALAGA
 @export var controller_type : ControllerType = ControllerType.KEYBOARD
@@ -27,15 +30,33 @@ const ACCELERATION : float = 100.0
 
 var velocity : Vector3 = Vector3.ZERO
 
-var can_shoot : bool = true
-
-var shoot_interval : float = 0.1
-var power_level : int = 9
-var bullet_power : int = 1
 
 var spread_fire : bool = true
 
+var current_weapon : Weapon
 
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_Q and !event.is_echo():
+			current_weapon.upgrade()
+		if event.pressed and event.keycode == KEY_Z and !event.is_echo():
+			if current_weapon is CannonWeapon:
+				current_weapon.change_spread()
+		if event.pressed and event.keycode == KEY_P:
+			current_weapon.queue_free()
+			if current_weapon is CannonWeapon:
+				var new_weapon : LaserWeapon = laser_weapon_scene.instantiate()
+				main_weapon_slot.add_child(new_weapon)
+				current_weapon = new_weapon
+			else:
+				var new_weapon : CannonWeapon = cannon_weapon_scene.instantiate()
+				main_weapon_slot.add_child(new_weapon)
+				current_weapon = new_weapon
+
+func _ready() -> void:
+	current_weapon = main_weapon_slot.get_child(0)
+	
 
 func _physics_process(delta: float) -> void:
 	if controller_type == ControllerType.MOUSE:
@@ -85,11 +106,5 @@ func _physics_process(delta: float) -> void:
 	position.z = clamp(position.z, -40, 0)
 	position.y = clamp(position.y, -3.5, 15)
 
-
-
-
-
-func _on_shoot_timer_timeout() -> void:
-	can_shoot = true
 
 

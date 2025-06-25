@@ -1,55 +1,76 @@
 extends Node3D
+class_name WaveSpawner
 
-@export var enemy_scene : PackedScene
+enum EnemyType {
+	BASIC_ENEMY,
+	DIAGONAL_ENEMY
+}
 
-var slots : Array[Vector4i] = []
+@export var enemy_scene : Dictionary[EnemyType, PackedScene] = {}
+
+var waves : Array[WaveData] = []
 
 func _ready() -> void:
-	for i in range(-20, 21, 5):
-		slots.append(Vector4i(0, 0, 0, 0))
+	pass
 
-func spawn_enemy(x_coord: float, idx : int):
-	var enemy : SineEnemy = enemy_scene.instantiate()
-	enemy.position = Vector3(x_coord, 0, -50)
+func spawn_enemy(wave_data : WaveData):
+	var enemy : Enemy = enemy_scene[wave_data.enemy_type].instantiate()
+	enemy.position = Vector3(wave_data.x_coord, 0, -50)
 	enemy.rotate_y(PI)
-	enemy.turning = bool(slots[idx].y)
-	enemy.yawing = bool(slots[idx].z)
-	enemy.rolling = bool(slots[idx].w)
+	if enemy is SineEnemy:
+		enemy.yawing = wave_data.yawing
+		enemy.rolling = wave_data.rolling
+		enemy.turning = wave_data.turning
+	elif enemy is DiagonalEnemy:
+		enemy.turn_threshold = wave_data.turn_threshold
 
 	get_parent().add_child.call_deferred(enemy)
 
-func get_free_slot() -> int:
-	var idx : int = -1
-	var attempts : int = 0
-	idx = randi() % slots.size()
-	while slots[idx].x > 0:
-		if attempts > 15:
-			return -1
-		idx = randi() % slots.size()
-		attempts += 1
+func check_available(x_coord : int) -> bool:
+	for wave_data in waves:
+		if wave_data.x_coord == x_coord:
+			return false
 	
-	return idx
+	return true
 
 func generate_wave():
 	var roll : float = randf()
 	var num_waves : int = 1
-	if roll > 0.66:
+	if roll > 0.8:
 		num_waves = 2
-	if roll > 0.9:
+	if roll > 0.95:
 		num_waves = 3
 	for i in num_waves:
-		var idx : int = get_free_slot()
-		if idx >= 0:
-			var turning : int = 0 if randf() < 0.5 else 1
-			slots[idx] = Vector4i(randi_range(1, 6), turning, 0, 0)
+		var x_coord : int = snappedi(randi_range(-20, 20), 5)
+		while !check_available(x_coord):
+			x_coord = snappedi(randi_range(-20, 20), 5)
+		
+		var wave_data : WaveData = WaveData.new()
+		wave_data.x_coord = x_coord
+		wave_data.enemy_count = randi_range(1, 5)
+		if randf() < 0.5:
+			wave_data.enemy_type = EnemyType.BASIC_ENEMY
+			if randf() < 0.25:
+				wave_data.yawing = true
+				wave_data.rolling = true
+				wave_data.turning = true
+		else:
+			wave_data.enemy_type = EnemyType.DIAGONAL_ENEMY
+			wave_data.turn_threshold = randi_range(-20, -10)
+
+		waves.append(wave_data)
+
 
 func _on_timer_timeout() -> void:
-	for i in slots.size():
-		if slots[i].x > 0:
-			slots[i].x -= 1
-			spawn_enemy(-20 + i * 5, i)
+	for wave_data : WaveData in waves:
+		if wave_data.enemy_count > 0:
+			wave_data.enemy_count -= 1
+			spawn_enemy(wave_data)
+		else:
+			waves.erase(wave_data)
+
 	
-	if randf() < 0.25:
+	if randf() < 0.2 or waves.is_empty():
 		generate_wave()		
 	
 		

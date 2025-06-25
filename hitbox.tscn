@@ -6,12 +6,12 @@
 resource_local_to_scene = true
 
 [node name="Hitbox" type="Area3D"]
-collision_layer = 0
+collision_layer = 16
 collision_mask = 16
-monitorable = false
 script = ExtResource("1_orx6n")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_xrojb")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

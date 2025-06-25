@@ -1,0 +1,19 @@
+extends Node3D
+class_name Weapon
+
+@export var fire_rate : float = 0.1
+@export var power_level : int = 1
+@export var max_power_level : int = 9
+@export var bullet_power : int
+@export var spread_fire : bool = false
+@export var is_player_weapon : bool = true
+
+
+var elapsed_time : float = 0.0
+var can_shoot : bool = true
+
+
+func upgrade():
+    if power_level >= max_power_level:
+        return
+    power_level += 1

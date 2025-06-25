@@ -1,8 +1,49 @@
 extends Area3D
+class_name HitBox
 
 @export var actor : Node3D
+
+@onready var collision_shape : CollisionShape3D = $CollisionShape3D
+
+var active_hurtboxes : Array[HurtBox] = []
+
+var hurtbox_timers : Array[float] = []
+
+func _ready() -> void:
+	set_process(false)
+
+
+func _process(delta: float) -> void:
+	for i in hurtbox_timers.size():
+		hurtbox_timers[i] += delta
+		if hurtbox_timers[i] >= active_hurtboxes[i].damage_interval:
+			hurtbox_timers[i] -= active_hurtboxes[i].damage_interval
+			actor.take_damage(active_hurtboxes[i].damage)
+
+
+func disable():
+	collision_shape.set_deferred("disabled", true)
+
+
+func enable():
+	collision_shape.set_deferred("disabled", false)
+
 
 func _on_area_entered(area:Area3D) -> void:
 	if area is HurtBox:
 		actor.take_damage(area.damage)
 		area.destroy()
+
+		if area.damage_type == HurtBox.DamageType.CONTINUOUS:
+			active_hurtboxes.append(area)
+			hurtbox_timers.append(0.0)
+			set_process(true)
+
+
+func _on_area_exited(area:Area3D) -> void:
+	if area is HurtBox and area.damage_type == HurtBox.DamageType.CONTINUOUS:
+		var idx : int = active_hurtboxes.find(area)
+		active_hurtboxes.remove_at(idx)
+		hurtbox_timers.remove_at(idx)
+		if active_hurtboxes.is_empty():
+			set_process(false)

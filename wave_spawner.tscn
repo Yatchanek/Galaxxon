@@ -1,9 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://b6uy32367mh8b"]
+[gd_scene load_steps=4 format=3 uid="uid://b6uy32367mh8b"]
 
 [ext_resource type="Script" uid="uid://dexp6vt7bwsys" path="res://wave_spawner.gd" id="1_ryks6"]
+[ext_resource type="PackedScene" uid="uid://dppaho64ksomi" path="res://sine_enemy.tscn" id="2_7ungs"]
+[ext_resource type="PackedScene" uid="uid://jio4jnlmcbf2" path="res://diagonal_enemy.tscn" id="2_nhbnn"]
 
 [node name="WaveSpawner" type="Node3D"]
 script = ExtResource("1_ryks6")
+enemy_scene = Dictionary[int, PackedScene]({
+0: ExtResource("2_7ungs"),
+1: ExtResource("2_nhbnn")
+})
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true

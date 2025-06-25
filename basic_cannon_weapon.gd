@@ -1,15 +1,15 @@
-extends Node3D
-
-@export var fire_rate : float = 0.1
-@export var power_level : int = 1
-@export var bullet_power : int
-@export var spread_fire : bool = false
-@export var is_player_weapon : bool = true
-
-var elapsed_time : float = 0.0
-var can_shoot : bool = true
+extends Weapon
+class_name CannonWeapon
 
 func _ready() -> void:
+	set_muzzles()
+
+func upgrade():
+	super()
+	set_muzzles()
+
+func change_spread():
+	spread_fire = !spread_fire
 	set_muzzles()
 
 func set_muzzles():

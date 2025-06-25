@@ -42,5 +42,7 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 
 func die():
-	EventBus.enemy_destroyed.emit()
+	EventBus.enemy_destroyed.emit(self)
+	set_physics_process(false)
+	hitbox.disable()
 	queue_free()
