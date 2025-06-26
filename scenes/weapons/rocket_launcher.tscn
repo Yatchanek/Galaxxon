@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://kn6jwqy71lme"]
+
+[ext_resource type="Script" uid="uid://b7m2w20eslx5k" path="res://scripts/weapons/rocket_launcher.gd" id="1_vfvja"]
+
+[node name="RocketLauncher" type="Node3D"]
+script = ExtResource("1_vfvja")
+fire_rate = 0.5
+max_power_level = 3
+bullet_power = 1
+
+[node name="Muzzle" type="Marker3D" parent="."]

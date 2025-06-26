@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://dy6gxlv74amyw"]
+
+[ext_resource type="Script" uid="uid://cjomcoud6rahm" path="res://scripts/enemies/shooting_enemy.gd" id="1_qgynv"]
+[ext_resource type="Material" uid="uid://dqcixbsnrlyye" path="res://resources/body_material.tres" id="2_lq5po"]
+[ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="3_bghml"]
+[ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="3_dhunw"]
+[ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://scenes/weapons/basic_cannon_weapon.tscn" id="4_lq5po"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bghml"]
+material = ExtResource("2_lq5po")
+size = Vector3(1, 1, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rj5pj"]
+size = Vector3(1, 1, 2.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qi2p4"]
+resource_local_to_scene = true
+size = Vector3(3, 0.3, 4)
+
+[sub_resource type="PrismMesh" id="PrismMesh_7k104"]
+material = ExtResource("2_lq5po")
+size = Vector3(3.5, 4, 0.3)
+
+[node name="ShootingEnemy" type="Node3D" node_paths=PackedStringArray("hitbox", "hurtbox")]
+script = ExtResource("1_qgynv")
+hitbox = NodePath("BodyPivot/Body/Hitbox")
+hurtbox = NodePath("BodyPivot/Body/Hurtbox")
+hp = 10
+speed = 7.0
+score_value = 200
+body_colors = Array[Color]([Color(1, 0, 0, 1), Color(0, 1, 0, 1), Color(1, 1, 0, 1)])
+
+[node name="BodyPivot" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="BodyPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.391048)
+instance_shader_parameters/body_color = Color(0, 0, 0, 1)
+mesh = SubResource("BoxMesh_bghml")
+
+[node name="Hurtbox" type="Area3D" parent="BodyPivot/Body" node_paths=PackedStringArray("actor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.108952)
+collision_layer = 64
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_dhunw")
+actor = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BodyPivot/Body/Hurtbox"]
+shape = SubResource("BoxShape3D_rj5pj")
+
+[node name="Hitbox" parent="BodyPivot/Body" node_paths=PackedStringArray("actor") instance=ExtResource("3_bghml")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.9738e-14, -0.108952)
+collision_mask = 32
+actor = NodePath("../../..")
+
+[node name="CollisionShape3D" parent="BodyPivot/Body/Hitbox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.111328, 0, -0.468278)
+shape = SubResource("BoxShape3D_qi2p4")
+
+[node name="Wings" type="MeshInstance3D" parent="BodyPivot"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -1)
+instance_shader_parameters/body_color = Color(0, 0, 0, 1)
+mesh = SubResource("PrismMesh_7k104")
+skeleton = NodePath("../..")
+
+[node name="BasicCannonWeapon" parent="." instance=ExtResource("4_lq5po")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.8304)
+fire_rate = 1.5
+max_power_level = 1
+bullet_power = 1
+is_player_weapon = false
+
+[editable path="BodyPivot/Body/Hitbox"]

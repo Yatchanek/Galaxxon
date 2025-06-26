@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://dsvrbcqig88fv"]
+
+[ext_resource type="Script" uid="uid://dfnbjyyrj7tta" path="res://scripts/projectiles/bullet.gd" id="1_v7oki"]
+[ext_resource type="Shader" uid="uid://7xnwjjrrijoq" path="res://resources/shaders/bullet.gdshader" id="2_t4vbm"]
+[ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="2_v8qja"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2b2rl"]
+render_priority = 0
+shader = ExtResource("2_t4vbm")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rtl8c"]
+material = SubResource("ShaderMaterial_2b2rl")
+radius = 0.25
+height = 1.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t4vbm"]
+size = Vector3(0.5, 0.5, 1)
+
+[node name="Bullet" type="Node3D"]
+script = ExtResource("1_v7oki")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+instance_shader_parameters/body_color = Color(0, 3, 0, 1)
+mesh = SubResource("CapsuleMesh_rtl8c")
+
+[node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+script = ExtResource("2_v8qja")
+actor = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+shape = SubResource("BoxShape3D_t4vbm")

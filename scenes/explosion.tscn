@@ -1,0 +1,55 @@
+[gd_scene load_steps=12 format=3 uid="uid://bn624iiy2usgu"]
+
+[ext_resource type="Script" uid="uid://b2imbhsfv5rhm" path="res://scripts/explosion.gd" id="1_q7epf"]
+[ext_resource type="Shader" uid="uid://dsmmbc3tlwakc" path="res://resources/shaders/explosion.gdshader" id="1_vxas0"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7rj46"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q7epf"]
+seamless = true
+noise = SubResource("FastNoiseLite_7rj46")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q7epf"]
+render_priority = 0
+shader = ExtResource("1_vxas0")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_q7epf")
+
+[sub_resource type="Gradient" id="Gradient_7rj46"]
+offsets = PackedFloat32Array(0, 0.352423, 0.674009, 1)
+colors = PackedColorArray(0.632225, 1.9493e-06, 3.36915e-07, 1, 1, 0.462745, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_q7epf"]
+gradient = SubResource("Gradient_7rj46")
+
+[sub_resource type="Curve" id="Curve_7rj46"]
+_data = [Vector2(0, 0.174419), 0.0, 0.0, 0, 0, Vector2(0.230769, 0.302326), 2.42333, 2.42333, 0, 0, Vector2(0.404858, 0.790698), 1.52052, 1.52052, 0, 0, Vector2(0.676113, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.569767), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_q7epf"]
+curve = SubResource("Curve_7rj46")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7rj46"]
+emission_shape = 1
+emission_sphere_radius = 3.0
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_q7epf")
+color_ramp = SubResource("GradientTexture1D_q7epf")
+
+[sub_resource type="SphereMesh" id="SphereMesh_q7epf"]
+radial_segments = 16
+rings = 8
+
+[node name="Explosion" type="GPUParticles3D"]
+material_override = SubResource("ShaderMaterial_q7epf")
+emitting = false
+amount = 16
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.2
+process_material = SubResource("ParticleProcessMaterial_7rj46")
+draw_pass_1 = SubResource("SphereMesh_q7epf")
+script = ExtResource("1_q7epf")
