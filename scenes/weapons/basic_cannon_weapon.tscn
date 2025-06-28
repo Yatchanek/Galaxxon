@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://cego0uqcbg47c"]
 
-[ext_resource type="Script" uid="uid://ctgwrlt4tixn1" path="res://scripts/weapons/basic_cannon_weapon.gd" id="1_jrt1g"]
+[ext_resource type="Script" uid="uid://rvu5cavx3vk3" path="res://scripts/weapons/basic_cannon_weapon.gd" id="1_jrt1g"]
 
 [node name="BasicCannonWeapon" type="Node3D"]
 script = ExtResource("1_jrt1g")
+fire_rate = 0.15

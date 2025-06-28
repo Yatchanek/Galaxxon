@@ -58,6 +58,7 @@ one_shot = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
 
 [node name="BasicCannonWeapon" parent="MainWeaponSlot" instance=ExtResource("3_i3pqv")]
+bullet_speed = 75
 
 [node name="SecondaryWeaponSlots" type="Node3D" parent="."]
 

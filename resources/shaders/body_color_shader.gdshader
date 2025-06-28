@@ -1,4 +1,5 @@
 shader_type spatial;
+render_mode shadows_disabled;
 
 instance uniform vec4 body_color : source_color;
 

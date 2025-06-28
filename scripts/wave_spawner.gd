@@ -5,6 +5,7 @@ enum EnemyType {
 	BASIC_ENEMY,
 	DIAGONAL_ENEMY,
 	SHOOTING_ENEMY,
+	AIMING_ENEMY,
 }
 
 @export var enemy_scene : Dictionary[EnemyType, PackedScene] = {}
@@ -78,9 +79,9 @@ func generate_wave():
 			wave_data.spawn_interval = 1.5
 
 		else:
-			wave_data.enemy_type = EnemyType.SHOOTING_ENEMY
-			wave_data.turning = randf() < 0.25
-			wave_data.spawn_interval = 1.75
+			wave_data.enemy_type = EnemyType.AIMING_ENEMY
+			#wave_data.turning = randf() < 0.25
+			wave_data.spawn_interval = 2.25
 
 		wave_data.time_left = wave_data.spawn_interval
 		waves.append(wave_data)

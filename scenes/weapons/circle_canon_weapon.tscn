@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhhlr6deier38"]
+
+[ext_resource type="Script" uid="uid://cptwh2q8jbl2y" path="res://scripts/weapons/circle_canon_weapon.gd" id="1_2hqlt"]
+
+[node name="CircleCanonWeapon" type="Node3D"]
+script = ExtResource("1_2hqlt")
+bullet_power = 1
+is_player_weapon = false

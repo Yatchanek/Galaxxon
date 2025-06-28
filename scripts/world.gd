@@ -16,8 +16,15 @@ enum GameMode {
 
 var score : int = 0
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_C:
+			set_process(true)
+
 func _ready() -> void:
+	set_process(false)
 	EventBus.enemy_destroyed.connect(_on_enemy_destroyed)
+	EventBus.player_died.connect(_on_player_died)
 	if game_mode == GameMode.GALAGA:
 		bkg.mesh.size = Vector2(60.0, 50.0)
 		bkg.mesh.material.set_shader_parameter("mesh_size", Vector2(60.0, 50.0))
@@ -29,6 +36,12 @@ func _ready() -> void:
 		galaga_camera.current = false
 		zaxxon_camera.current = true
 
+func _process(delta: float) -> void:
+	galaga_camera.transform = galaga_camera.transform.interpolate_with(zaxxon_camera.transform, 0.05)
+	if galaga_camera.transform.is_equal_approx(zaxxon_camera.transform):
+		galaga_camera.transform = zaxxon_camera.transform
+		set_process(false)
+
 func _on_enemy_destroyed(enemy : Enemy):
 	score += enemy.score_value
 	EventBus.score_changed.emit(score)
@@ -38,6 +51,7 @@ func _on_enemy_destroyed(enemy : Enemy):
 
 
 func _on_player_died():
+	player.hide()
 	var explosion : GPUParticles3D = explosion_scene.instantiate()
 	explosion.position = player.position
 	add_child(explosion)

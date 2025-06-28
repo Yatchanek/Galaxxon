@@ -61,7 +61,7 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
 	current_weapon = main_weapon_slot.get_child(0)
-	
+	EventBus.player = self
 
 func _physics_process(delta: float) -> void:
 	if controller_type == ControllerType.MOUSE:
