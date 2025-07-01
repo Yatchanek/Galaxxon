@@ -7,3 +7,4 @@ enum GameMode {
 }
 
 static var game_mode : GameMode = GameMode.GALAGA
+static var scroll_speed : float = 5.0

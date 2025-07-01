@@ -23,7 +23,7 @@ func _input(event: InputEvent) -> void:
 			transforming = true
 
 func _ready() -> void:
-	flow_speed = 5.0 / bkg.mesh.size.y
+	flow_speed = Globals.scroll_speed / bkg.mesh.size.y
 	EventBus.enemy_destroyed.connect(_on_enemy_destroyed)
 	EventBus.player_died.connect(_on_player_died)
 	EventBus.waves_ended.connect(_on_waves_ended)
@@ -62,9 +62,11 @@ func _on_waves_ended():
 	tw.set_parallel()
 	tw.tween_property(galaga_camera, "transform", zaxxon_camera.transform, 1.0)
 	tw.tween_property(player, "position:z", 0.0, 1.0)
-	tw.tween_property(bkg.mesh.material, "shader_parameter/mesh_size", Vector2(175.0, 250.0), 1.0)
-	tw.tween_property(self, "flow_speed", 5.0/250.0, 1.0)
-	tw.tween_property(bkg.mesh, "size", Vector2(175.0, 250.0), 1.0)
+	if player.position.x > 0:
+		tw.tween_property(player, "position:x", 0.0, 1.0)	
+	tw.tween_property(bkg.mesh.material, "shader_parameter/mesh_size", Vector2(240.0, 190.0), 1.0)
+	tw.tween_property(self, "flow_speed", 5.0/190.0, 1.0)
+	tw.tween_property(bkg.mesh, "size", Vector2(240.0, 190.0), 1.0)
 
 	tw.finished.connect(transforming_done)
 

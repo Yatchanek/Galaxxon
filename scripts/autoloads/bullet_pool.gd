@@ -37,7 +37,7 @@ func release_from_pool(spawning_spot : Marker3D, is_player_bullet : bool = false
 func return_to_pool(bullet : Projectile):
 	bullet.stop()
 	bullet.visible = false
-	bullet.position = Vector3(0, 0, 10)
+	bullet.position = Vector3(0, 0, 100)
 	pool[bullet.type].append(bullet)
 		
 

@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://77qysjyonave"]
+
+[ext_resource type="ArrayMesh" uid="uid://cfiqdbxwfnnut" path="res://resources/block_Cylinder_002.res" id="1_rosee"]
+[ext_resource type="Script" uid="uid://dgv3negj6qkgp" path="res://scenes/components/slit_obstacle.gd" id="1_v3sr0"]
+[ext_resource type="Texture2D" uid="uid://cuffnbj12a451" path="res://images/wall_1_roughness.png" id="2_v3sr0"]
+[ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="3_e6053"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v6io7"]
+resource_local_to_scene = true
+transparency = 1
+albedo_texture = ExtResource("2_v3sr0")
+uv1_scale = Vector3(0.05, 0.05, 0.05)
+uv1_triplanar = true
+texture_filter = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_v3sr0"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_v6io7")
+size = Vector3(100, 15, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i7vqt"]
+resource_local_to_scene = true
+size = Vector3(100, 15, 10)
+
+[node name="SlitObstacle" type="Node3D"]
+script = ExtResource("1_v3sr0")
+
+[node name="Side" type="MeshInstance3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 10, -23, 10, 0)
+mesh = ExtResource("1_rosee")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 12.5, 0)
+mesh = SubResource("BoxMesh_v3sr0")
+
+[node name="Hurtbox" type="Area3D" parent="Body" node_paths=PackedStringArray("actor")]
+collision_layer = 64
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_e6053")
+damage = 1000.0
+actor = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body/Hurtbox"]
+shape = SubResource("BoxShape3D_i7vqt")

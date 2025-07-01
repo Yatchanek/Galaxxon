@@ -100,7 +100,10 @@ func _physics_process(delta: float) -> void:
 
 
 		position += velocity * delta
-		position.x = clamp(position.x, -23, 23)
+		if Globals.game_mode == Globals.GameMode.GALAGA:
+			position.x = clamp(position.x, -23, 23)
+		else:
+			position.x = clamp(position.x, -50, 0)
 		position.z = clamp(position.z, -40, 0)
 		position.y = clamp(position.y, 0, 20)
 

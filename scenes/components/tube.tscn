@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://gbwi00phf4bv"]
+
+[ext_resource type="Script" uid="uid://co8q02stiur23" path="res://scripts/tube.gd" id="1_5aisg"]
+[ext_resource type="ArrayMesh" uid="uid://bf6ktm8h26rvs" path="res://resources/shaft2_Cylinder.res" id="1_n2uc2"]
+
+[node name="Tube" type="Node3D"]
+script = ExtResource("1_5aisg")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 600, -23, 10, 0)
+mesh = ExtResource("1_n2uc2")

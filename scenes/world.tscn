@@ -7,8 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://d4htv2b22v1hw" path="res://images/bkg.png" id="3_aqk2v"]
 [ext_resource type="Script" uid="uid://b243f52hq6y1h" path="res://scripts/ui/hud.gd" id="3_pkg7o"]
 [ext_resource type="PackedScene" uid="uid://b6uy32367mh8b" path="res://scenes/wave_spawner.tscn" id="5_036b0"]
-[ext_resource type="ArrayMesh" uid="uid://bf6ktm8h26rvs" path="res://resources/shaft2_Cylinder.res" id="8_7r4gi"]
-[ext_resource type="Script" uid="uid://bnpg7ht7uenwe" path="res://scenes/tube.gd" id="9_7r4gi"]
+[ext_resource type="PackedScene" uid="uid://gbwi00phf4bv" path="res://scenes/components/tube.tscn" id="8_4mrxx"]
+[ext_resource type="PackedScene" uid="uid://77qysjyonave" path="res://scenes/components/slit_obstacle.tscn" id="9_7r4gi"]
 
 [sub_resource type="Environment" id="Environment_dwbse"]
 background_mode = 1
@@ -28,7 +28,7 @@ shader_parameter/mesh_size = Vector2(60, 55)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_f3sb7"]
 material = SubResource("ShaderMaterial_4mrxx")
-size = Vector2(60, 50)
+size = Vector2(60, 55)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_aqk2v")
@@ -40,7 +40,7 @@ projection = 1
 size = 40.0
 
 [node name="ZaxxonCamera" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920504, 0.390731, -0.707107, -0.276289, 0.650895, 26.5298, 28.0253, 24.3572)
+transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390731, -0.707107, -0.276289, 0.650895, 29.371, 37, 33.591)
 projection = 1
 size = 40.0
 
@@ -112,9 +112,17 @@ mesh = SubResource("PlaneMesh_f3sb7")
 
 [node name="WaveSpawner" parent="." instance=ExtResource("5_036b0")]
 
-[node name="Tube" type="MeshInstance3D" parent="."]
-transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 600, -23, 10, -389.492)
-mesh = ExtResource("8_7r4gi")
-script = ExtResource("9_7r4gi")
+[node name="Tube" parent="." instance=ExtResource("8_4mrxx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, -405)
+
+[node name="SlitObstacle" parent="Tube" instance=ExtResource("9_7r4gi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 280)
+
+[node name="SlitObstacle2" parent="Tube" instance=ExtResource("9_7r4gi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 217.736)
+
+[node name="SlitObstacle3" parent="Tube" instance=ExtResource("9_7r4gi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 164.422)
 
 [editable path="Player"]
+[editable path="Tube"]
