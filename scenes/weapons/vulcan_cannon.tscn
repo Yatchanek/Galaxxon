@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://br7xolltkcw1r"]
+
+[ext_resource type="Script" uid="uid://buiyqvkc2dkak" path="res://scripts/weapons/vulcan_cannon.gd" id="1_ku6dn"]
+
+[node name="VulcanCannon" type="Node3D"]
+script = ExtResource("1_ku6dn")
+bullet_speed = 60
+fire_rate = 0.05
+max_power_level = 3

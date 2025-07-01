@@ -7,8 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://d4htv2b22v1hw" path="res://images/bkg.png" id="3_aqk2v"]
 [ext_resource type="Script" uid="uid://b243f52hq6y1h" path="res://scripts/ui/hud.gd" id="3_pkg7o"]
 [ext_resource type="PackedScene" uid="uid://b6uy32367mh8b" path="res://scenes/wave_spawner.tscn" id="5_036b0"]
-[ext_resource type="ArrayMesh" uid="uid://0ft5lukr6xau" path="res://resources/shaft_Cylinder.res" id="8_7r4gi"]
-[ext_resource type="Script" uid="uid://co8q02stiur23" path="res://scripts/tube.gd" id="9_w7kh3"]
+[ext_resource type="ArrayMesh" uid="uid://bf6ktm8h26rvs" path="res://resources/shaft2_Cylinder.res" id="8_7r4gi"]
+[ext_resource type="Script" uid="uid://bnpg7ht7uenwe" path="res://scenes/tube.gd" id="9_7r4gi"]
 
 [sub_resource type="Environment" id="Environment_dwbse"]
 background_mode = 1
@@ -18,15 +18,16 @@ glow_bloom = 0.2
 [sub_resource type="LabelSettings" id="LabelSettings_dwbse"]
 font_size = 47
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_e3hyu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4mrxx"]
 render_priority = 0
 shader = ExtResource("2_tlwt5")
 shader_parameter/albedo_tex = ExtResource("3_aqk2v")
-shader_parameter/speed_scale = 0.1
-shader_parameter/mesh_size = Vector2(60, 50)
+shader_parameter/speed_scale = 0.0
+shader_parameter/dist = 0.0
+shader_parameter/mesh_size = Vector2(60, 55)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_f3sb7"]
-material = SubResource("ShaderMaterial_e3hyu")
+material = SubResource("ShaderMaterial_4mrxx")
 size = Vector2(60, 50)
 
 [node name="World" type="Node3D"]
@@ -39,7 +40,7 @@ projection = 1
 size = 40.0
 
 [node name="ZaxxonCamera" type="Camera3D" parent="."]
-transform = Transform3D(0.824126, -0.220402, 0.521765, 0, 0.921185, 0.389124, -0.566406, -0.320687, 0.759173, 26.5298, 28.0253, 24.3572)
+transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920504, 0.390731, -0.707107, -0.276289, 0.650895, 26.5298, 28.0253, 24.3572)
 projection = 1
 size = 40.0
 
@@ -106,15 +107,14 @@ value = 20.0
 show_percentage = false
 
 [node name="Background" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -5, -15.6546)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -10, -17)
 mesh = SubResource("PlaneMesh_f3sb7")
 
 [node name="WaveSpawner" parent="." instance=ExtResource("5_036b0")]
 
 [node name="Tube" type="MeshInstance3D" parent="."]
-transform = Transform3D(25, 0, 0, 0, 20, 0, 0, 0, 70, 0, 0.340214, -30.0521)
-visible = false
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 600, -23, 10, -389.492)
 mesh = ExtResource("8_7r4gi")
-script = ExtResource("9_w7kh3")
+script = ExtResource("9_7r4gi")
 
 [editable path="Player"]

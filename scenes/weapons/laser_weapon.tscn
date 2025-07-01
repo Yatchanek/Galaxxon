@@ -8,7 +8,8 @@
 render_priority = 0
 shader = ExtResource("2_quhlf")
 
-[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_gclaf"]
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_x3min"]
+resource_local_to_scene = true
 material = SubResource("ShaderMaterial_6uqi0")
 sections = 4
 section_length = 5.0
@@ -19,11 +20,12 @@ size = Vector3(1, 1, 15)
 [node name="LaserWeapon" type="Node3D"]
 script = ExtResource("1_x3min")
 laser_colors = Array[Color]([Color(0.3, 0.5, 1, 1), Color(0.1, 0.8, 0, 1), Color(0.926058, 0.925058, 0, 1)])
+max_power_level = 3
 
 [node name="Laser" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -10)
 instance_shader_parameters/laser_color = Color(0.92549, 0.92549, 0, 1)
-mesh = SubResource("TubeTrailMesh_gclaf")
+mesh = SubResource("TubeTrailMesh_x3min")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 enabled = false

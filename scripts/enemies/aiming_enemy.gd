@@ -16,7 +16,7 @@ func _physics_process(delta: float) -> void:
 	velocity = -global_basis.z * speed
 	position += velocity * delta
 
-	if (velocity.x > 0 and position.x > 40) or (velocity.x < 0 and position.x < -40) or (velocity.y > 0 and position.y < 2):
+	if position.x > 25 or position.x < -25 or position.z > 2:
 		queue_free()
 
 func die():

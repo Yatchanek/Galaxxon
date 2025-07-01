@@ -25,16 +25,13 @@ func _ready() -> void:
 
 
 
-func release_from_pool(spawning_spot : Marker3D, for_player : bool = false, power_level : int = 1, bullet_type : BulletType = BulletType.BASIC_BULLET, bullet_speed : int = 50):
+func release_from_pool(spawning_spot : Marker3D, is_player_bullet : bool = false, power_level : int = 1, bullet_type : BulletType = BulletType.BASIC_BULLET, bullet_speed : int = 50, is_subweapon : bool = false):
 	if pool[bullet_type].is_empty():
 		return
 	var bullet : Projectile = pool[bullet_type].pop_back()
 	bullet.global_transform = spawning_spot.global_transform
 	bullet.visible = true
-	bullet.power_level = power_level
-	bullet.speed = bullet_speed
-	bullet.set_damage()
-	bullet.adjust_collision(for_player)
+	bullet.initialize(bullet_type, bullet_speed, power_level, is_player_bullet, is_subweapon)
 	bullet.start()
 
 func return_to_pool(bullet : Projectile):
@@ -43,3 +40,7 @@ func return_to_pool(bullet : Projectile):
 	bullet.position = Vector3(0, 0, 10)
 	pool[bullet.type].append(bullet)
 		
+
+func collect_all():
+	for bullet : Projectile in get_children():
+		return_to_pool(bullet)

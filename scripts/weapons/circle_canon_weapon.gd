@@ -5,6 +5,7 @@ class_name CircleCannonWeapon
 @export var muzzle_count : int = 8
 
 func _ready() -> void:
+    super()
     set_muzzles()
     if in_bullet:
         set_process(false)

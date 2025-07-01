@@ -23,4 +23,4 @@ func _process(delta: float) -> void:
 func shoot():
 	can_shoot = false
 	for muzzle : Marker3D in get_children():
-		BulletPool.release_from_pool($Muzzle, is_player_weapon, bullet_power, BulletPool.BulletType.ROCKET)
+		BulletPool.release_from_pool($Muzzle, is_player_weapon, power_level, BulletPool.BulletType.ROCKET, 60, is_subweapon)

@@ -8,22 +8,27 @@ var body_colors : PackedColorArray = [Color(0.0, 3.0, 0.0, 1.0), Color(3.0, 3.0,
 var elapsed_time : float = 0.0
 
 func _ready() -> void:
-    type = BulletPool.BulletType.EXPLOSIVE_BULLET
     set_physics_process(false)
+    weapon.is_subweapon = from_sub_weapon
 
 func _physics_process(delta: float) -> void:
     position += velocity * delta
 
-    if position.x < -30 or position.x > 30 or position.z > 2 or position.z < -45:
-        return_to_pool()
+    if Globals.game_mode == Globals.GameMode.GALAGA:
+        if position.x < -30 or position.x > 30 or position.z > 2 or position.z < -45:
+            return_to_pool()
+    else:
+        if position.x < -25 or position.x > 25 or position.z < position.x - 53:
+            return_to_pool()
 
     elapsed_time += delta
     if elapsed_time >= 2.0:
         explode()
+        elapsed_time = 0.0
 
 
 func set_damage():
-    hurtbox.damage = base_damage * power_level
+    super()
     body.set_instance_shader_parameter("body_color", body_colors[power_level - 1])
 
 
@@ -43,4 +48,5 @@ func start():
 
 func stop():
     velocity = Vector3.ZERO
+    elapsed_time = 0.0
     set_physics_process(false)

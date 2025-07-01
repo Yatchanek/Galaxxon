@@ -4,7 +4,7 @@
 [ext_resource type="Material" uid="uid://dqcixbsnrlyye" path="res://resources/body_material.tres" id="2_lq5po"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="3_bghml"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="3_dhunw"]
-[ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://scenes/weapons/basic_cannon_weapon.tscn" id="4_lq5po"]
+[ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://scenes/weapons/pulse_cannon.tscn" id="4_lq5po"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_bghml"]
 material = ExtResource("2_lq5po")

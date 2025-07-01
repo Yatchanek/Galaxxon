@@ -3,7 +3,10 @@ shader_type spatial;
 instance uniform vec4 laser_color : source_color;
 
 void vertex() {
-	VERTEX.x += 0.4 *  sin(VERTEX.y - TIME * 35.0);	
+	if (UV.y < 0.48) {
+		VERTEX.x += 0.4 *  sin(VERTEX.y - TIME * 35.0);	
+	}
+	
 }
 
 void fragment() {

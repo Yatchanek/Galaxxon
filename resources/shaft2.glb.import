@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://y68asf1f2cea"
-path="res://.godot/imported/shaft.glb-82f07a14bdcba31a3d30fba08239dcef.scn"
+uid="uid://bl4idqigf31g8"
+path="res://.godot/imported/shaft2.glb-2b5bd6068fc76cb8569b13f964525d06.scn"
 
 [deps]
 
-source_file="res://resources/shaft.glb"
-dest_files=["res://.godot/imported/shaft.glb-82f07a14bdcba31a3d30fba08239dcef.scn"]
+source_file="res://resources/shaft2.glb"
+dest_files=["res://.godot/imported/shaft2.glb-2b5bd6068fc76cb8569b13f964525d06.scn"]
 
 [params]
 
@@ -34,13 +34,13 @@ animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
 "meshes": {
-"shaft_Cylinder": {
+"shaft2_Cylinder": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 60.0,
 "save_to_file/enabled": true,
-"save_to_file/path": "res://resources/shaft_Cylinder.res"
+"save_to_file/path": "res://resources/shaft2_Cylinder.res"
 }
 }
 }

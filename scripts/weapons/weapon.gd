@@ -7,11 +7,14 @@ class_name Weapon
 @export var bullet_power : int
 @export var spread_fire : bool = false
 @export var is_player_weapon : bool = true
-
+@export var is_subweapon : bool = false
 
 var elapsed_time : float = 0.0
 var can_shoot : bool = true
 
+func _ready() -> void:
+    if get_parent().name == "Subslot" or get_parent().name == "Subslot2":
+        is_subweapon = true
 
 func upgrade():
     if power_level >= max_power_level:

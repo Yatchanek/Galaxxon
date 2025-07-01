@@ -1,12 +1,6 @@
 extends Node3D
 class_name World
 
-enum GameMode {
-	GALAGA,
-	ZAXXON
-}
-
-@export var game_mode : GameMode = GameMode.GALAGA
 @export var explosion_scene : PackedScene
 
 @onready var player : Player = $Player
@@ -16,31 +10,30 @@ enum GameMode {
 
 var score : int = 0
 
+var flow_speed : float
+
+var distance : float = 0.0
+
+
+var transforming : bool = false
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_C:
-			set_process(true)
+			transforming = true
 
 func _ready() -> void:
-	set_process(false)
+	flow_speed = 5.0 / bkg.mesh.size.y
 	EventBus.enemy_destroyed.connect(_on_enemy_destroyed)
 	EventBus.player_died.connect(_on_player_died)
-	if game_mode == GameMode.GALAGA:
-		bkg.mesh.size = Vector2(60.0, 50.0)
-		bkg.mesh.material.set_shader_parameter("mesh_size", Vector2(60.0, 50.0))
-		galaga_camera.current = true
-		zaxxon_camera.current = false
-	else:
-		bkg.mesh.size = Vector2(175.0, 250.0)
-		bkg.mesh.material.set_shader_parameter("mesh_size", Vector2(175.0, 250.0))
-		galaga_camera.current = false
-		zaxxon_camera.current = true
+	EventBus.waves_ended.connect(_on_waves_ended)
+
 
 func _process(delta: float) -> void:
-	galaga_camera.transform = galaga_camera.transform.interpolate_with(zaxxon_camera.transform, 0.05)
-	if galaga_camera.transform.is_equal_approx(zaxxon_camera.transform):
-		galaga_camera.transform = zaxxon_camera.transform
-		set_process(false)
+
+	distance += flow_speed * delta
+
+	bkg.mesh.material.set_shader_parameter("dist", distance)
 
 func _on_enemy_destroyed(enemy : Enemy):
 	score += enemy.score_value
@@ -54,10 +47,36 @@ func _on_player_died():
 	player.hide()
 	var explosion : GPUParticles3D = explosion_scene.instantiate()
 	explosion.position = player.position
+	explosion.finished.connect(remove_bullets)
 	add_child(explosion)
 
 	await get_tree().create_timer(2.0).timeout
+	remove_bullets()
 	get_tree().reload_current_scene()
+
+
+func _on_waves_ended():
+	player.disable()
+	transforming = true
+	var tw : Tween = create_tween()
+	tw.set_parallel()
+	tw.tween_property(galaga_camera, "transform", zaxxon_camera.transform, 1.0)
+	tw.tween_property(player, "position:z", 0.0, 1.0)
+	tw.tween_property(bkg.mesh.material, "shader_parameter/mesh_size", Vector2(175.0, 250.0), 1.0)
+	tw.tween_property(self, "flow_speed", 5.0/250.0, 1.0)
+	tw.tween_property(bkg.mesh, "size", Vector2(175.0, 250.0), 1.0)
+
+	tw.finished.connect(transforming_done)
+
+
+func transforming_done():
+	Globals.game_mode = Globals.GameMode.ZAXXON
+	player.steering_mode = player.SteeringMode.ZAXXON
+	player.enable()
+	$Tube.set_physics_process(true)
+
+func remove_bullets():
+	BulletPool.collect_all()
 
 func get_projected_mouse_position() -> Vector3:
 	var projected_pos : Vector3 = Vector3.ZERO

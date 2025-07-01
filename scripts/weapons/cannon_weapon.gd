@@ -5,6 +5,7 @@ class_name CannonWeapon
 @export var bullet_speed : int
 
 func _ready() -> void:
+	super()
 	set_muzzles()
 
 func upgrade():
@@ -35,4 +36,4 @@ func _process(delta: float) -> void:
 func shoot():
 	can_shoot = false
 	for muzzle : Marker3D in get_children():
-		BulletPool.release_from_pool(muzzle, is_player_weapon, bullet_power, bullet_type, bullet_speed)
+		BulletPool.release_from_pool(muzzle, is_player_weapon, bullet_power, bullet_type, bullet_speed, is_subweapon)

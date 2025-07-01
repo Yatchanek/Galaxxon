@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cego0uqcbg47c"]
+
+[ext_resource type="Script" uid="uid://rvu5cavx3vk3" path="res://scripts/weapons/pulse_cannon.gd" id="1_jrt1g"]
+
+[node name="PulseCannon" type="Node3D"]
+script = ExtResource("1_jrt1g")
+bullet_speed = 50
+fire_rate = 0.25

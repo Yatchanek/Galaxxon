@@ -18,6 +18,10 @@ var laser_radius : float = 0.5
 
 
 func _ready() -> void:
+    super()
+    if is_subweapon:
+        laser.mesh.radius = 0.25
+        hurtbox.damage *= 0.5
     max_power_level = 3
     laser.hide()
     hurtbox.disable()
@@ -29,10 +33,11 @@ func upgrade():
     if power_level >= max_power_level:
         return
     power_level += 1
-    #laser_radius += 0.15
-    #laser.mesh.radius = laser_radius
     laser.set_instance_shader_parameter("laser_color", laser_colors[power_level - 1])
-    hurtbox.damage += 0.2
+    if !is_subweapon:
+        hurtbox.damage += 0.2
+    else:
+        hurtbox.damage += 0.1
     hurtbox.set_size(Vector3(laser_radius, laser_radius, hurtbox.collision_shape.shape.size.z))
 
 func _process(delta: float) -> void:
