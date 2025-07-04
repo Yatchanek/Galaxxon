@@ -14,7 +14,7 @@ enum EnemyType {
 
 var waves : Array[WaveData] = []
 
-var total_waves : int = 5
+var total_waves : int = 1
 var current_wave : int = 0
 
 var last_wave_spawned : bool = false
@@ -108,8 +108,9 @@ func generate_wave():
 func _on_enemy_tree_exit():
 	enemies_spawned -= 1
 	if last_wave_spawned and enemies_spawned == 0:
-		await get_tree().create_timer(2.0).timeout
-		EventBus.waves_ended.emit()
+		if is_inside_tree():
+			await get_tree().create_timer(2.0).timeout
+			EventBus.waves_ended.emit()
 
 func _on_timer_timeout() -> void:
 	if (randf() < 0.15 and waves.size() < 3) or waves.is_empty():

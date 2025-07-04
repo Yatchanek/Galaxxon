@@ -3,7 +3,7 @@ class_name Segment
 
 @onready var body : MeshInstance3D = $Body
 
-@export var length : float = 600
+@export var length : float = 450    
 
 func _ready() -> void:
     body.scale.z = length
@@ -11,4 +11,4 @@ func _ready() -> void:
     set_physics_process(false)
 
 func _physics_process(delta: float) -> void:
-    position.z += Globals.scroll_speed * 3.0 * delta
+    position.z += Globals.scroll_speed * 2.0 * delta

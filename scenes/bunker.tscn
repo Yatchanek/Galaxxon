@@ -1,0 +1,89 @@
+[gd_scene load_steps=12 format=3 uid="uid://bi0mp8sg3bf40"]
+
+[ext_resource type="Script" uid="uid://37l4po4iwb4u" path="res://scripts/bunker.gd" id="1_764y3"]
+[ext_resource type="Material" uid="uid://dqcixbsnrlyye" path="res://resources/body_material.tres" id="2_7c24m"]
+[ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://scenes/weapons/pulse_cannon.tscn" id="2_ewk1p"]
+[ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="4_hk1w7"]
+[ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="5_hk1w7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tyiie"]
+size = Vector3(9, 8, 9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6gqei"]
+resource_local_to_scene = true
+size = Vector3(9, 8, 9)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_764y3"]
+material = ExtResource("2_7c24m")
+top_radius = 5.0
+bottom_radius = 5.0
+height = 4.0
+radial_segments = 16
+
+[sub_resource type="SphereMesh" id="SphereMesh_764y3"]
+material = ExtResource("2_7c24m")
+radius = 3.0
+height = 6.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7c24m"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hk1w7"]
+material = SubResource("StandardMaterial3D_7c24m")
+size = Vector3(1, 1, 8)
+
+[node name="Bunker" type="Node3D"]
+script = ExtResource("1_764y3")
+
+[node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.108952)
+collision_layer = 64
+collision_mask = 0
+monitoring = false
+script = ExtResource("4_hk1w7")
+damage = 100.0
+actor = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+shape = SubResource("BoxShape3D_tyiie")
+
+[node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("5_hk1w7")]
+collision_mask = 32
+actor = NodePath("..")
+
+[node name="CollisionShape3D" parent="Hitbox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+shape = SubResource("BoxShape3D_6gqei")
+
+[node name="BodyParts" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="BodyParts"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+instance_shader_parameters/body_color = Color(0, 0.282353, 0, 1)
+mesh = SubResource("CylinderMesh_764y3")
+skeleton = NodePath("../..")
+
+[node name="TurretBody" type="MeshInstance3D" parent="BodyParts"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 5.70179, 0)
+instance_shader_parameters/body_color = Color(0.0768358, 0.0768358, 0.0768358, 1)
+mesh = SubResource("SphereMesh_764y3")
+skeleton = NodePath("../..")
+
+[node name="Turret" type="MeshInstance3D" parent="BodyParts/TurretBody"]
+transform = Transform3D(1, 0, 7.10543e-15, 0, 1, 0, 0, 0, 1, -2.84217e-14, 0, -4)
+mesh = SubResource("BoxMesh_hk1w7")
+
+[node name="PulseCannon" parent="BodyParts/TurretBody/Turret" instance=ExtResource("2_ewk1p")]
+transform = Transform3D(1, 0, -7.10543e-15, 0, 1, 0, 7.10543e-15, 0, 1, -2.84217e-14, 0, -5)
+fire_rate = 1.5
+bullet_power = 1
+is_player_weapon = false
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="BodyParts/TurretBody/Turret"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 4.30422e-07, -0.0879064, -0.923455)
+
+[connection signal="screen_entered" from="BodyParts/TurretBody/Turret/VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_entered"]
+[connection signal="screen_exited" from="BodyParts/TurretBody/Turret/VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]
+
+[editable path="Hitbox"]

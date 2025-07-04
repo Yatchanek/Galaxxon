@@ -75,6 +75,7 @@ func _input(event: InputEvent) -> void:
 func _ready() -> void:
 	current_weapon = main_weapon_slot.get_child(0)
 	EventBus.player = self
+	Globals.player = self
 
 func _physics_process(delta: float) -> void:
 	if !controls_disabled:
@@ -101,22 +102,24 @@ func _physics_process(delta: float) -> void:
 
 		position += velocity * delta
 		if Globals.game_mode == Globals.GameMode.GALAGA:
-			position.x = clamp(position.x, -23, 23)
+			position.x = clamp(position.x, -25, 25)
 		else:
-			position.x = clamp(position.x, -50, 0)
+			position.x = clamp(position.x, -30, 30)
 		position.z = clamp(position.z, -40, 0)
 		position.y = clamp(position.y, 0, 20)
 
 func disable():
+	print("Disabled")
 	controls_disabled = true
 	velocity = Vector3.ZERO
 
 func enable():
+	print("Enabled")
 	controls_disabled = false
 
 func take_damage(amount : float):
 	hp -= amount
-	EventBus.player_hp_changed.emit(hp)
+	EventBus.player_hp_changed.emit(hp / 20.0 * 100.0)
 	if hp <= 0:
 		die()
 	else:

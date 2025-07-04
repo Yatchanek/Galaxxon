@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://b243f52hq6y1h" path="res://scripts/ui/hud.gd" id="3_pkg7o"]
 [ext_resource type="PackedScene" uid="uid://b6uy32367mh8b" path="res://scenes/wave_spawner.tscn" id="5_036b0"]
 [ext_resource type="PackedScene" uid="uid://gbwi00phf4bv" path="res://scenes/components/tube.tscn" id="8_4mrxx"]
-[ext_resource type="PackedScene" uid="uid://77qysjyonave" path="res://scenes/components/slit_obstacle.tscn" id="9_7r4gi"]
+[ext_resource type="PackedScene" uid="uid://bi0mp8sg3bf40" path="res://scenes/bunker.tscn" id="9_7r4gi"]
 
 [sub_resource type="Environment" id="Environment_dwbse"]
 background_mode = 1
@@ -16,7 +16,7 @@ glow_enabled = true
 glow_bloom = 0.2
 
 [sub_resource type="LabelSettings" id="LabelSettings_dwbse"]
-font_size = 47
+font_size = 40
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4mrxx"]
 render_priority = 0
@@ -35,12 +35,14 @@ script = ExtResource("1_aqk2v")
 explosion_scene = ExtResource("2_pkg7o")
 
 [node name="GalagaCamera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 9, 16.5, -13.25)
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 6.5, 16.5, -13.25)
 projection = 1
+current = true
 size = 40.0
 
 [node name="ZaxxonCamera" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390731, -0.707107, -0.276289, 0.650895, 29.371, 37, 33.591)
+transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390731, -0.707107, -0.276289, 0.650895, 49.747, 37.9952, 48.1444)
+cull_mask = 524287
 projection = 1
 size = 40.0
 
@@ -49,6 +51,7 @@ world = NodePath("..")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.983888, -0.0146867, 0.178181, -0.152366, 0.45252, 0.878641, -0.0935346, -0.891634, 0.442991, 0, 0, 0)
+layers = 3
 light_energy = 3.0
 shadow_enabled = true
 
@@ -58,12 +61,13 @@ environment = SubResource("Environment_dwbse")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HUD" type="Control" parent="CanvasLayer"]
-custom_minimum_size = Vector2(480, 0)
+custom_minimum_size = Vector2(360, 0)
 layout_mode = 3
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -320.0
 grow_horizontal = 0
 grow_vertical = 2
 script = ExtResource("3_pkg7o")
@@ -94,35 +98,37 @@ layout_mode = 2
 
 [node name="ScoreLabel" type="Label" parent="CanvasLayer/HUD/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Score: 0"
+text = "Score: 999999"
 label_settings = SubResource("LabelSettings_dwbse")
 
-[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD/MarginContainer/VBoxContainer"]
-modulate = Color(0, 1, 0, 1)
-custom_minimum_size = Vector2(0, 48)
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HUD/MarginContainer/VBoxContainer"]
 layout_mode = 2
-max_value = 20.0
+size_flags_vertical = 3
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0, 1, 0, 1)
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+size_flags_vertical = 1
 step = 1.0
-value = 20.0
+value = 100.0
+fill_mode = 3
 show_percentage = false
 
 [node name="Background" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -10, -17)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, -17)
 mesh = SubResource("PlaneMesh_f3sb7")
 
 [node name="WaveSpawner" parent="." instance=ExtResource("5_036b0")]
 
 [node name="Tube" parent="." instance=ExtResource("8_4mrxx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, -405)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.2916, -4.41185, -311.198)
 
-[node name="SlitObstacle" parent="Tube" instance=ExtResource("9_7r4gi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 280)
+[node name="Bunker" parent="Tube" instance=ExtResource("9_7r4gi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7079, 2.598, 125.192)
 
-[node name="SlitObstacle2" parent="Tube" instance=ExtResource("9_7r4gi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 217.736)
-
-[node name="SlitObstacle3" parent="Tube" instance=ExtResource("9_7r4gi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 164.422)
+[node name="Bunker2" parent="Tube" instance=ExtResource("9_7r4gi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.2249, 2.598, -8.73411)
 
 [editable path="Player"]
-[editable path="Tube"]
