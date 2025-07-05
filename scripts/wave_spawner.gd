@@ -70,9 +70,9 @@ func generate_wave():
 
 
 	for i in num_waves:
-		var x_coord : int = snappedi(randi_range(-20, 20), 5)
+		var x_coord : int = snappedi(randi_range(-26, 26), 5)
 		while !check_available(x_coord):
-			x_coord = snappedi(randi_range(-20, 20), 5)
+			x_coord = snappedi(randi_range(-26, 26), 5)
 		
 		var wave_data : WaveData = WaveData.new()
 		wave_data.x_coord = x_coord

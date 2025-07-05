@@ -14,7 +14,7 @@ func _physics_process(delta: float) -> void:
         if position.x < -30 or position.x > 30 or position.z > 2 or position.z < -45:
             return_to_pool()
     else:
-        if position.x < -25 or position.x > 25 or position.z < position.x - 53:
+        if position.x < -31 or position.x > 31 or position.z < position.x - 56 or position.y < -5:
             return_to_pool()
 
 

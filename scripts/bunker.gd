@@ -1,55 +1,32 @@
-extends Node3D
+extends Building
 class_name Bunker
 
 @onready var turret_body : MeshInstance3D = $BodyParts/TurretBody
-@onready var body_parts : Node3D = $BodyParts
-@onready var cannon : PulseCannon = $BodyParts/TurretBody/Turret/PulseCannon
+@onready var turret_pivot : Node3D = $BodyParts/TurretBody/TurretPivot
+@onready var cannon : PulseCannon = $BodyParts/TurretBody/TurretPivot/PulseCannon
 
 
-@onready var hitbox : HitBox = $Hitbox
-@onready var hurtbox : HurtBox = $Hurtbox
-
-var hp : float = 20
-
-var body_colors : Array[Color] = []
-var can_blink : bool = true
+var rotation_quat : Quaternion
 
 func _ready() -> void:
-	for body_part : MeshInstance3D in body_parts.get_children():
-		body_colors.append(body_part.get_instance_shader_parameter("body_color"))
+	super()
 	set_process(false)
 	cannon.set_process(false)
+	rotation_quat = turret_pivot.basis.get_rotation_quaternion()
 
 func _process(delta: float) -> void:
-	turret_body.global_transform = turret_body.global_transform.interpolate_with(turret_body.global_transform.looking_at(Globals.player.global_position), 0.09)
+	var under_player_pos : Vector3 = Vector3(Globals.player.global_position.x, turret_body.global_position.y, Globals.player.global_position.z)
+	turret_body.global_transform = turret_body.global_transform.interpolate_with(turret_body.global_transform.looking_at(under_player_pos), 0.09)
+	var angle_diff : float = turret_pivot.global_position.direction_to(Globals.player.global_position).signed_angle_to(turret_pivot.global_position.direction_to(under_player_pos + Vector3.UP * turret_pivot.position.y), turret_pivot.global_basis.x)
+	rotation_quat = Quaternion(turret_pivot.basis.x, -angle_diff)
 
+	turret_pivot.rotation = turret_pivot.basis.get_rotation_quaternion().slerp(rotation_quat, 0.075).get_euler()
 
-func take_damage(amount : float):
-	hp -= amount
-	if hp <= 0:
-		die()
-	else:
-		blink()
-	print(hp)
+	turret_pivot.rotation.x = clamp(turret_pivot.rotation.x, -PI / 12, PI / 4)
 
-func blink():
-	if !can_blink:
-		return
-	for i in body_parts.get_child_count():
-		var body_part : MeshInstance3D = body_parts.get_child(i)
-		var tw : Tween = create_tween()
-		tw.tween_property(body_part, "instance_shader_parameters/body_color", Color.WHITE, 0.05)
-		tw.tween_property(body_part, "instance_shader_parameters/body_color", body_colors[i], 0.05)
-		tw.finished.connect(func(): can_blink = true)
-
-func die():
-	EventBus.building_destroyed.emit(self, get_parent())
-	set_process(false)
-	cannon.set_process(false)
-	hurtbox.disable()
-	hitbox.disable()
-	queue_free()
-
+	if global_position.z > 5:
+		set_process(false)
+		cannon.set_process(false)
 
 func _on_visible_on_screen_notifier_3d_screen_exited() -> void:
 	if is_inside_tree():

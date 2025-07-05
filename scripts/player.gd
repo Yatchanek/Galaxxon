@@ -102,19 +102,17 @@ func _physics_process(delta: float) -> void:
 
 		position += velocity * delta
 		if Globals.game_mode == Globals.GameMode.GALAGA:
-			position.x = clamp(position.x, -25, 25)
+			position.x = clamp(position.x, -28, 28)
 		else:
-			position.x = clamp(position.x, -30, 30)
+			position.x = clamp(position.x, -25, 25)
 		position.z = clamp(position.z, -40, 0)
 		position.y = clamp(position.y, 0, 20)
 
 func disable():
-	print("Disabled")
 	controls_disabled = true
 	velocity = Vector3.ZERO
 
 func enable():
-	print("Enabled")
 	controls_disabled = false
 
 func take_damage(amount : float):

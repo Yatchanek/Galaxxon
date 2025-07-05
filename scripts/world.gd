@@ -47,13 +47,17 @@ func _process(delta: float) -> void:
 
 func spawn_explosion(pos : Vector3):
 	var explosion : GPUParticles3D = explosion_scene.instantiate()
+	explosion.amount = randi_range(16, 24)
 	explosion.position = pos
 	add_child(explosion)
 
 
-func spawn_explosion_on_moving_element(element : Node3D, pos : Vector3):
+func spawn_explosion_on_moving_element(element : Node3D, pos : Vector3, exp_scale : Vector3):
 	var explosion : GPUParticles3D = explosion_scene.instantiate()
+	explosion.amount = randi_range(16, 32)
 	explosion.position = pos
+	explosion.scale = exp_scale
+	explosion.local_coords = true
 	element.add_child(explosion)	
 
 func _on_enemy_destroyed(enemy : Enemy):
@@ -63,7 +67,7 @@ func _on_enemy_destroyed(enemy : Enemy):
 
 
 func _on_building_destroyed(building : Node3D, building_parent : Node3D):
-	spawn_explosion_on_moving_element(building_parent, building.position)
+	spawn_explosion_on_moving_element(building_parent, building.position + Vector3.UP * 3.0, Vector3.ONE * 2)
 
 
 func _on_player_died():
@@ -86,8 +90,8 @@ func _on_waves_ended():
 	tw.set_parallel()
 	tw.tween_property(player, "position:z", 0.0, 1.0)
 	tw.tween_property(player, "position:x", 0.0, 1.0)
-	tw.tween_property(self, "flow_speed", 5.0/220.0, 1.0)
-	tw.tween_property(bkg.mesh, "size", Vector2(240.0, 220.0), 1.0)
+	tw.tween_property(self, "flow_speed", 5.0/180.0, 1.0)
+	tw.tween_property(bkg.mesh, "size", Vector2(240.0, 180.0), 1.0)
 
 
 

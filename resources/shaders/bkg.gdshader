@@ -4,7 +4,7 @@ render_mode unshaded;
 uniform sampler2D albedo_tex : source_color;
 uniform float speed_scale : hint_range(0.0, 1.0, 0.01);
 uniform float dist = 0.0;
-uniform vec2 mesh_size = vec2(60.0, 55.0);
+uniform vec2 mesh_size = vec2(80.0, 60.0);
 
 
 void fragment() {
