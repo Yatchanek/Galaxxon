@@ -19,6 +19,8 @@ collision_mask = 0
 monitoring = false
 script = ExtResource("2_wntny")
 damage = 100.0
+damage_type = null
+damage_interval = null
 actor = NodePath("..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
@@ -34,5 +36,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 shape = SubResource("BoxShape3D_6gqei")
 
 [node name="BodyParts" type="Node3D" parent="."]
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
 
 [editable path="Hitbox"]

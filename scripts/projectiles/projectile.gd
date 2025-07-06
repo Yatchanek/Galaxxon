@@ -46,5 +46,4 @@ func set_damage():
         hurtbox.damage *= 0.5
 
 func return_to_pool():
-    print("Return to pool")
     BulletPool.return_to_pool(self)

@@ -13,8 +13,7 @@ var can_blink : bool = true
 
 func _ready() -> void:
 	for body_part : MeshInstance3D in body_parts.get_children():
-		body_colors.append(body_part.get_instance_shader_parameter("body_color"))
-
+		body_colors.append(body_part.get_surface_override_material(0).albedo_color)
 
 
 func take_damage(amount : float):
@@ -30,8 +29,8 @@ func blink():
 	for i in body_parts.get_child_count():
 		var body_part : MeshInstance3D = body_parts.get_child(i)
 		var tw : Tween = create_tween()
-		tw.tween_property(body_part, "instance_shader_parameters/body_color", Color.WHITE, 0.05)
-		tw.tween_property(body_part, "instance_shader_parameters/body_color", body_colors[i], 0.05)
+		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", Color.WHITE, 0.05)
+		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", body_colors[i], 0.05)
 		tw.finished.connect(func(): can_blink = true)
 
 func die():
@@ -40,3 +39,9 @@ func die():
 	hurtbox.disable()
 	hitbox.disable()
 	queue_free()
+
+
+func _on_visible_on_screen_notifier_3d_screen_exited():
+	if global_position.z > 0:
+		print("Building out")
+		queue_free()

@@ -1,11 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://gbwi00phf4bv"]
+[gd_scene load_steps=6 format=3 uid="uid://gbwi00phf4bv"]
 
 [ext_resource type="Script" uid="uid://co8q02stiur23" path="res://scripts/tube.gd" id="1_5aisg"]
 [ext_resource type="ArrayMesh" uid="uid://dgugmeusulbpl" path="res://resources/shaft3_Cylinder_004.res" id="2_n2uc2"]
+[ext_resource type="Script" uid="uid://ddasgxjk4ku6q" path="res://scripts/components/obstacle_spawner.gd" id="3_5aisg"]
+[ext_resource type="PackedScene" uid="uid://bi0mp8sg3bf40" path="res://scenes/buildings/bunker.tscn" id="4_785nk"]
+[ext_resource type="PackedScene" uid="uid://dds0ktaejirs" path="res://scenes/buildings/silo.tscn" id="5_cy6co"]
 
 [node name="Tube" type="Node3D"]
 script = ExtResource("1_5aisg")
 
 [node name="Body" type="MeshInstance3D" parent="."]
-transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 450, 0, 0, 0)
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 450, 0, 0, -225)
 mesh = ExtResource("2_n2uc2")
+
+[node name="ObstacleSpawner" type="Node" parent="." node_paths=PackedStringArray("spawn_target")]
+script = ExtResource("3_5aisg")
+spawn_target = NodePath("..")
+bunker_scene = ExtResource("4_785nk")
+silo_scene = ExtResource("5_cy6co")

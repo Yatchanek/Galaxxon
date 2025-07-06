@@ -103,7 +103,11 @@ func _on_waves_ended():
 	tw.tween_property(player, "position:x", 0.0, 1.0)
 	tw.tween_property(self, "flow_speed", 5.0/180.0, 1.0)
 	tw.tween_property(bkg.mesh, "size", Vector2(240.0, 180.0), 1.0)
-
+	
+	left_top_border.set_deferred("disabled", false)
+	right_top_border.set_deferred("disabled", false)
+	top_border.set_deferred("disabled", true)
+	back_border.shape.plane.d = -40
 
 
 func transforming_done():
@@ -111,10 +115,7 @@ func transforming_done():
 	player.steering_mode = player.SteeringMode.ZAXXON
 	player.enable()
 	$Tube.set_physics_process(true)
-	left_top_border.set_deferred("disabled", false)
-	right_top_border.set_deferred("disabled", false)
-	top_border.set_deferred("disabled", true)
-	back_border.shape.plane.d = -40
+
 
 func remove_bullets():
 	BulletPool.collect_all()

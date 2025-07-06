@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://btsh08jsxpfe5"]
+
+[ext_resource type="Shader" uid="uid://7xnwjjrrijoq" path="res://resources/shaders/bullet.gdshader" id="1_mnyuu"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_mnyuu")

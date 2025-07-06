@@ -13,7 +13,7 @@ func _physics_process(delta: float) -> void:
 
 func set_damage():
     super()
-    body.set_instance_shader_parameter("body_color", body_colors[power_level - 1])
+    body.get_surface_override_material(0).albedo_color = body_colors[power_level - 1]
 
 
 

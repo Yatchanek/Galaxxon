@@ -30,5 +30,3 @@ func disable():
 
 func enable():
     $CollisionShape3D.set_deferred("disabled", false)
-
-
