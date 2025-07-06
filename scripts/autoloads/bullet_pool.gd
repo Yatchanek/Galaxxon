@@ -20,7 +20,7 @@ func _ready() -> void:
 		for i in bullet_count[type]:
 			var projectile : Projectile = bullet_scenes[type].instantiate()
 			projectile.type = type
-			return_to_pool(projectile)
+			projectile.ready.connect(return_to_pool.bind(projectile))
 			add_child.call_deferred(projectile)
 
 

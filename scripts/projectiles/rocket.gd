@@ -41,7 +41,11 @@ func set_damage():
 func start():
     set_physics_process(true)
     desired_velocity = -global_basis.z * speed
+    hurtbox.enable()
+    hitbox.enable()
 
 func stop():
     velocity = Vector3.ZERO
     set_physics_process(false)
+    hurtbox.disable()
+    hitbox.disable()

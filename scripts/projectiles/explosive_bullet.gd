@@ -45,8 +45,12 @@ func explode():
 func start():
     velocity = -global_basis.z * speed
     set_physics_process(true)
+    hitbox.enable()
+    hurtbox.enable()
 
 func stop():
     velocity = Vector3.ZERO
     elapsed_time = 0.0
     set_physics_process(false)
+    hurtbox.disable()
+    hitbox.disable()

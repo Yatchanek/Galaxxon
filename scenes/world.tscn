@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://g7u1uank1std"]
+[gd_scene load_steps=24 format=3 uid="uid://g7u1uank1std"]
 
 [ext_resource type="Script" uid="uid://cn012ndn2bvy8" path="res://scripts/world.gd" id="1_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://42m5coqfeveg" path="res://scenes/player.tscn" id="1_f3sb7"]
@@ -9,7 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://b6uy32367mh8b" path="res://scenes/wave_spawner.tscn" id="5_036b0"]
 [ext_resource type="FontFile" uid="uid://cwcwuijx2mhrk" path="res://resources/fonts/Orbitron-VariableFont_wght.ttf" id="5_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://gbwi00phf4bv" path="res://scenes/components/tube.tscn" id="8_4mrxx"]
-[ext_resource type="PackedScene" uid="uid://bi0mp8sg3bf40" path="res://scenes/bunker.tscn" id="9_7r4gi"]
+[ext_resource type="PackedScene" uid="uid://bi0mp8sg3bf40" path="res://scenes/buildings/bunker.tscn" id="9_7r4gi"]
+[ext_resource type="PackedScene" uid="uid://dds0ktaejirs" path="res://scenes/buildings/silo.tscn" id="11_e3hyu"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_7r4gi"]
 
@@ -36,6 +37,27 @@ shader_parameter/mesh_size = Vector2(80, 60)
 [sub_resource type="PlaneMesh" id="PlaneMesh_f3sb7"]
 material = SubResource("ShaderMaterial_4mrxx")
 size = Vector2(80, 60)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_e3hyu"]
+plane = Plane(1, 0, 0, -33)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_q5onr"]
+plane = Plane(-1, 0, 0, -33)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_jhx03"]
+plane = Plane(0, 0, -1, -40)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_o8fc1"]
+plane = Plane(1, 0, 1, -55)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xo05s"]
+plane = Plane(-1, 0, 1, -28)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_dss4m"]
+plane = Plane(0, 0, 1, -38)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7t5mc"]
+plane = Plane(0, 1, 0, -1)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_aqk2v")
@@ -127,7 +149,7 @@ mesh = SubResource("PlaneMesh_f3sb7")
 [node name="WaveSpawner" parent="." instance=ExtResource("5_036b0")]
 
 [node name="Tube" parent="." instance=ExtResource("8_4mrxx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, -5, -315.238)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, -5, -309.01)
 
 [node name="Bunker" parent="Tube" instance=ExtResource("9_7r4gi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7079, 2.598, 180.11)
@@ -143,5 +165,62 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.8135, 2.598, -52.0534)
 
 [node name="Bunker5" parent="Tube" instance=ExtResource("9_7r4gi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3259, 2.598, -130.405)
+
+[node name="Silo" parent="Tube" instance=ExtResource("11_e3hyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.456, 2.598, 200.213)
+
+[node name="Silo2" parent="Tube" instance=ExtResource("11_e3hyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3347, 2.598, 200.213)
+
+[node name="Silo7" parent="Tube" instance=ExtResource("11_e3hyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3347, 2.598, 124.365)
+
+[node name="Silo8" parent="Tube" instance=ExtResource("11_e3hyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.3741, 2.598, 111.462)
+
+[node name="Silo9" parent="Tube" instance=ExtResource("11_e3hyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.406, 2.598, 85.1307)
+
+[node name="Silo10" parent="Tube" instance=ExtResource("11_e3hyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.0291, 2.598, 67.3503)
+
+[node name="Silo11" parent="Tube" instance=ExtResource("11_e3hyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0346, 2.598, 28.627)
+
+[node name="Silo3" parent="Tube" instance=ExtResource("11_e3hyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.4889, 2.598, 198.523)
+
+[node name="Silo4" parent="Tube" instance=ExtResource("11_e3hyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.4889, 2.598, 147.07)
+
+[node name="Silo5" parent="Tube" instance=ExtResource("11_e3hyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.8327, 2.598, 147.07)
+
+[node name="Silo6" parent="Tube" instance=ExtResource("11_e3hyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3928, 2.598, 147.07)
+
+[node name="WorldBorders" type="StaticBody3D" parent="."]
+
+[node name="LeftBorder" type="CollisionShape3D" parent="WorldBorders"]
+shape = SubResource("WorldBoundaryShape3D_e3hyu")
+
+[node name="RighBorder" type="CollisionShape3D" parent="WorldBorders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+shape = SubResource("WorldBoundaryShape3D_q5onr")
+
+[node name="BackBorder" type="CollisionShape3D" parent="WorldBorders"]
+shape = SubResource("WorldBoundaryShape3D_jhx03")
+
+[node name="LeftTopBorder" type="CollisionShape3D" parent="WorldBorders"]
+shape = SubResource("WorldBoundaryShape3D_o8fc1")
+
+[node name="RightTopBorder" type="CollisionShape3D" parent="WorldBorders"]
+shape = SubResource("WorldBoundaryShape3D_xo05s")
+
+[node name="TopBorder" type="CollisionShape3D" parent="WorldBorders"]
+shape = SubResource("WorldBoundaryShape3D_dss4m")
+
+[node name="BottomBorder" type="CollisionShape3D" parent="WorldBorders"]
+shape = SubResource("WorldBoundaryShape3D_7t5mc")
 
 [editable path="Player"]

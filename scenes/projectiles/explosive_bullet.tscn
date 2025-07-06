@@ -1,14 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://bpvjmfq6h8xlc"]
+[gd_scene load_steps=9 format=3 uid="uid://bpvjmfq6h8xlc"]
 
 [ext_resource type="Script" uid="uid://dhyqkae4f43sh" path="res://scripts/projectiles/explosive_bullet.gd" id="1_pcdw8"]
 [ext_resource type="Material" uid="uid://dqcixbsnrlyye" path="res://resources/body_material.tres" id="2_pcdw8"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="3_qhfy3"]
 [ext_resource type="PackedScene" uid="uid://dhhlr6deier38" path="res://scenes/weapons/circle_canon_weapon.tscn" id="4_qhfy3"]
+[ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="5_qhfy3"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_pcdw8"]
 material = ExtResource("2_pcdw8")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_pcdw8"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_iijw8"]
 
 [node name="ExplosiveBullet" type="Node3D"]
 script = ExtResource("1_pcdw8")
@@ -34,3 +37,12 @@ shape = SubResource("SphereShape3D_pcdw8")
 [node name="CircleCannonWeapon" parent="." instance=ExtResource("4_qhfy3")]
 muzzle_count = 16
 bullet_speed = 25
+
+[node name="Hitbox" parent="." instance=ExtResource("5_qhfy3")]
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape3D" parent="Hitbox" index="0"]
+shape = SubResource("SphereShape3D_iijw8")
+
+[editable path="Hitbox"]

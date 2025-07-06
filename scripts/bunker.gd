@@ -24,9 +24,6 @@ func _process(delta: float) -> void:
 
 	turret_pivot.rotation.x = clamp(turret_pivot.rotation.x, -PI / 12, PI / 4)
 
-	if global_position.z > 5:
-		set_process(false)
-		cannon.set_process(false)
 
 func _on_visible_on_screen_notifier_3d_screen_exited() -> void:
 	if is_inside_tree():

@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://ninxiramedb1"]
+[gd_scene load_steps=9 format=3 uid="uid://ninxiramedb1"]
 
 [ext_resource type="Script" uid="uid://bexjyufatgia2" path="res://scripts/projectiles/rocket.gd" id="1_5gt1y"]
 [ext_resource type="Material" uid="uid://dqcixbsnrlyye" path="res://resources/body_material.tres" id="2_r2l15"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="3_cum1y"]
+[ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="4_8rgcg"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_tpb7v"]
 material = ExtResource("2_r2l15")
@@ -16,7 +17,11 @@ material = ExtResource("2_r2l15")
 size = Vector3(1.65, 1.5, 0.15)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_t4vbm"]
-size = Vector3(0.5, 0.5, 1.5)
+size = Vector3(0.5, 0.5, 2.13623)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dtva2"]
+resource_local_to_scene = true
+size = Vector3(0.5, 0.5, 1)
 
 [node name="Rocket" type="Node3D"]
 script = ExtResource("1_5gt1y")
@@ -42,5 +47,14 @@ damage = 5.0
 actor = NodePath("..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.021637)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.339752)
 shape = SubResource("BoxShape3D_t4vbm")
+
+[node name="Hitbox" parent="." instance=ExtResource("4_8rgcg")]
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape3D" parent="Hitbox" index="0"]
+shape = SubResource("BoxShape3D_dtva2")
+
+[editable path="Hitbox"]

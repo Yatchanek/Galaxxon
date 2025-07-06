@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://ceuvyrhk16fv6"]
+
+[ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="2_wntny"]
+[ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="3_we7gm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tyiie"]
+size = Vector3(7, 6, 7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6gqei"]
+resource_local_to_scene = true
+size = Vector3(7, 5, 7)
+
+[node name="Building" type="Node3D"]
+
+[node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.108952)
+collision_layer = 64
+collision_mask = 0
+monitoring = false
+script = ExtResource("2_wntny")
+damage = 100.0
+actor = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+shape = SubResource("BoxShape3D_tyiie")
+
+[node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("3_we7gm")]
+collision_mask = 32
+actor = NodePath("..")
+
+[node name="CollisionShape3D" parent="Hitbox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("BoxShape3D_6gqei")
+
+[node name="BodyParts" type="Node3D" parent="."]
+
+[editable path="Hitbox"]

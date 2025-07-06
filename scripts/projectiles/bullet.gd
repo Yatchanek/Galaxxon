@@ -10,13 +10,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
     position += velocity * delta
 
-    if Globals.game_mode == Globals.GameMode.GALAGA:
-        if position.x < -30 or position.x > 30 or position.z > 2 or position.z < -45:
-            return_to_pool()
-    else:
-        if position.x < -31 or position.x > 31 or position.z < position.x - 56 or position.y < -5:
-            return_to_pool()
-
 
 func set_damage():
     super()
@@ -27,7 +20,11 @@ func set_damage():
 func start():
     velocity = -global_basis.z * speed
     set_physics_process(true)
+    hitbox.enable()
+    hurtbox.enable()
 
 func stop():
     velocity = Vector3.ZERO
     set_physics_process(false)
+    hitbox.disable()
+    hurtbox.disable()

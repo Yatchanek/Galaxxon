@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://42m5coqfeveg"]
+[gd_scene load_steps=12 format=3 uid="uid://42m5coqfeveg"]
 
 [ext_resource type="Script" uid="uid://80aaxx0ho1tj" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Material" uid="uid://dqcixbsnrlyye" path="res://resources/body_material.tres" id="2_onrkg"]
@@ -19,13 +19,17 @@ size = Vector3(1.5, 1, 2)
 material = ExtResource("2_onrkg")
 size = Vector3(5, 3, 0.25)
 
+[sub_resource type="PrismMesh" id="PrismMesh_fjrip"]
+material = ExtResource("2_onrkg")
+left_to_right = 0.0
+size = Vector3(1.25, 1.25, 0.25)
+
 [node name="Player" type="Node3D"]
 script = ExtResource("1_4flbx")
 pulse_cannon_scene = ExtResource("3_i3pqv")
 laser_weapon_scene = ExtResource("4_hqtel")
 vulcan_cannon_scene = ExtResource("6_fjrip")
 rocket_launcher_scene = ExtResource("5_sweqy")
-body_colors = Array[Color]([Color(0.282353, 0.282353, 0.282353, 1), Color(0.603922, 0.764706, 0, 1)])
 
 [node name="BodyPivot" type="Node3D" parent="."]
 
@@ -52,6 +56,11 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 
 instance_shader_parameters/body_color = Color(0.603922, 0.764706, 0, 1)
 mesh = SubResource("PrismMesh_fj7yv")
 skeleton = NodePath("../Body")
+
+[node name="Tail" type="MeshInstance3D" parent="BodyPivot"]
+transform = Transform3D(-0.0502269, 0, 0.998738, 0, 1, 0, -0.998738, 0, -0.0502269, -0.00313649, 1.02971, 1.00134)
+instance_shader_parameters/body_color = Color(1, 0.462745, 0, 1)
+mesh = SubResource("PrismMesh_fjrip")
 
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.1

@@ -8,6 +8,13 @@ class_name World
 @onready var zaxxon_camera : Camera3D = $ZaxxonCamera
 @onready var bkg : MeshInstance3D = $Background
 
+@onready var top_border : CollisionShape3D = $WorldBorders/TopBorder
+@onready var left_border : CollisionShape3D = $WorldBorders/LeftBorder
+@onready var right_border : CollisionShape3D = $WorldBorders/RighBorder
+@onready var back_border: CollisionShape3D  = $WorldBorders/BackBorder
+@onready var left_top_border : CollisionShape3D = $WorldBorders/LeftTopBorder
+@onready var right_top_border : CollisionShape3D = $WorldBorders/RightTopBorder
+
 var score : int = 0
 
 var flow_speed : float
@@ -23,6 +30,10 @@ func _input(event: InputEvent) -> void:
 			transforming = true
 
 func _ready() -> void:
+	left_top_border.set_deferred("disabled", true)
+	right_top_border.set_deferred("disabled", true)
+	back_border.shape.plane.d = -2
+
 	flow_speed = Globals.scroll_speed / bkg.mesh.size.y
 	EventBus.enemy_destroyed.connect(_on_enemy_destroyed)
 	EventBus.building_destroyed.connect(_on_building_destroyed)
@@ -100,6 +111,10 @@ func transforming_done():
 	player.steering_mode = player.SteeringMode.ZAXXON
 	player.enable()
 	$Tube.set_physics_process(true)
+	left_top_border.set_deferred("disabled", false)
+	right_top_border.set_deferred("disabled", false)
+	top_border.set_deferred("disabled", true)
+	back_border.shape.plane.d = -40
 
 func remove_bullets():
 	BulletPool.collect_all()

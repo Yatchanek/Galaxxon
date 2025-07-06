@@ -73,6 +73,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
+	for body_part : MeshInstance3D in body_pivot.get_children():
+		body_colors.append(body_part.get_instance_shader_parameter("body_color"))
 	current_weapon = main_weapon_slot.get_child(0)
 	EventBus.player = self
 	Globals.player = self

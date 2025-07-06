@@ -2,6 +2,7 @@ extends Node3D
 class_name Projectile
 
 @onready var hurtbox : HurtBox = $Hurtbox
+@onready var hitbox : HitBox = $Hitbox
 @onready var body : MeshInstance3D = $Body
 
 @export var base_damage : int = 1
@@ -45,4 +46,5 @@ func set_damage():
         hurtbox.damage *= 0.5
 
 func return_to_pool():
+    print("Return to pool")
     BulletPool.return_to_pool(self)
