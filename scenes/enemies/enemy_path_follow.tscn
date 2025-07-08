@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cx3e7usydavlx"]
+
+[ext_resource type="Script" uid="uid://cviix5coob8yn" path="res://scripts/enemies/enemy_path_follow.gd" id="1_gcfbt"]
+
+[node name="PathEnemy" type="PathFollow3D"]
+loop = false
+script = ExtResource("1_gcfbt")

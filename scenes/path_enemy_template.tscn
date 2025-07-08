@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://jfj54xg8e6wp"]
+
+[ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="1_41iiu"]
+[ext_resource type="Script" uid="uid://b05ix4fua1jyu" path="res://scripts/enemies/path_enemy_template.gd" id="1_b8kme"]
+[ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="2_b8kme"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qvptx"]
+size = Vector3(1, 1, 2.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_idt6a"]
+resource_local_to_scene = true
+size = Vector3(3, 0.3, 2.5)
+
+[node name="PathEnemyTemplate" type="Node3D" node_paths=PackedStringArray("hitbox", "hurtbox")]
+script = ExtResource("1_b8kme")
+hitbox = NodePath("Hitbox")
+hurtbox = NodePath("Hurtbox")
+
+[node name="BodyPivot" type="Node3D" parent="."]
+
+[node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.5)
+collision_layer = 64
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_41iiu")
+actor = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.265716, 0)
+shape = SubResource("BoxShape3D_qvptx")
+
+[node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("2_b8kme")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.9738e-14, -0.5)
+collision_mask = 32
+actor = NodePath("")
+
+[node name="CollisionShape3D" parent="Hitbox" index="0"]
+shape = SubResource("BoxShape3D_idt6a")
+
+[editable path="Hitbox"]

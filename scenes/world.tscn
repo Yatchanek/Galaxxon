@@ -6,9 +6,9 @@
 [ext_resource type="Shader" uid="uid://ds4psquedce46" path="res://resources/shaders/bkg.gdshader" id="2_tlwt5"]
 [ext_resource type="Texture2D" uid="uid://d4htv2b22v1hw" path="res://images/bkg.png" id="3_aqk2v"]
 [ext_resource type="Script" uid="uid://b243f52hq6y1h" path="res://scripts/ui/hud.gd" id="3_pkg7o"]
-[ext_resource type="PackedScene" uid="uid://b6uy32367mh8b" path="res://scenes/wave_spawner.tscn" id="5_036b0"]
 [ext_resource type="FontFile" uid="uid://cwcwuijx2mhrk" path="res://resources/fonts/Orbitron-VariableFont_wght.ttf" id="5_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://gbwi00phf4bv" path="res://scenes/components/tube.tscn" id="8_4mrxx"]
+[ext_resource type="PackedScene" uid="uid://cmaalf560lg66" path="res://scenes/spawn_manager.tscn" id="9_7r4gi"]
 
 [sub_resource type="Environment" id="Environment_dwbse"]
 background_mode = 1
@@ -43,11 +43,14 @@ plane = Plane(-1, 0, 0, -33)
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_jhx03"]
 plane = Plane(0, 0, -1, -40)
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_o8fc1"]
-plane = Plane(1, 0, 1, -53)
+[sub_resource type="BoxShape3D" id="BoxShape3D_w7kh3"]
+size = Vector3(160.33, 25, 1)
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xo05s"]
-plane = Plane(-1, 0, 1, -33)
+[sub_resource type="BoxMesh" id="BoxMesh_7r4gi"]
+size = Vector3(100, 20, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7r4gi"]
+size = Vector3(185.729, 25, 1)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_dss4m"]
 plane = Plane(0, 0, 1, -38)
@@ -55,12 +58,10 @@ plane = Plane(0, 0, 1, -38)
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7t5mc"]
 plane = Plane(0, 1, 0, -1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_7r4gi"]
-size = Vector3(100, 20, 1)
-
 [node name="World" type="Node3D"]
 script = ExtResource("1_aqk2v")
 explosion_scene = ExtResource("2_pkg7o")
+tube_scene = ExtResource("8_4mrxx")
 
 [node name="GalagaCamera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 16.5, -13.25)
@@ -141,11 +142,6 @@ show_percentage = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, -17)
 mesh = SubResource("PlaneMesh_f3sb7")
 
-[node name="WaveSpawner" parent="." instance=ExtResource("5_036b0")]
-
-[node name="Tube" parent="." instance=ExtResource("8_4mrxx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, -5, -92)
-
 [node name="WorldBorders" type="StaticBody3D" parent="."]
 
 [node name="LeftBorder" type="CollisionShape3D" parent="WorldBorders"]
@@ -159,21 +155,33 @@ shape = SubResource("WorldBoundaryShape3D_q5onr")
 shape = SubResource("WorldBoundaryShape3D_jhx03")
 
 [node name="LeftTopBorder" type="CollisionShape3D" parent="WorldBorders"]
-shape = SubResource("WorldBoundaryShape3D_o8fc1")
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -55.54, 12, -83.821)
+shape = SubResource("BoxShape3D_w7kh3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldBorders/LeftTopBorder"]
+visible = false
+mesh = SubResource("BoxMesh_7r4gi")
+skeleton = NodePath("")
 
 [node name="RightTopBorder" type="CollisionShape3D" parent="WorldBorders"]
-shape = SubResource("WorldBoundaryShape3D_xo05s")
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 15.558, 12, -46.535)
+shape = SubResource("BoxShape3D_7r4gi")
 
 [node name="TopBorder" type="CollisionShape3D" parent="WorldBorders"]
 shape = SubResource("WorldBoundaryShape3D_dss4m")
 
 [node name="BottomBorder" type="CollisionShape3D" parent="WorldBorders"]
 shape = SubResource("WorldBoundaryShape3D_7t5mc")
+disabled = true
+debug_fill = false
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldBorders"]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 34.0169, 10, -29.1263)
-visible = false
-mesh = SubResource("BoxMesh_7r4gi")
-skeleton = NodePath("../../Tube")
+[node name="SpawnManager" parent="." instance=ExtResource("9_7r4gi")]
+total_waves = 10
+
+[node name="GalagaCameraPos" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 16.5, -13.25)
+
+[node name="ZaxxonCameraPos" type="Marker3D" parent="."]
+transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390732, -0.707107, -0.276289, 0.650895, 56.5, 40, 44)
 
 [editable path="Player"]

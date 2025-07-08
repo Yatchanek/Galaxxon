@@ -1,0 +1,2 @@
+extends PathEnemy
+class_name BasicPathEnemy

@@ -76,12 +76,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
 [node name="Subslot" type="Node3D" parent="SecondaryWeaponSlots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75, 0, -0.5)
 
-[node name="LaserWeapon" parent="SecondaryWeaponSlots/Subslot" instance=ExtResource("4_hqtel")]
+[node name="BasicCannonWeapon" parent="SecondaryWeaponSlots/Subslot" instance=ExtResource("3_i3pqv")]
+is_subweapon = true
 
 [node name="Subslot2" type="Node3D" parent="SecondaryWeaponSlots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.75, 0, -0.5)
 
-[node name="VulcanCannon" parent="SecondaryWeaponSlots/Subslot2" instance=ExtResource("6_fjrip")]
+[node name="BasicCannonWeapon" parent="SecondaryWeaponSlots/Subslot2" instance=ExtResource("3_i3pqv")]
+is_subweapon = true
 
 [connection signal="area_entered" from="BodyPivot/Body/Hitbox" to="BodyPivot/Body/Hitbox" method="_on_area_entered"]
 [connection signal="area_exited" from="BodyPivot/Body/Hitbox" to="BodyPivot/Body/Hitbox" method="_on_area_exited"]

@@ -32,6 +32,7 @@ const ACCELERATION : float = 100.0
 @onready var wings : MeshInstance3D = $BodyPivot/Wings
 @onready var shoot_timer : Timer = $ShootTimer
 @onready var main_weapon_slot : Node3D = $MainWeaponSlot
+@onready var sub_weapon_slots : Array[Node3D] = [$SecondaryWeaponSlots/Subslot, $SecondaryWeaponSlots/Subslot2]
 
 var velocity : Vector3 = Vector3.ZERO
 
@@ -106,16 +107,26 @@ func _physics_process(delta: float) -> void:
 		if Globals.game_mode == Globals.GameMode.GALAGA:
 			position.x = clamp(position.x, -28, 28)
 		else:
-			position.x = clamp(position.x, -25, 25)
+			position.x = clamp(position.x, -30, 30)
 		position.z = clamp(position.z, -40, 0)
 		position.y = clamp(position.y, 0, 20)
 
 func disable():
 	controls_disabled = true
 	velocity = Vector3.ZERO
+	current_weapon.disable()
+	for slot : Node3D in sub_weapon_slots:
+		if slot.get_child_count() > 0:
+			var weapon : Weapon = slot.get_child(0)
+			weapon.disable()
 
 func enable():
 	controls_disabled = false
+	current_weapon.enable()
+	for slot : Node3D in sub_weapon_slots:
+		if slot.get_child_count() > 0:
+			var weapon : Weapon = slot.get_child(0)
+			weapon.enable()
 
 func take_damage(amount : float):
 	hp -= amount

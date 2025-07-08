@@ -8,7 +8,7 @@ func _ready() -> void:
 	super()
 	
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	body.look_at(EventBus.player.global_position)
 
 

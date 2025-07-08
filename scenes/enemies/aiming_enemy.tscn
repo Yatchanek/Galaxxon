@@ -1,13 +1,22 @@
-[gd_scene load_steps=11 format=3 uid="uid://cir3mi5ohwsr3"]
+[gd_scene load_steps=13 format=3 uid="uid://cir3mi5ohwsr3"]
 
 [ext_resource type="Script" uid="uid://bm01tgxi1lv85" path="res://scripts/enemies/aiming_enemy.gd" id="1_do404"]
-[ext_resource type="Material" uid="uid://dqcixbsnrlyye" path="res://resources/body_material.tres" id="2_00ten"]
+[ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="2_dwvp2"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="3_dwvp2"]
+[ext_resource type="Material" uid="uid://bevt7q662s8p8" path="res://resources/materials/black_material.tres" id="3_esf2n"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="4_esf2n"]
+[ext_resource type="Material" uid="uid://k4je6fqs1vlc" path="res://resources/materials/blue_material.tres" id="5_05aiv"]
 [ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://scenes/weapons/pulse_cannon.tscn" id="5_xugui"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_bghml"]
-material = ExtResource("2_00ten")
+
+[sub_resource type="BoxMesh" id="BoxMesh_esf2n"]
+size = Vector3(0.4, 0.4, 3)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dwvp2"]
+top_radius = 1.75
+bottom_radius = 2.0
+height = 0.25
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rj5pj"]
 size = Vector3(1, 1, 2.8)
@@ -16,54 +25,26 @@ size = Vector3(1, 1, 2.8)
 height = 0.5
 radius = 1.75
 
-[sub_resource type="BoxMesh" id="BoxMesh_esf2n"]
-material = ExtResource("2_00ten")
-size = Vector3(0.4, 0.4, 3)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_dwvp2"]
-material = ExtResource("2_00ten")
-top_radius = 1.75
-bottom_radius = 2.0
-height = 0.25
-
 [node name="AimingEnemy" type="Node3D" node_paths=PackedStringArray("hitbox", "hurtbox")]
 script = ExtResource("1_do404")
-hitbox = NodePath("BodyPivot/Body/Hitbox")
-hurtbox = NodePath("BodyPivot/Body/Hurtbox")
-hp = 15
-speed = 8.0
+hitbox = NodePath("Hitbox")
+hurtbox = NodePath("Hurtbox")
+hp = 8.0
+speed_coefficient = 1.5
 score_value = 300
 body_colors = Array[Color]([Color(1, 0, 0, 1), Color(0.226396, 0.451443, 1, 1), Color(0, 1, 0, 1)])
 
 [node name="BodyPivot" type="Node3D" parent="."]
 
 [node name="Body" type="MeshInstance3D" parent="BodyPivot"]
-instance_shader_parameters/body_color = Color(0, 0, 0, 1)
 mesh = SubResource("BoxMesh_bghml")
-
-[node name="Hurtbox" type="Area3D" parent="BodyPivot/Body" node_paths=PackedStringArray("actor")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.108952)
-collision_layer = 64
-collision_mask = 0
-monitoring = false
-script = ExtResource("3_dwvp2")
-actor = NodePath("../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BodyPivot/Body/Hurtbox"]
-shape = SubResource("BoxShape3D_rj5pj")
-
-[node name="Hitbox" parent="BodyPivot/Body" node_paths=PackedStringArray("actor") instance=ExtResource("4_esf2n")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.9738e-14, -0.108952)
-collision_mask = 32
-actor = NodePath("../../..")
-
-[node name="CollisionShape3D" parent="BodyPivot/Body/Hitbox" index="0"]
-shape = SubResource("CylinderShape3D_00ten")
+surface_material_override/0 = ExtResource("2_dwvp2")
 
 [node name="Turret" type="MeshInstance3D" parent="BodyPivot/Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.6242)
 mesh = SubResource("BoxMesh_esf2n")
 skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_esf2n")
 
 [node name="BasicCannonWeapon" parent="BodyPivot/Body/Turret" instance=ExtResource("5_xugui")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.8304)
@@ -76,8 +57,27 @@ is_player_weapon = false
 
 [node name="Wings" type="MeshInstance3D" parent="BodyPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-instance_shader_parameters/body_color = Color(0, 0, 0, 1)
 mesh = SubResource("CylinderMesh_dwvp2")
 skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_05aiv")
 
-[editable path="BodyPivot/Body/Hitbox"]
+[node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.108952)
+collision_layer = 64
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_dwvp2")
+actor = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+shape = SubResource("BoxShape3D_rj5pj")
+
+[node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("4_esf2n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.9738e-14, -0.108952)
+collision_mask = 32
+actor = NodePath("..")
+
+[node name="CollisionShape3D" parent="Hitbox" index="0"]
+shape = SubResource("CylinderShape3D_00ten")
+
+[editable path="Hitbox"]

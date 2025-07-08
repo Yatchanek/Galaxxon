@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://d0g4cnld8nlvm"]
+
+[ext_resource type="PackedScene" uid="uid://chl4vu5sgeymh" path="res://scenes/enemies/path_enemy_template.tscn" id="1_rkqp3"]
+[ext_resource type="Script" uid="uid://cwcghus11elxr" path="res://scripts/enemies/basic_path_enemy.gd" id="2_udhaw"]
+[ext_resource type="Material" uid="uid://cothpdxipjw2v" path="res://resources/materials/dark_green_material.tres" id="3_udhaw"]
+[ext_resource type="Material" uid="uid://8n56rfwyy6kn" path="res://resources/materials/yellow_material.tres" id="4_5rf0k"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_gcekw"]
+size = Vector3(3, 2.5, 0.3)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_y4rbu"]
+radius = 0.3
+height = 3.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dy4c0"]
+resource_local_to_scene = true
+size = Vector3(3, 0.3, 2.5)
+
+[node name="BasicPathEnemy" instance=ExtResource("1_rkqp3")]
+script = ExtResource("2_udhaw")
+flight_time = 7.0
+
+[node name="Wings" type="MeshInstance3D" parent="BodyPivot" index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.5)
+mesh = SubResource("PrismMesh_gcekw")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_udhaw")
+
+[node name="Body" type="MeshInstance3D" parent="BodyPivot" index="1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.25)
+mesh = SubResource("CapsuleMesh_y4rbu")
+surface_material_override/0 = ExtResource("4_5rf0k")
+
+[node name="Hurtbox" parent="." index="1" node_paths=PackedStringArray("actor")]
+actor = NodePath("..")
+
+[node name="Hitbox" parent="." index="2" node_paths=PackedStringArray("actor")]
+actor = NodePath("..")
+
+[node name="CollisionShape3D" parent="Hitbox" index="0"]
+shape = SubResource("BoxShape3D_dy4c0")
+
+[editable path="Hitbox"]

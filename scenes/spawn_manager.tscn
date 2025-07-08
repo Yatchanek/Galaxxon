@@ -1,0 +1,38 @@
+[gd_scene load_steps=10 format=3 uid="uid://cmaalf560lg66"]
+
+[ext_resource type="Script" uid="uid://dexp6vt7bwsys" path="res://scripts/wave_spawner.gd" id="2_wryhc"]
+[ext_resource type="PackedScene" uid="uid://dppaho64ksomi" path="res://scenes/enemies/sine_enemy.tscn" id="3_fprlg"]
+[ext_resource type="PackedScene" uid="uid://jio4jnlmcbf2" path="res://scenes/enemies/diagonal_enemy.tscn" id="4_wk823"]
+[ext_resource type="PackedScene" uid="uid://dy6gxlv74amyw" path="res://scenes/enemies/shooting_enemy.tscn" id="5_ii2l1"]
+[ext_resource type="PackedScene" uid="uid://d0g4cnld8nlvm" path="res://scenes/enemies/basic_path_enemy.tscn" id="6_fprlg"]
+[ext_resource type="PackedScene" uid="uid://cir3mi5ohwsr3" path="res://scenes/enemies/aiming_enemy.tscn" id="6_v67v8"]
+[ext_resource type="PackedScene" uid="uid://8ygurfsu7m80" path="res://scenes/enemies/enemy_path.tscn" id="7_fxn12"]
+[ext_resource type="PackedScene" uid="uid://cx3e7usydavlx" path="res://scenes/enemies/enemy_path_follow.tscn" id="7_wk823"]
+
+[sub_resource type="Curve3D" id="Curve3D_fprlg"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 40, 0, 0, 6.10363, 0, -6.78343, -6.10363, 0, 6.78343, 20, 0, 0, 6.10363, 0, 6.78343, -6.10363, 0, -6.78343, 0, 0, 0, 6.10363, 0, -6.78343, -6.10363, 0, 6.78343, -20, 0, 0, 0, 0, 0, 0, 0, 0, -40, 0, 0),
+"tilts": PackedFloat32Array(0, 0.392699, -0.392699, 0.392699, 0)
+}
+point_count = 5
+
+[node name="WaveSpawner" type="Node3D"]
+script = ExtResource("2_wryhc")
+enemy_scene = Dictionary[int, PackedScene]({
+0: ExtResource("3_fprlg"),
+1: ExtResource("4_wk823"),
+2: ExtResource("5_ii2l1"),
+3: ExtResource("6_v67v8"),
+4: ExtResource("6_fprlg")
+})
+path_follow_scene = ExtResource("7_wk823")
+total_waves = 20
+
+[node name="EnemyPath" parent="." instance=ExtResource("7_fxn12")]
+curve = SubResource("Curve3D_fprlg")
+point_num = 3
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

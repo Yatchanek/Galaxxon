@@ -34,6 +34,8 @@ func _process(delta: float) -> void:
 			elapsed_time -= fire_rate
 
 func shoot():
+	if disabled:
+		return
 	can_shoot = false
 	for muzzle : Marker3D in get_children():
 		BulletPool.release_from_pool(muzzle, is_player_weapon, bullet_power, bullet_type, bullet_speed, is_subweapon)

@@ -31,7 +31,8 @@ func blink():
 		var tw : Tween = create_tween()
 		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", Color.WHITE, 0.05)
 		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", body_colors[i], 0.05)
-		tw.finished.connect(func(): can_blink = true)
+		if i == body_parts.get_child_count() - 1:
+			tw.finished.connect(func(): can_blink = true)
 
 func die():
 	EventBus.building_destroyed.emit(self, get_parent())

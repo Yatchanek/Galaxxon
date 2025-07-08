@@ -2,6 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://ceuvyrhk16fv6" path="res://scenes/buildings/building_template.tscn" id="1_fn781"]
 [ext_resource type="Script" uid="uid://cutx61vxtdmgq" path="res://scripts/silo.gd" id="2_rs3ca"]
+[ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="3_rs3ca"]
+[ext_resource type="Material" uid="uid://cjlaj4uc5223w" path="res://resources/materials/green_material.tres" id="4_80thf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_egwma"]
 size = Vector3(4, 6, 4)
@@ -14,22 +16,18 @@ size = Vector3(3.5, 5, 3.5)
 resource_local_to_scene = true
 size = Vector3(0.5, 2.5, 0.5)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4pw8a"]
-resource_local_to_scene = true
-albedo_color = Color(0.690196, 0, 0, 1)
-
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_7cqt4"]
 radius = 2.0
 height = 6.0
 radial_segments = 16
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fn781"]
-resource_local_to_scene = true
-albedo_color = Color(0, 1, 0, 1)
-
 [node name="Silo" instance=ExtResource("1_fn781")]
 script = ExtResource("2_rs3ca")
-hp = 5.0
+hp = 4.0
+
+[node name="Hurtbox" parent="." index="0"]
+damage_type = 0
+damage_interval = 0.1
 
 [node name="CollisionShape3D" parent="Hurtbox" index="0"]
 shape = SubResource("BoxShape3D_egwma")
@@ -40,27 +38,27 @@ shape = SubResource("BoxShape3D_1v75i")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="BodyParts" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.25, 1.5)
 mesh = SubResource("BoxMesh_vyif0")
-surface_material_override/0 = SubResource("StandardMaterial3D_4pw8a")
+surface_material_override/0 = ExtResource("3_rs3ca")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="BodyParts" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.25, 1.5)
 mesh = SubResource("BoxMesh_vyif0")
-surface_material_override/0 = SubResource("StandardMaterial3D_4pw8a")
+surface_material_override/0 = ExtResource("3_rs3ca")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="BodyParts" index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.25, -1.5)
 mesh = SubResource("BoxMesh_vyif0")
-surface_material_override/0 = SubResource("StandardMaterial3D_4pw8a")
+surface_material_override/0 = ExtResource("3_rs3ca")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="BodyParts" index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.25, -1.5)
 mesh = SubResource("BoxMesh_vyif0")
-surface_material_override/0 = SubResource("StandardMaterial3D_4pw8a")
+surface_material_override/0 = ExtResource("3_rs3ca")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="BodyParts" index="4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.90828, 0)
 mesh = SubResource("CapsuleMesh_7cqt4")
-surface_material_override/0 = SubResource("StandardMaterial3D_fn781")
+surface_material_override/0 = ExtResource("4_80thf")
 
 [node name="VisibleOnScreenNotifier3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.31949, -15.7767)

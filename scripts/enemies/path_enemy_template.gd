@@ -1,32 +1,35 @@
 extends Node3D
-class_name Enemy
+class_name PathEnemy
 
-@onready var body_pivot = $BodyPivot
+@onready var body_pivot : Node3D = $BodyPivot
 
+@export var flight_time : float
 @export var hitbox : HitBox
 @export var hurtbox : HurtBox
 @export var hp : float = 5
-@export var speed_coefficient : float = 2.0
 
 @export var score_value : int = 100
 
 @export var body_colors : Array[Color] = []
 
-var speed : float
-var velocity : Vector3
 var rotation_quat : Quaternion
 
 var can_blink : bool = true
 
 func _ready() -> void:
-	speed = Globals.scroll_speed * speed_coefficient
-	velocity = -global_basis.z * speed
 	rotation_quat = body_pivot.transform.basis.get_rotation_quaternion()
-	set_colors()
-
-func set_colors():
 	for body_part : MeshInstance3D in body_pivot.get_children():
 		body_colors.append(body_part.get_surface_override_material(0).albedo_color)
+			
+func _process(delta: float) -> void:
+	if -global_basis.z.cross(Vector3.RIGHT).y > 0:
+		rotation_quat = Quaternion(Vector3.BACK, -PI / 8)
+		rotation_quat *= Quaternion(Vector3.RIGHT, -PI / 8)
+	else:
+		rotation_quat = Quaternion(Vector3.BACK, PI / 8)
+		rotation_quat *= Quaternion(Vector3.RIGHT, PI / 8)
+
+	body_pivot.rotation = body_pivot.basis.get_rotation_quaternion().slerp(rotation_quat, delta).get_euler()
 
 
 func take_damage(amount : float):
@@ -45,7 +48,12 @@ func blink():
 		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", Color.WHITE, 0.05)
 		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", body_colors[i], 0.05)
 		if i == body_pivot.get_child_count() - 1:
-			tw.finished.connect(func(): can_blink = true)	
+			tw.finished.connect(func(): can_blink = true)					
+
 
 func die():
-	pass
+	EventBus.enemy_destroyed.emit(self)
+	set_physics_process(false)
+	hurtbox.disable()
+	hitbox.disable()
+	queue_free()

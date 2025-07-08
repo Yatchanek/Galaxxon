@@ -2,6 +2,7 @@ extends Node3D
 class_name World
 
 @export var explosion_scene : PackedScene
+@export var tube_scene : PackedScene
 
 @onready var player : Player = $Player
 @onready var galaga_camera : Camera3D = $GalagaCamera
@@ -41,19 +42,12 @@ func _ready() -> void:
 	EventBus.waves_ended.connect(_on_waves_ended)
 
 
-func _process(delta: float) -> void:
 
+func _process(delta: float) -> void:
 	distance += flow_speed * delta
 
 	bkg.mesh.material.set_shader_parameter("dist", distance)
 
-	if transforming:
-		galaga_camera.transform = galaga_camera.transform.interpolate_with(zaxxon_camera.transform, 0.05)
-		player.body_pivot.transform = player.body_pivot.transform.interpolate_with(Transform3D.IDENTITY, 0.05)
-
-		if galaga_camera.transform.is_equal_approx(zaxxon_camera.transform):
-			transforming = false
-			transforming_done()
 
 
 func spawn_explosion(pos : Vector3):
@@ -71,7 +65,7 @@ func spawn_explosion_on_moving_element(element : Node3D, pos : Vector3, exp_scal
 	explosion.local_coords = true
 	element.add_child(explosion)	
 
-func _on_enemy_destroyed(enemy : Enemy):
+func _on_enemy_destroyed(enemy : Node3D):
 	score += enemy.score_value
 	EventBus.score_changed.emit(score)
 	spawn_explosion(enemy.global_position)
@@ -98,12 +92,24 @@ func _on_waves_ended():
 	player.disable()
 	transforming = true
 	var tw : Tween = create_tween()
+	tw.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	tw.set_parallel()
 	tw.tween_property(player, "position:z", 0.0, 1.0)
 	tw.tween_property(player, "position:x", 0.0, 1.0)
-	tw.tween_property(self, "flow_speed", 5.0/180.0, 1.0)
-	tw.tween_property(bkg.mesh, "size", Vector2(240.0, 180.0), 1.0)
+	tw.tween_property(player, "transform", Transform3D.IDENTITY, 1.0)
+	if Globals.game_mode == Globals.GameMode.GALAGA:
+		tw.tween_property(galaga_camera, "transform", $ZaxxonCameraPos.transform, 1.0)
 	
+		tw.tween_property(self, "flow_speed", 5.0/180.0, 1.0)
+		tw.tween_property(bkg.mesh, "size", Vector2(240.0, 180.0), 1.0)
+	else:
+		tw.tween_property(galaga_camera, "transform", $GalagaCameraPos.transform, 1.0)
+	
+		tw.tween_property(self, "flow_speed", 5.0/60, 1.0)
+		tw.tween_property(bkg.mesh, "size", Vector2(80.0, 60.0), 1.0)		
+	
+	tw.finished.connect(transforming_done)
+
 	left_top_border.set_deferred("disabled", false)
 	right_top_border.set_deferred("disabled", false)
 	top_border.set_deferred("disabled", true)
@@ -111,10 +117,20 @@ func _on_waves_ended():
 
 
 func transforming_done():
-	Globals.game_mode = Globals.GameMode.ZAXXON
-	player.steering_mode = player.SteeringMode.ZAXXON
+	transforming = false
+	if Globals.game_mode == Globals.GameMode.GALAGA:
+		Globals.game_mode = Globals.GameMode.ZAXXON
+		player.steering_mode = player.SteeringMode.ZAXXON
+		var tube : Segment = tube_scene.instantiate()
+		tube.position = Vector3(-34.5, -5, -93)
+		tube.tree_exited.connect(_on_waves_ended)
+		add_child.call_deferred(tube)
+	else:
+		Globals.game_mode = Globals.GameMode.GALAGA
+		player.steering_mode = player.SteeringMode.GALAGA
+		$SpawnManager.start()
 	player.enable()
-	$Tube.set_physics_process(true)
+
 
 
 func remove_bullets():

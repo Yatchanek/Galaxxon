@@ -12,6 +12,8 @@ class_name Weapon
 var elapsed_time : float = 0.0
 var can_shoot : bool = true
 
+var disabled : bool = false
+
 func _ready() -> void:
     if get_parent().name == "Subslot" or get_parent().name == "Subslot2":
         is_subweapon = true
@@ -20,3 +22,9 @@ func upgrade():
     if power_level >= max_power_level:
         return
     power_level += 1
+
+func disable():
+    disabled = true
+
+func enable():
+    disabled = false

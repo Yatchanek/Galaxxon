@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://8ygurfsu7m80"]
+
+[ext_resource type="Script" uid="uid://b1lvpdmm0vbb0" path="res://scripts/enemies/enemy_path.gd" id="1_22pik"]
+
+[sub_resource type="Curve3D" id="Curve3D_xys1i"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 40, 0, 0, 4.8721, 0, -7.08589, -4.8721, 0, 7.08589, 26.6667, 0, 0, 4.8721, 0, 7.08589, -4.8721, 0, -7.08589, 13.3333, 0, 0, 4.8721, 0, -7.08589, -4.8721, 0, 7.08589, 0, 0, 0, 4.8721, 0, 7.08589, -4.8721, 0, -7.08589, -13.3333, 0, 0, 4.8721, 0, -7.08589, -4.8721, 0, 7.08589, -26.6667, 0, 0, 0, 0, 0, 0, 0, 0, -40, 0, 0),
+"tilts": PackedFloat32Array(0, 0.392699, -0.392699, 0.392699, -0.392699, 0.392699, 0)
+}
+point_count = 7
+
+[node name="EnemyPath" type="Path3D"]
+curve = SubResource("Curve3D_xys1i")
+script = ExtResource("1_22pik")
+point_num = 5

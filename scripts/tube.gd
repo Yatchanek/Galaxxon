@@ -15,18 +15,20 @@ func _ready() -> void:
     thread = Thread.new()
     body.scale.z = length
     body.mesh.surface_get_material(0).uv1_scale.z = length / body.scale.x
-    set_physics_process(false)
-    create_obstacles()
+    thread.start(create_obstacles)
+   # create_obstacles()
 
 func create_obstacles():
-    while current_z >= -435:
+    while current_z >= -390:
         current_z = obstacle_spawner.spawn_section(current_z)
-        current_z -= 40
+        current_z -= 20
 
     
 
 func _physics_process(delta: float) -> void:
     position.z += Globals.scroll_speed * 2.0 * delta
+    if position.z >= 490:
+        queue_free()
 
 func _exit_tree() -> void:
     if thread.is_started():

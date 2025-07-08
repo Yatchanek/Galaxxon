@@ -1,0 +1,87 @@
+[gd_scene load_steps=13 format=3 uid="uid://but5dbkrg6w7f"]
+
+[ext_resource type="PackedScene" uid="uid://ceuvyrhk16fv6" path="res://scenes/buildings/building_template.tscn" id="1_7bw2i"]
+[ext_resource type="Script" uid="uid://detp15ghvoaor" path="res://scripts/buildings/plane.gd" id="2_lr2p3"]
+[ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="3_wcvdg"]
+[ext_resource type="Material" uid="uid://8n56rfwyy6kn" path="res://resources/materials/yellow_material.tres" id="5_ko7u4"]
+[ext_resource type="Material" uid="uid://cjlaj4uc5223w" path="res://resources/materials/green_material.tres" id="6_5cll2"]
+[ext_resource type="Material" uid="uid://bevt7q662s8p8" path="res://resources/materials/black_material.tres" id="7_iupx6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k6q2g"]
+size = Vector3(5.5, 3.5, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cfuve"]
+resource_local_to_scene = true
+size = Vector3(6, 3.75, 5)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cfuve"]
+radius = 0.75
+height = 5.0
+
+[sub_resource type="PrismMesh" id="PrismMesh_c2kih"]
+size = Vector3(6, 3.5, 0.25)
+
+[sub_resource type="PrismMesh" id="PrismMesh_wcvdg"]
+left_to_right = 0.0
+size = Vector3(1.5, 1.75, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ko7u4"]
+size = Vector3(0.2, 1.5, 0.2)
+
+[node name="StationaryPlane" instance=ExtResource("1_7bw2i")]
+script = ExtResource("2_lr2p3")
+hp = 3.0
+
+[node name="Hurtbox" parent="." index="0"]
+damage_type = 0
+damage_interval = 0.1
+
+[node name="CollisionShape3D" parent="Hurtbox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0269775, 2.11902, 0)
+shape = SubResource("BoxShape3D_k6q2g")
+
+[node name="CollisionShape3D" parent="Hitbox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0355225, 1.91022, 0)
+shape = SubResource("BoxShape3D_cfuve")
+
+[node name="BodyParts" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Body" type="MeshInstance3D" parent="BodyParts" index="0"]
+transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_cfuve")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_wcvdg")
+
+[node name="Wings" type="MeshInstance3D" parent="BodyParts" index="1"]
+transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0, 0, 0)
+mesh = SubResource("PrismMesh_c2kih")
+skeleton = NodePath("../Body")
+surface_material_override/0 = ExtResource("5_ko7u4")
+
+[node name="Tail" type="MeshInstance3D" parent="BodyParts" index="2"]
+transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, -0.00313649, 1.4448, -1.15237)
+mesh = SubResource("PrismMesh_wcvdg")
+surface_material_override/0 = ExtResource("6_5cll2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BodyParts" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 1.525)
+mesh = SubResource("BoxMesh_ko7u4")
+surface_material_override/0 = ExtResource("7_iupx6")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="BodyParts" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.75, -1)
+mesh = SubResource("BoxMesh_ko7u4")
+surface_material_override/0 = ExtResource("7_iupx6")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="BodyParts" index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.75, -1)
+mesh = SubResource("BoxMesh_ko7u4")
+surface_material_override/0 = ExtResource("7_iupx6")
+
+[node name="VisibleOnScreenNotifier3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.35919, -20.3801)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]
+
+[editable path="Hitbox"]
