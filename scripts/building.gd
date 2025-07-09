@@ -7,11 +7,15 @@ class_name Building
 @onready var hurtbox : HurtBox = $Hurtbox
 
 @export var hp : float = 20
+@export var score_value : int = 100
 
 var body_colors : Array[Color] = []
 var can_blink : bool = true
 
+var carries_powerup : bool = false
+
 func _ready() -> void:
+	carries_powerup = Globals.POWERUP_RNG.randf() < 0.1
 	for body_part : MeshInstance3D in body_parts.get_children():
 		body_colors.append(body_part.get_surface_override_material(0).albedo_color)
 

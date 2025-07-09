@@ -11,7 +11,7 @@ class_name WaveSpawner
 
 var waves : Array[WaveData] = []
 
-@export var total_waves : int = 5
+@export var total_waves : int = 999
 var current_wave : int = 0
 
 var last_wave_spawned : bool = false
@@ -72,7 +72,7 @@ func check_available(x_coord : int) -> bool:
 	return true
 
 func generate_wave():
-	var roll : float = randf()
+	var roll : float = Globals.RNG.randf()
 	var num_waves : int = 1
 	if roll > 0.8:
 		num_waves = 2
@@ -81,14 +81,14 @@ func generate_wave():
 
 
 	for i in num_waves:
-		var x_coord : int = snappedi(randi_range(-26, 26), 5)
+		var x_coord : int = snappedi(Globals.RNG.randi_range(-30, 30), 5)
 		while !check_available(x_coord):
-			x_coord = snappedi(randi_range(-26, 26), 5)
+			x_coord = snappedi(Globals.RNG.randi_range(-30, 30), 5)
 		
 		var wave_data : WaveData = WaveData.new()
 		wave_data.x_coord = x_coord
 		
-		roll = randf()
+		roll = Globals.RNG.randf()
 		if roll < 0.35:
 			set_wave_data(wave_data,  Globals.EnemyType.BASIC_ENEMY)
 		elif roll < 0.45:
@@ -116,21 +116,21 @@ func generate_wave():
 func set_wave_data(wave_data : WaveData, enemy_type : Globals.EnemyType):
 	wave_data.enemy_type = enemy_type
 	if enemy_type == Globals.EnemyType.BASIC_ENEMY:
-		wave_data.enemy_count = randi_range(3, 5)
-		if randf() < 0.25:
+		wave_data.enemy_count = Globals.RNG.randi_range(3, 5)
+		if Globals.RNG.randf() < 0.25:
 			wave_data.turning = true
 		wave_data.spawn_interval = 1.25
 	elif enemy_type == Globals.EnemyType.DIAGONAL_ENEMY:
-		wave_data.enemy_count = randi_range(2, 5)
-		wave_data.turn_threshold = randi_range(-20, -10)
+		wave_data.enemy_count = Globals.RNG.randi_range(2, 5)
+		wave_data.turn_threshold = Globals.RNG.randi_range(-20, -10)
 		wave_data.spawn_interval = 1.5		
 	elif enemy_type == Globals.EnemyType.AIMING_ENEMY:
-		wave_data.enemy_count = randi_range(1, 3)
+		wave_data.enemy_count = Globals.RNG.randi_range(1, 3)
 		wave_data.spawn_interval = 2.25
 	elif enemy_type == Globals.EnemyType.BASIC_PATH_ENEMY:
 		enemy_path.redraw()
-		enemy_path.position.z = randf_range(-20, -30)
-		wave_data.enemy_count = randi_range(3, 6)
+		enemy_path.position.z = Globals.RNG.randf_range(-20, -30)
+		wave_data.enemy_count = Globals.RNG.randi_range(3, 6)
 		wave_data.enemy_type = Globals.EnemyType.BASIC_PATH_ENEMY
 		wave_data.spawn_interval = 1.75		
 
@@ -144,7 +144,7 @@ func _on_enemy_tree_exit():
 			EventBus.waves_ended.emit()
 
 func _on_timer_timeout() -> void:
-	if (randf() < 0.17 and waves.size() < 4) or waves.is_empty():
+	if (Globals.RNG.randf() < 0.17 and waves.size() < 4) or waves.is_empty():
 		generate_wave()		
 
 

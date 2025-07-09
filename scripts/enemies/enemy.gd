@@ -18,7 +18,10 @@ var rotation_quat : Quaternion
 
 var can_blink : bool = true
 
+var carries_powerup : bool = false
+
 func _ready() -> void:
+	carries_powerup = Globals.POWERUP_RNG.randf() < 0.1
 	speed = Globals.scroll_speed * speed_coefficient
 	velocity = -global_basis.z * speed
 	rotation_quat = body_pivot.transform.basis.get_rotation_quaternion()

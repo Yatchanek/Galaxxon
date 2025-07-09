@@ -7,3 +7,4 @@ script = ExtResource("1_ku6dn")
 bullet_speed = 60
 fire_rate = 0.05
 max_power_level = 3
+type = 1

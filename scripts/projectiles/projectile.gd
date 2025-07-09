@@ -11,6 +11,7 @@ class_name Projectile
 
 var velocity : Vector3
 var power_level : int = 1
+var prev_power_level : int = 1
 
 var type : BulletPool.BulletType
 
@@ -25,7 +26,7 @@ func adjust_collision(is_player_bullet : bool):
 func initialize(_type : BulletPool.BulletType, _speed : float, _power_level : int, is_player_bullet : bool, _from_sub_weapon : bool):
     type = _type
     speed = _speed
-    power_level = _power_level
+    
     from_sub_weapon = _from_sub_weapon
     if from_sub_weapon:
         for child in get_children():
@@ -37,6 +38,9 @@ func initialize(_type : BulletPool.BulletType, _speed : float, _power_level : in
                 child.scale = Vector3.ONE
 
     adjust_collision(is_player_bullet)
+    if power_level != _power_level:
+        prev_power_level = power_level
+        power_level = _power_level
     set_damage()
 
 

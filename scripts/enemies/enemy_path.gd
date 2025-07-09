@@ -16,8 +16,8 @@ func _ready() -> void:
     redraw()
 
 func redraw():
-    inverse = randf() < 0.5
-    point_num = randi_range(3, 6)
+    inverse = Globals.RNG.randf() < 0.5
+    point_num = Globals.RNG.randi_range(3, 6)
     var width : float = start - end
 
     var min_x : int
@@ -38,7 +38,7 @@ func redraw():
     curve = Curve3D.new()
     curve.add_point(Vector3(40, 0, 0))
     
-    var default_point : Vector3 = Vector3(randf_range(min_x, max_x), 0, randf_range(-min_z, -max_z))
+    var default_point : Vector3 = Vector3(Globals.RNG.randf_range(min_x, max_x), 0, Globals.RNG.randf_range(-min_z, -max_z))
     for i : int in range(1, point_num + 1):
         curve.add_point(Vector3(40 - interval * i, 0, 0))
         var point_in : Vector3
@@ -53,7 +53,7 @@ func redraw():
         curve.set_point_out(i, -point_in)     
 
         if randomized:
-            point_in = Vector3(randf_range(min_x, max_x), 0, randf_range(-min_z, -max_z))
+            point_in = Vector3(Globals.RNG.randf_range(min_x, max_x), 0, Globals.RNG.randf_range(-min_z, -max_z))
 
     curve.add_point(Vector3(-40, 0, 0))
 

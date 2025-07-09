@@ -21,6 +21,7 @@ size = Vector3(1, 1, 15)
 script = ExtResource("1_x3min")
 laser_colors = Array[Color]([Color(0.3, 0.5, 1, 1), Color(0.1, 0.8, 0, 1), Color(0.926058, 0.925058, 0, 1)])
 max_power_level = 3
+type = 2
 
 [node name="Laser" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -10)
@@ -36,7 +37,7 @@ collision_layer = 32
 collision_mask = 0
 monitoring = false
 script = ExtResource("3_sjgsu")
-damage = 0.2
+damage = 0.5
 damage_type = 1
 actor = NodePath("..")
 

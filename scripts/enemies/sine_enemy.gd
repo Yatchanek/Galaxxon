@@ -38,7 +38,7 @@ func _physics_process(delta: float) -> void:
 	body_pivot.rotation = body_pivot.transform.basis.get_rotation_quaternion().slerp(rotation_quat, 0.05).get_euler()
 
 
-	if position.x > 25 or position.x < -25 or position.z > 2:
+	if position.x > 35 or position.x < -35 or position.z > 5:
 		queue_free()
 
 func die():

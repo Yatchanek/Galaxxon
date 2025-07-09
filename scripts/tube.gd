@@ -16,6 +16,8 @@ func _ready() -> void:
     body.scale.z = length
     body.mesh.surface_get_material(0).uv1_scale.z = length / body.scale.x
     thread.start(create_obstacles)
+    await get_tree().create_timer(0.1).timeout
+    show()
    # create_obstacles()
 
 func create_obstacles():

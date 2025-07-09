@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://42m5coqfeveg"]
+[gd_scene load_steps=13 format=3 uid="uid://42m5coqfeveg"]
 
 [ext_resource type="Script" uid="uid://80aaxx0ho1tj" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Material" uid="uid://dqcixbsnrlyye" path="res://resources/body_material.tres" id="2_onrkg"]
@@ -12,9 +12,6 @@
 material = ExtResource("2_onrkg")
 height = 4.0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_fjrip"]
-size = Vector3(1.5, 1, 2)
-
 [sub_resource type="PrismMesh" id="PrismMesh_fj7yv"]
 material = ExtResource("2_onrkg")
 size = Vector3(5, 3, 0.25)
@@ -24,12 +21,24 @@ material = ExtResource("2_onrkg")
 left_to_right = 0.0
 size = Vector3(1.25, 1.25, 0.25)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_fjrip"]
+size = Vector3(1.5, 1, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_smehm"]
+size = Vector3(3, 1, 3)
+
 [node name="Player" type="Node3D"]
 script = ExtResource("1_4flbx")
 pulse_cannon_scene = ExtResource("3_i3pqv")
 laser_weapon_scene = ExtResource("4_hqtel")
 vulcan_cannon_scene = ExtResource("6_fjrip")
 rocket_launcher_scene = ExtResource("5_sweqy")
+weapon_scenes = Dictionary[int, PackedScene]({
+0: ExtResource("3_i3pqv"),
+1: ExtResource("6_fjrip"),
+2: ExtResource("4_hqtel"),
+3: ExtResource("5_sweqy")
+})
 
 [node name="BodyPivot" type="Node3D" parent="."]
 
@@ -38,18 +47,6 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 
 instance_shader_parameters/body_color = Color(0.281187, 0.281187, 0.281187, 1)
 mesh = SubResource("CapsuleMesh_onrkg")
 skeleton = NodePath("../..")
-
-[node name="Hitbox" type="Area3D" parent="BodyPivot/Body" node_paths=PackedStringArray("actor")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-collision_layer = 0
-collision_mask = 64
-monitorable = false
-script = ExtResource("5_tuyoq")
-actor = NodePath("../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BodyPivot/Body/Hitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.346293)
-shape = SubResource("BoxShape3D_fjrip")
 
 [node name="Wings" type="MeshInstance3D" parent="BodyPivot"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
@@ -69,22 +66,36 @@ one_shot = true
 [node name="MainWeaponSlot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
 
-[node name="BasicCannonWeapon" parent="MainWeaponSlot" instance=ExtResource("3_i3pqv")]
+[node name="PulseCannon" parent="MainWeaponSlot" instance=ExtResource("3_i3pqv")]
 
 [node name="SecondaryWeaponSlots" type="Node3D" parent="."]
 
 [node name="Subslot" type="Node3D" parent="SecondaryWeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75, 0, -0.5)
-
-[node name="BasicCannonWeapon" parent="SecondaryWeaponSlots/Subslot" instance=ExtResource("3_i3pqv")]
-is_subweapon = true
-
-[node name="Subslot2" type="Node3D" parent="SecondaryWeaponSlots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.75, 0, -0.5)
 
-[node name="BasicCannonWeapon" parent="SecondaryWeaponSlots/Subslot2" instance=ExtResource("3_i3pqv")]
-is_subweapon = true
+[node name="Subslot2" type="Node3D" parent="SecondaryWeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75, 0, -0.5)
 
-[connection signal="area_entered" from="BodyPivot/Body/Hitbox" to="BodyPivot/Body/Hitbox" method="_on_area_entered"]
-[connection signal="area_exited" from="BodyPivot/Body/Hitbox" to="BodyPivot/Body/Hitbox" method="_on_area_exited"]
+[node name="Hitbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
+collision_layer = 0
+collision_mask = 64
+monitorable = false
+script = ExtResource("5_tuyoq")
+actor = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.346293)
+shape = SubResource("BoxShape3D_fjrip")
+
+[node name="Collector" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 512
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collector"]
+shape = SubResource("BoxShape3D_smehm")
+
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]
+[connection signal="area_exited" from="Hitbox" to="Hitbox" method="_on_area_exited"]
+[connection signal="area_entered" from="Collector" to="." method="_on_collector_area_entered"]

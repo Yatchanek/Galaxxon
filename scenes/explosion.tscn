@@ -4,6 +4,7 @@
 [ext_resource type="Shader" uid="uid://dsmmbc3tlwakc" path="res://resources/shaders/explosion.gdshader" id="1_vxas0"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_7rj46"]
+frequency = 0.0075
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q7epf"]
 seamless = true
@@ -45,6 +46,7 @@ rings = 8
 
 [node name="Explosion" type="GPUParticles3D"]
 material_override = SubResource("ShaderMaterial_q7epf")
+instance_shader_parameters/alpha_threshold = 1.0
 emitting = false
 amount = 16
 lifetime = 0.5

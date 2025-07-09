@@ -24,6 +24,7 @@ size = Vector3(3, 0.5, 2.5)
 script = ExtResource("1_l1rku")
 hitbox = NodePath("Hitbox")
 hurtbox = NodePath("Hurtbox")
+hp = 3.0
 score_value = 150
 body_colors = Array[Color]([Color(0, 0.382375, 5.29438e-07, 1), Color(0.359332, 0.557774, 1, 1)])
 

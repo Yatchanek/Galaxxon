@@ -1,5 +1,4 @@
 extends Node
-class_name Globals
 
 enum GameMode {
     GALAGA,
@@ -14,7 +13,16 @@ enum EnemyType {
     BASIC_PATH_ENEMY,
 }
 
-static var game_mode : GameMode = GameMode.GALAGA
-static var scroll_speed : float = 5.0
+var game_mode : GameMode = GameMode.GALAGA
+var scroll_speed : float = 5.0
 
-static var player : Player
+var player : Player
+
+var RNG : RandomNumberGenerator
+var POWERUP_RNG : RandomNumberGenerator
+
+func _ready() -> void:
+    RNG = RandomNumberGenerator.new()
+    POWERUP_RNG = RandomNumberGenerator.new()
+    RNG.seed = 123456
+    POWERUP_RNG.seed = 654321

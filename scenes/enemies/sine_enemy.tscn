@@ -24,6 +24,7 @@ size = Vector3(3, 0.3, 2.5)
 script = ExtResource("1_bybiq")
 hitbox = NodePath("Hitbox")
 hurtbox = NodePath("Hurtbox")
+hp = 3.0
 body_colors = Array[Color]([Color(1, 0, 0, 1), Color(0, 1, 0, 1)])
 
 [node name="BodyPivot" type="Node3D" parent="."]

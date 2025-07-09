@@ -17,7 +17,7 @@ func _physics_process(delta: float) -> void:
 	velocity = -global_basis.z.rotated(Vector3.UP, PI / 6 * sin(angle)) * speed
 	position += velocity * delta
 
-	if position.x > 25 or position.x < -25 or position.z > 2:
+	if position.x > 25 or position.x < -25 or position.z > 5:
 		queue_free()
 
 func die():

@@ -16,7 +16,10 @@ var rotation_quat : Quaternion
 
 var can_blink : bool = true
 
+var carries_powerup : bool = false
+
 func _ready() -> void:
+	carries_powerup = Globals.POWERUP_RNG.randf() < 0.1
 	rotation_quat = body_pivot.transform.basis.get_rotation_quaternion()
 	for body_part : MeshInstance3D in body_pivot.get_children():
 		body_colors.append(body_part.get_surface_override_material(0).albedo_color)

@@ -29,7 +29,7 @@ func _physics_process(delta: float) -> void:
 			rotation_quat = Quaternion(Vector3.UP, PI / 3)  * Quaternion(Vector3.FORWARD, -PI / 3.5)
 
 
-	if position.z > 2 or position.x < -25 or position.x > 25:
+	if position.z > 5 or position.x < -35 or position.x > 35:
 		queue_free()
 
 

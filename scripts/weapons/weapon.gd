@@ -1,6 +1,14 @@
 extends Node3D
 class_name Weapon
 
+enum WeaponType {
+    PULSE_CANNON,
+    VULCAN_CANNON,
+    LASER_CANNON,
+    ROCKET_LAUNCHER,
+    CIRCLE_CANNON,
+}
+
 @export var fire_rate : float = 0.1
 @export var power_level : int = 1
 @export var max_power_level : int = 9
@@ -9,10 +17,14 @@ class_name Weapon
 @export var is_player_weapon : bool = true
 @export var is_subweapon : bool = false
 
+@export var type : WeaponType
+
 var elapsed_time : float = 0.0
 var can_shoot : bool = true
 
 var disabled : bool = false
+
+
 
 func _ready() -> void:
     if get_parent().name == "Subslot" or get_parent().name == "Subslot2":

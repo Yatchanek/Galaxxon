@@ -19,21 +19,21 @@ var y_pos : float = sqrt(3) * 1.5
 var start_x : float = 5.0
 
 func spawn_section(start_z : float) -> float:
-    if randf() < 0.2:
+    if Globals.RNG.randf() < 0.2:
         var obstacle : SlitObstacle = obstacle_scene.instantiate()
-        obstacle.position = Vector3(0, 0, start_z - randf_range(0, 25))
+        obstacle.position = Vector3(0, 0, start_z - Globals.RNG.randf_range(0, 25))
         spawn_target.add_child.call_deferred(obstacle)
         start_z = -z_slots * 20
     else:
-        var max_columns : int = randi_range(1, 2)
+        var max_columns : int = Globals.RNG.randi_range(1, 2)
         var columns_in_use : Array[int] = []
-        if randf() < 0.5:
+        if Globals.RNG.randf() < 0.5:
             for i : int in max_columns:
                 var candidate : int
                 var valid : bool = false
                 var attempts : int = 0
                 while !valid:
-                    candidate = randi_range(0, x_slots - 1)
+                    candidate = Globals.RNG.randi_range(0, x_slots - 1)
                     if attempts >= 10:
                         break
                     valid = true
@@ -45,7 +45,7 @@ func spawn_section(start_z : float) -> float:
                 if valid:
                     for j : int  in z_slots:
                         var bldg : Building 
-                        if randf() < 0.5:
+                        if Globals.RNG.randf() < 0.5:
                             bldg = silo_scene.instantiate()
                         else:
                             bldg = stationary_plane_scene.instantiate()
@@ -55,7 +55,7 @@ func spawn_section(start_z : float) -> float:
             start_z -= z_slots * 20
 
         else:
-            var max_items : int = randi_range(3, 6)
+            var max_items : int = Globals.RNG.randi_range(3, 6)
             var used_positions : Array[Vector2] = []
 
             for i : int in max_items:
@@ -64,7 +64,7 @@ func spawn_section(start_z : float) -> float:
                 var valid : bool = false
                 var attempts : int = 0
                 while !valid:
-                    candidate = Vector2(randi_range(0, x_slots), randi_range(0, z_slots))
+                    candidate = Vector2(Globals.RNG.randi_range(0, x_slots), Globals.RNG.randi_range(0, z_slots))
                     if attempts >= 10:
                         break
                     valid = true
@@ -73,7 +73,7 @@ func spawn_section(start_z : float) -> float:
                         attempts += 1
                 if valid:
                     var bldg : Building
-                    var roll : float = randf()
+                    var roll : float = Globals.RNG.randf()
                     if roll < 0.1:
                         bldg = bunker_scene.instantiate()
                     elif roll < 0.75:

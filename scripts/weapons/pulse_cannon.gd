@@ -10,7 +10,7 @@ func set_muzzles():
 	for muzzle in get_children():
 		muzzle.queue_free()
 
-	var interval : float = 1.0
+	var interval : float = 1.0 if !is_subweapon else 0.5
 	if muzzle_count % 2 == 0:
 		for i in muzzle_count:
 			var muzzle : Marker3D = Marker3D.new()

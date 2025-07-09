@@ -20,6 +20,9 @@ const ACCELERATION : float = 100.0
 @export var vulcan_cannon_scene : PackedScene
 @export var rocket_launcher_scene : PackedScene
 
+
+@export var weapon_scenes : Dictionary[Weapon.WeaponType, PackedScene] = {}
+
 @export var body_colors : Array[Color] = []
 
 @export var world : World 
@@ -32,6 +35,9 @@ const ACCELERATION : float = 100.0
 @onready var wings : MeshInstance3D = $BodyPivot/Wings
 @onready var shoot_timer : Timer = $ShootTimer
 @onready var main_weapon_slot : Node3D = $MainWeaponSlot
+@onready var sub_weapon_slot_left : Node3D = $SecondaryWeaponSlots/Subslot
+@onready var sub_weapon_slot_right : Node3D = $SecondaryWeaponSlots/Subslot2
+
 @onready var sub_weapon_slots : Array[Node3D] = [$SecondaryWeaponSlots/Subslot, $SecondaryWeaponSlots/Subslot2]
 
 var velocity : Vector3 = Vector3.ZERO
@@ -40,6 +46,10 @@ var velocity : Vector3 = Vector3.ZERO
 var spread_fire : bool = true
 
 var current_weapon : Weapon
+var secondary_weapon_left : Weapon
+var secondary_weapon_right : Weapon
+
+var last_sub_updated : int = 0
 
 var hp : float = 20
 
@@ -104,11 +114,8 @@ func _physics_process(delta: float) -> void:
 
 
 		position += velocity * delta
-		if Globals.game_mode == Globals.GameMode.GALAGA:
-			position.x = clamp(position.x, -28, 28)
-		else:
-			position.x = clamp(position.x, -30, 30)
-		position.z = clamp(position.z, -40, 0)
+		position.x = clamp(position.x, -30, 30)
+		position.z = clamp(position.z, -35, 0)
 		position.y = clamp(position.y, 0, 20)
 
 func disable():
@@ -147,3 +154,49 @@ func die():
 	set_physics_process(false)
 	$BodyPivot/Body/Hitbox.disable()
 	EventBus.player_died.emit()
+
+func _on_collector_area_entered(area: PowerUp) -> void:
+	if area.powerup_type == PowerUp.PowerUpType.PRIMARY_WEAPON:
+		if area.weapon_type == current_weapon.type:
+			current_weapon.upgrade()
+		else:
+			current_weapon.queue_free()
+			var new_weapon : Weapon = weapon_scenes[area.weapon_type].instantiate()
+			new_weapon.is_player_weapon = true
+			current_weapon = new_weapon
+			main_weapon_slot.add_child(new_weapon)
+	else:
+		if !secondary_weapon_left:
+			var new_weapon : Weapon = weapon_scenes[area.weapon_type].instantiate()
+			new_weapon.is_subweapon = true
+			new_weapon.is_player_weapon = true
+			sub_weapon_slot_left.add_child(new_weapon)
+			secondary_weapon_left = new_weapon
+		elif !secondary_weapon_right:
+			var new_weapon : Weapon = weapon_scenes[area.weapon_type].instantiate()
+			new_weapon.is_subweapon = true
+			new_weapon.is_player_weapon = true
+			sub_weapon_slot_right.add_child(new_weapon)
+			secondary_weapon_right = new_weapon
+		else:
+			if area.weapon_type == secondary_weapon_left.type:
+				secondary_weapon_left.upgrade()
+			elif area.weapon_type == secondary_weapon_right.type:
+				secondary_weapon_right.upgrade()
+			else:
+				var new_weapon : Weapon = weapon_scenes[area.weapon_type].instantiate()
+				new_weapon.is_subweapon = true
+				new_weapon.is_player_weapon = true
+				if last_sub_updated % 2 == 0:
+					secondary_weapon_left.queue_free()
+					sub_weapon_slot_left.add_child(new_weapon)
+					secondary_weapon_left = new_weapon
+				else:
+					secondary_weapon_right.queue_free()
+					sub_weapon_slot_right.add_child(new_weapon)
+					secondary_weapon_right = new_weapon
+
+				last_sub_updated += 1	
+	
+	area.queue_free()
+

@@ -6,3 +6,4 @@
 script = ExtResource("1_2hqlt")
 bullet_power = 1
 is_player_weapon = false
+type = 4

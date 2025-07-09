@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://77qysjyonave" path="res://scenes/components/slit_obstacle.tscn" id="7_3j2uh"]
 
 [node name="Tube" type="Node3D"]
+visible = false
 script = ExtResource("1_5aisg")
 
 [node name="Body" type="MeshInstance3D" parent="."]
