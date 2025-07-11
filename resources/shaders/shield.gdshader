@@ -2,15 +2,18 @@ shader_type spatial;
 
 uniform vec4 shield_color : source_color;
 uniform sampler2D noise_tex : source_color;
-uniform float alpha_threshold : hint_range(0.0, 1.0, 0.1) = 0.5;
+uniform float alpha_threshold : hint_range(0.0, 1.0, 0.001) = 0.5;
+
+
+
 
 void fragment() {
 	vec2 uv = UV;
-	uv.x += TIME * 0.15;
-	uv.y -= TIME * 0.15;
+	uv.x += 0.02 * TIME;
+	uv.y -= 0.02 * TIME;
 	float noise = texture(noise_tex, uv).r;
 	ALBEDO = shield_color.rgb;
-	ALPHA = smoothstep(alpha_threshold, 1.0, noise);
+ 	ALPHA = smoothstep(alpha_threshold, 1.0, noise);
 }
 
 //void light() {

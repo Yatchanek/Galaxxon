@@ -80,9 +80,10 @@ height = 7.0
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_jej6c"]
 noise_type = 2
-frequency = 0.05
+frequency = 0.1
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_f1ej7"]
+resource_local_to_scene = true
 width = 256
 height = 256
 generate_mipmaps = false
@@ -90,6 +91,7 @@ seamless = true
 noise = SubResource("FastNoiseLite_jej6c")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oprun"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("9_y4r1p")
 shader_parameter/shield_color = Color(0, 1, 1, 1)

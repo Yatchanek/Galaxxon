@@ -21,7 +21,7 @@ func _process(_delta: float) -> void:
 	rotation_quat = Quaternion(turret_pivot.basis.x, -angle_diff)
 
 	turret_pivot.rotation = turret_pivot.basis.get_rotation_quaternion().slerp(rotation_quat, 0.075).get_euler()
-
+	
 	turret_pivot.rotation.x = clamp(turret_pivot.rotation.x, -PI / 12, PI / 4)
 
 

@@ -37,6 +37,7 @@ const ACCELERATION : float = 100.0
 @onready var main_weapon_slot : Node3D = $MainWeaponSlot
 @onready var sub_weapon_slot_left : Node3D = $SecondaryWeaponSlots/Subslot
 @onready var sub_weapon_slot_right : Node3D = $SecondaryWeaponSlots/Subslot2
+@onready var shield : Shield = $Shield
 
 @onready var sub_weapon_slots : Array[Node3D] = [$SecondaryWeaponSlots/Subslot, $SecondaryWeaponSlots/Subslot2]
 
@@ -171,6 +172,10 @@ func _on_collector_area_entered(area: PowerUp) -> void:
 	if area.powerup_type == PowerUp.PowerUpType.HEALTH:
 		hp = min(hp + 50, max_hp)
 		EventBus.player_hp_changed.emit(hp / max_hp * 100.0)
+
+	elif area.powerup_type == PowerUp.PowerUpType.SHIELD:
+		shield.recharge(25)
+
 	elif area.powerup_type == PowerUp.PowerUpType.PRIMARY_WEAPON:
 		if area.weapon_type == current_weapon.type:
 			current_weapon.upgrade()
@@ -180,6 +185,7 @@ func _on_collector_area_entered(area: PowerUp) -> void:
 			new_weapon.is_player_weapon = true
 			current_weapon = new_weapon
 			main_weapon_slot.add_child(new_weapon)
+			
 	else:
 		if !secondary_weapon_left:
 			var new_weapon : Weapon = weapon_scenes[area.weapon_type].instantiate()

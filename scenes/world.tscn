@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://g7u1uank1std"]
+[gd_scene load_steps=30 format=3 uid="uid://g7u1uank1std"]
 
 [ext_resource type="Script" uid="uid://cn012ndn2bvy8" path="res://scripts/world.gd" id="1_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://42m5coqfeveg" path="res://scenes/player.tscn" id="1_f3sb7"]
@@ -11,6 +11,7 @@
 [ext_resource type="FontFile" uid="uid://cwcwuijx2mhrk" path="res://resources/fonts/Orbitron-VariableFont_wght.ttf" id="5_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://gbwi00phf4bv" path="res://scenes/components/tube.tscn" id="8_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://cmaalf560lg66" path="res://scenes/spawn_manager.tscn" id="9_7r4gi"]
+[ext_resource type="Shader" uid="uid://iokt1hpq5o6d" path="res://resources/shaders/shield.gdshader" id="9_q5onr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_dwbse"]
 font = ExtResource("5_w7kh3")
@@ -26,6 +27,26 @@ albedo_color = Color(1, 0.6, 0, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e3hyu"]
 resource_local_to_scene = true
 albedo_color = Color(6.61798e-08, 0.243288, 4.09111e-07, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jej6c"]
+noise_type = 2
+frequency = 0.1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jhx03"]
+resource_local_to_scene = true
+width = 256
+height = 256
+generate_mipmaps = false
+seamless = true
+noise = SubResource("FastNoiseLite_jej6c")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o8fc1"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("9_q5onr")
+shader_parameter/shield_color = Color(0, 1, 1, 1)
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_jhx03")
+shader_parameter/alpha_threshold = 0.5
 
 [sub_resource type="Environment" id="Environment_dwbse"]
 background_mode = 1
@@ -146,6 +167,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_w7kh3")
 
 [node name="Tail" parent="Player/BodyPivot" index="2"]
 surface_material_override/0 = SubResource("StandardMaterial3D_e3hyu")
+
+[node name="Body" parent="Player/Shield" index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_o8fc1")
 
 [node name="GalagaCamera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 16.5, -13.25)

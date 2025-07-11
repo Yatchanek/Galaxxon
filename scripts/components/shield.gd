@@ -14,16 +14,18 @@ var mat : ShaderMaterial
 
 var can_blink : bool = true
 
+var elapsed_time : float = -1.0
+var angle : float = 0.0
+var noise_tex : Texture2D
+
 func _ready() -> void:
     hp = 0
     body.hide()
     hitbox.disable()
-    print("Calling event bus")
     EventBus.shield_hp_changed.emit(hp / max_hp * 100.0)
-    mat = body.get_surface_override_material(0)
 
 
-func replenish(amount : float):
+func recharge(amount : float):
     if hp == 0:
         body.show()
         hitbox.enable()
@@ -49,4 +51,4 @@ func blink():
     tw.tween_property(mat, "shader_parameter/shield_color", Color.WHITE, 0.1)
     tw.parallel().tween_property(mat, "shader_parameter/alpha_threshold", 0.25, 0.1)
     tw.tween_property(mat, "shader_parameter/shield_color", Color.CYAN, 0.1)
-    tw.parallel().tween_property(mat, "shader_parameter/alpha_threshold", 0.5, 0.1)    
+    tw.parallel().tween_property(mat, "shader_parameter/alpha_threshold", 0.55, 0.1)    

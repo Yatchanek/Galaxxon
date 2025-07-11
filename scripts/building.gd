@@ -13,8 +13,8 @@ var body_colors : Array[Color] = []
 var can_blink : bool = true
 
 var carries_powerup : bool = false
-var powerup_type = PowerUp.PowerUpType
-var powerup_weapon_type = Weapon.WeaponType
+var powerup_type : PowerUp.PowerUpType = PowerUp.PowerUpType.PRIMARY_WEAPON
+var powerup_weapon_type : Weapon.WeaponType = Weapon.WeaponType.PULSE_CANNON
 
 func _ready() -> void:
 	carries_powerup = Globals.POWERUP_RNG.randf() < 0.125
@@ -37,7 +37,6 @@ func set_powerup():
 
 	if powerup_type <= PowerUp.PowerUpType.SECONDARY_WEAPON:	
 		powerup_weapon_type = Globals.POWERUP_RNG.randi_range(Weapon.WeaponType.PULSE_CANNON, Weapon.WeaponType.ROCKET_LAUNCHER) as Weapon.WeaponType
-
 
 
 func take_damage(amount : float):

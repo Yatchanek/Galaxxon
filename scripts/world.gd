@@ -72,6 +72,7 @@ func spawn_explosion_on_moving_element(element : Node3D, building : Building, ex
 	explosion.local_coords = true
 	element.add_child(explosion)	
 	if building.carries_powerup:
+		prints(building.position + Vector3.UP * 3, building.powerup_type, building.powerup_weapon_type, element)
 		explosion.finished.connect(spawn_powerup_on_moving_element.bind(building.position + Vector3.UP * 3, building.powerup_type, building.powerup_weapon_type, element))
 
 func spawn_powerup(pos : Vector3, powerup_type : PowerUp.PowerUpType, weapon_type : Weapon.WeaponType):
@@ -122,7 +123,8 @@ func _on_player_died():
 	await get_tree().create_timer(2.0).timeout
 	remove_bullets()
 	Globals.game_mode = Globals.GameMode.GALAGA
-
+	Globals.RNG.seed = 05152015
+	Globals.POWERUP_RNG.seed = 05152015
 	get_tree().reload_current_scene()
 
 
