@@ -1,7 +1,5 @@
 extends Projectile
-class_name BasicBullet
-
-var body_colors : PackedColorArray = [Color(0.0, 3.0, 0.0, 1.0), Color(3.0, 3.0, 0.0, 1.0), Color(3.0, 0.0, 0.0, 1.0)]
+class_name Bullet
 
 @export var materials : Dictionary[int, Resource] = {}
 

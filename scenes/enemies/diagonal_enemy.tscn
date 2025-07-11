@@ -7,24 +7,24 @@
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="4_5thxe"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_jlhdv"]
-radius = 0.75
+radius = 1.0
 height = 1.5
 
 [sub_resource type="PrismMesh" id="PrismMesh_gal11"]
-size = Vector3(3, 3, 0.3)
+size = Vector3(4, 4, 0.3)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l4qja"]
-size = Vector3(1, 1, 2.8)
+size = Vector3(1.5, 1, 2.8)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1c0am"]
 resource_local_to_scene = true
-size = Vector3(3, 0.5, 2.5)
+size = Vector3(4, 0.5, 2.5)
 
 [node name="DiagonalEnemy" type="Node3D" node_paths=PackedStringArray("hitbox", "hurtbox")]
 script = ExtResource("1_l1rku")
 hitbox = NodePath("Hitbox")
 hurtbox = NodePath("Hurtbox")
-hp = 3.0
+hp = 35.0
 score_value = 150
 body_colors = Array[Color]([Color(0, 0.382375, 5.29438e-07, 1), Color(0.359332, 0.557774, 1, 1)])
 

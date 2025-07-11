@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dx0062o1xecke"]
+[gd_scene load_steps=14 format=3 uid="uid://dx0062o1xecke"]
 
 [ext_resource type="Script" uid="uid://bpxyhdjlrtdto" path="res://scripts/components/powerup.gd" id="1_soxr7"]
 [ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="2_q8oqy"]
@@ -21,11 +21,23 @@ albedo_color = Color(1.34766e-06, 0.331335, 0.435599, 1)
 resource_local_to_scene = true
 albedo_color = Color(0.690196, 0, 0, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_82p6x"]
+resource_local_to_scene = true
+albedo_color = Color(2.07, 0, 0, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_qs3vn"]
 resource_local_to_scene = true
 size = Vector3(2, 2, 2)
 
-[sub_resource type="TextMesh" id="TextMesh_t2ywf"]
+[sub_resource type="TextMesh" id="TextMesh_qs3vn"]
+resource_local_to_scene = true
+material = ExtResource("4_qs3vn")
+text = "P"
+font = ExtResource("6_17mjw")
+pixel_size = 0.125
+depth = 0.2
+
+[sub_resource type="TextMesh" id="TextMesh_qo23h"]
 resource_local_to_scene = true
 material = ExtResource("4_qs3vn")
 text = "P"
@@ -41,17 +53,26 @@ collision_layer = 512
 collision_mask = 0
 monitoring = false
 script = ExtResource("1_soxr7")
-materials = Dictionary[int, Resource]({
+weapon_materials = Dictionary[int, Resource]({
 0: SubResource("StandardMaterial3D_qs3vn"),
 1: SubResource("StandardMaterial3D_qo23h"),
 2: SubResource("StandardMaterial3D_17mjw"),
 3: SubResource("StandardMaterial3D_t2ywf")
 })
-texts = Dictionary[int, String]({
+weapon_texts = Dictionary[int, String]({
 0: "P",
 1: "V",
 2: "L",
-3: "R"
+3: "R",
+4: "C"
+})
+other_materials = Dictionary[int, Resource]({
+2: SubResource("StandardMaterial3D_82p6x"),
+3: SubResource("StandardMaterial3D_17mjw")
+})
+other_texts = Dictionary[int, String]({
+2: "+",
+3: "S"
 })
 
 [node name="Body" type="MeshInstance3D" parent="."]
@@ -62,19 +83,19 @@ surface_material_override/0 = ExtResource("2_q8oqy")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Body/Letters"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 1.1)
-mesh = SubResource("TextMesh_t2ywf")
+mesh = SubResource("TextMesh_qs3vn")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Body/Letters"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.1, 0.1, 0)
-mesh = SubResource("TextMesh_t2ywf")
+mesh = SubResource("TextMesh_qo23h")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Body/Letters"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0.1, -1.1)
-mesh = SubResource("TextMesh_t2ywf")
+mesh = SubResource("TextMesh_qo23h")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="Body/Letters"]
 transform = Transform3D(1.19249e-08, 0, 1, 0, 1, 0, -1, 0, 1.19249e-08, 1.1, 0.1, 0)
-mesh = SubResource("TextMesh_t2ywf")
+mesh = SubResource("TextMesh_qo23h")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_qo23h")

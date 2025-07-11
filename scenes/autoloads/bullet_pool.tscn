@@ -13,7 +13,7 @@ bullet_scenes = Dictionary[int, PackedScene]({
 2: ExtResource("3_sn5cb")
 })
 bullet_count = Dictionary[int, int]({
-0: 50,
+0: 60,
 1: 10,
 2: 16
 })

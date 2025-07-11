@@ -10,6 +10,8 @@ class_name LaserWeapon
 
 var is_shooting : bool = false
 
+var base_damage : float = 3
+
 var previous_dist : float
 
 var base_segment_length : float
@@ -19,6 +21,7 @@ var was_colliding : bool = true
 
 func _ready() -> void:
     super()
+    hurtbox.damage = power_level * base_damage
     if is_subweapon:
         laser.mesh.radius = 0.25
         hurtbox.damage *= 0.5
@@ -34,10 +37,9 @@ func upgrade():
         return
     power_level += 1
     laser.set_instance_shader_parameter("laser_color", laser_colors[power_level - 1])
-    if !is_subweapon:
-        hurtbox.damage += 0.2
-    else:
-        hurtbox.damage += 0.1
+    hurtbox.damage = power_level * base_damage
+    if is_subweapon:
+        hurtbox.damage *= 0.5
     hurtbox.set_size(Vector3(laser_radius, laser_radius, hurtbox.collision_shape.shape.size.z))
 
 func _process(delta: float) -> void:

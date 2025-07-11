@@ -12,6 +12,7 @@ enum WeaponType {
 @export var fire_rate : float = 0.1
 @export var power_level : int = 1
 @export var max_power_level : int = 9
+@export var bullet_speed : int = 50
 @export var bullet_power : int
 @export var spread_fire : bool = false
 @export var is_player_weapon : bool = true

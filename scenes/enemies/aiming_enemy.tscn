@@ -29,6 +29,7 @@ radius = 1.75
 script = ExtResource("1_do404")
 hitbox = NodePath("Hitbox")
 hurtbox = NodePath("Hurtbox")
+hp = 50.0
 speed_coefficient = 1.5
 score_value = 300
 body_colors = Array[Color]([Color(1, 0, 0, 1), Color(0.226396, 0.451443, 1, 1), Color(0, 1, 0, 1)])
@@ -48,9 +49,9 @@ surface_material_override/0 = ExtResource("3_esf2n")
 [node name="BasicCannonWeapon" parent="BodyPivot/Body/Turret" instance=ExtResource("5_xugui")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.8304)
 bullet_type = 1
-bullet_speed = 12
 fire_rate = 3.0
 max_power_level = 1
+bullet_speed = 12
 bullet_power = 1
 is_player_weapon = false
 

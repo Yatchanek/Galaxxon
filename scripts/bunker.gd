@@ -14,7 +14,7 @@ func _ready() -> void:
 	cannon.set_process(false)
 	rotation_quat = turret_pivot.basis.get_rotation_quaternion()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var under_player_pos : Vector3 = Vector3(Globals.player.global_position.x, turret_body.global_position.y, Globals.player.global_position.z)
 	turret_body.global_transform = turret_body.global_transform.interpolate_with(turret_body.global_transform.looking_at(under_player_pos), 0.09)
 	var angle_diff : float = turret_pivot.global_position.direction_to(Globals.player.global_position).signed_angle_to(turret_pivot.global_position.direction_to(under_player_pos + Vector3.UP * turret_pivot.position.y), turret_pivot.global_basis.x)

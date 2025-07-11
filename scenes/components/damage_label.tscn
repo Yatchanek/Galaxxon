@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxj4h0ee4wh1w"]
+
+[ext_resource type="FontFile" uid="uid://cwcwuijx2mhrk" path="res://resources/fonts/Orbitron-VariableFont_wght.ttf" id="1_jxlft"]
+[ext_resource type="Script" uid="uid://bv5r640pyfpol" path="res://scripts/components/damage_label.gd" id="2_yb1nf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_yb1nf"]
+font = ExtResource("1_jxlft")
+font_size = 32
+outline_size = 6
+outline_color = Color(1, 0, 0, 1)
+
+[node name="DamageLabel" type="Label"]
+custom_minimum_size = Vector2(80, 42)
+offset_left = -39.0
+offset_top = -21.0
+offset_right = 41.0
+offset_bottom = 21.0
+pivot_offset = Vector2(40, 21)
+text = "999	"
+label_settings = SubResource("LabelSettings_yb1nf")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_yb1nf")

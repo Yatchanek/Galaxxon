@@ -30,11 +30,12 @@ size = Vector3(0.2, 1.5, 0.2)
 
 [node name="StationaryPlane" instance=ExtResource("1_7bw2i")]
 script = ExtResource("2_lr2p3")
-hp = 3.0
+hp = 35.0
 
 [node name="Hurtbox" parent="." index="0"]
 damage_type = 0
 damage_interval = 0.1
+instadeath = true
 
 [node name="CollisionShape3D" parent="Hurtbox" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0269775, 2.11902, 0)

@@ -19,7 +19,7 @@ const ACCELERATION : float = 100.0
 @export var laser_weapon_scene : PackedScene
 @export var vulcan_cannon_scene : PackedScene
 @export var rocket_launcher_scene : PackedScene
-
+@export var hitbox : HitBox
 
 @export var weapon_scenes : Dictionary[Weapon.WeaponType, PackedScene] = {}
 
@@ -42,8 +42,9 @@ const ACCELERATION : float = 100.0
 
 var velocity : Vector3 = Vector3.ZERO
 
-
 var spread_fire : bool = true
+
+var dead : bool = false
 
 var current_weapon : Weapon
 var secondary_weapon_left : Weapon
@@ -51,10 +52,12 @@ var secondary_weapon_right : Weapon
 
 var last_sub_updated : int = 0
 
+const max_hp : int = 200
 var hp : float = 20
 
 var controls_disabled : bool = false
 
+var can_blink : bool = true
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
@@ -85,8 +88,10 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
 	for body_part : MeshInstance3D in body_pivot.get_children():
-		body_colors.append(body_part.get_instance_shader_parameter("body_color"))
+		body_colors.append(body_part.get_surface_override_material(0).albedo_color)
 	current_weapon = main_weapon_slot.get_child(0)
+	hp = max_hp
+	EventBus.player_hp_changed.emit(hp / max_hp * 100.0)
 	EventBus.player = self
 	Globals.player = self
 
@@ -136,27 +141,37 @@ func enable():
 			weapon.enable()
 
 func take_damage(amount : float):
+	if dead:
+		return
 	hp -= amount
-	EventBus.player_hp_changed.emit(hp / 20.0 * 100.0)
+	EventBus.player_hp_changed.emit(hp / max_hp * 100.0)
 	if hp <= 0:
 		die()
 	else:
 		blink()
 
 func blink():
+	if !can_blink: 
+		return
 	for i in body_pivot.get_child_count():
 		var body_part : MeshInstance3D = body_pivot.get_child(i)
-		body_part.set_instance_shader_parameter("body_color", Color.RED)
-		await get_tree().create_timer(0.1).timeout
-		body_part.set_instance_shader_parameter("body_color", body_colors[i])
+		var tw : Tween = create_tween()
+		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", Color.RED, 0.1)
+		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", body_colors[i], 0.1)
+
+		tw.finished.connect(func(): can_blink = true)
 
 func die():
+	dead = true
 	set_physics_process(false)
-	$BodyPivot/Body/Hitbox.disable()
+	hitbox.disable()
 	EventBus.player_died.emit()
 
 func _on_collector_area_entered(area: PowerUp) -> void:
-	if area.powerup_type == PowerUp.PowerUpType.PRIMARY_WEAPON:
+	if area.powerup_type == PowerUp.PowerUpType.HEALTH:
+		hp = min(hp + 50, max_hp)
+		EventBus.player_hp_changed.emit(hp / max_hp * 100.0)
+	elif area.powerup_type == PowerUp.PowerUpType.PRIMARY_WEAPON:
 		if area.weapon_type == current_weapon.type:
 			current_weapon.upgrade()
 		else:

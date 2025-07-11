@@ -32,7 +32,7 @@ radial_segments = 16
 
 [node name="Bunker" type="Node3D"]
 script = ExtResource("1_764y3")
-hp = 10.0
+hp = 90.0
 
 [node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.108952)
@@ -40,8 +40,9 @@ collision_layer = 64
 collision_mask = 0
 monitoring = false
 script = ExtResource("4_hk1w7")
-damage = 100.0
+damage = 1000.0
 actor = NodePath("..")
+instadeath = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)

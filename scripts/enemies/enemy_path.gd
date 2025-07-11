@@ -20,10 +20,10 @@ func redraw():
     point_num = Globals.RNG.randi_range(3, 6)
     var width : float = start - end
 
-    var min_x : int
-    var max_x : int
-    var min_z : int = 8
-    var max_z : int = 12
+    var min_x : float
+    var max_x : float
+    var min_z : float = 8
+    var max_z : float = 12
 
     var interval : float = width / (point_num + 1)
 
@@ -60,5 +60,4 @@ func redraw():
 
 func _on_enemy_exited():
     if get_child_count() == 0:
-        print("Can Spawn")
         can_spawn = true

@@ -23,11 +23,12 @@ radial_segments = 16
 
 [node name="Silo" instance=ExtResource("1_fn781")]
 script = ExtResource("2_rs3ca")
-hp = 4.0
+hp = 40.0
 
 [node name="Hurtbox" parent="." index="0"]
 damage_type = 0
 damage_interval = 0.1
+instadeath = true
 
 [node name="CollisionShape3D" parent="Hurtbox" index="0"]
 shape = SubResource("BoxShape3D_egwma")

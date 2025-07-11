@@ -2,7 +2,6 @@ extends Weapon
 class_name CannonWeapon
 
 @export var bullet_type : int
-@export var bullet_speed : int
 
 func _ready() -> void:
 	super()

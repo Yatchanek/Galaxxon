@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://77qysjyonave"]
 
-[ext_resource type="Script" uid="uid://dgv3negj6qkgp" path="res://scenes/components/slit_obstacle.gd" id="1_v3sr0"]
+[ext_resource type="Script" uid="uid://dgv3negj6qkgp" path="res://scripts/components/slit_obstacle.gd" id="1_v3sr0"]
 [ext_resource type="ArrayMesh" uid="uid://ke3ivirwhh2h" path="res://resources/block_Cylinder_006.res" id="2_e6053"]
 [ext_resource type="Texture2D" uid="uid://cuffnbj12a451" path="res://images/wall_1_roughness.png" id="2_v3sr0"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="3_e6053"]

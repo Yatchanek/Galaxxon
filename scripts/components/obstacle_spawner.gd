@@ -23,7 +23,7 @@ func spawn_section(start_z : float) -> float:
         var obstacle : SlitObstacle = obstacle_scene.instantiate()
         obstacle.position = Vector3(0, 0, start_z - Globals.RNG.randf_range(0, 25))
         spawn_target.add_child.call_deferred(obstacle)
-        start_z = -z_slots * 20
+        start_z -= z_slots * 20
     else:
         var max_columns : int = Globals.RNG.randi_range(1, 2)
         var columns_in_use : Array[int] = []

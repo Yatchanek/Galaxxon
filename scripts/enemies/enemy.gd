@@ -16,16 +16,36 @@ var speed : float
 var velocity : Vector3
 var rotation_quat : Quaternion
 
+var powerup_type : PowerUp.PowerUpType
+var powerup_weapon_type : Weapon.WeaponType
+
 var can_blink : bool = true
 
 var carries_powerup : bool = false
 
 func _ready() -> void:
-	carries_powerup = Globals.POWERUP_RNG.randf() < 0.1
+	carries_powerup = Globals.POWERUP_RNG.randf() < 0.125
+	if carries_powerup:
+		set_powerup()
 	speed = Globals.scroll_speed * speed_coefficient
 	velocity = -global_basis.z * speed
 	rotation_quat = body_pivot.transform.basis.get_rotation_quaternion()
 	set_colors()
+
+
+func set_powerup():
+	var roll : float = Globals.POWERUP_RNG.randf()
+	if roll < 0.4:
+		powerup_type = PowerUp.PowerUpType.PRIMARY_WEAPON
+	elif roll < 0.75:
+		powerup_type = PowerUp.PowerUpType.SECONDARY_WEAPON
+	elif roll < 0.9:
+		powerup_type = PowerUp.PowerUpType.HEALTH
+	else:
+		powerup_type = PowerUp.PowerUpType.SHIELD
+
+	if powerup_type <= PowerUp.PowerUpType.SECONDARY_WEAPON:	
+		powerup_weapon_type = Globals.POWERUP_RNG.randi_range(Weapon.WeaponType.PULSE_CANNON, Weapon.WeaponType.ROCKET_LAUNCHER) as Weapon.WeaponType
 
 func set_colors():
 	for body_part : MeshInstance3D in body_pivot.get_children():
@@ -34,6 +54,8 @@ func set_colors():
 
 func take_damage(amount : float):
 	hp -= amount
+	if is_instance_valid(self):
+		EventBus.enemy_hit.emit(self, amount)
 	if hp <= 0:
 		die()
 	else:

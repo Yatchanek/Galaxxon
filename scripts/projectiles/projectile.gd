@@ -45,7 +45,7 @@ func initialize(_type : BulletPool.BulletType, _speed : float, _power_level : in
 
 
 func set_damage():
-    hurtbox.damage = base_damage * power_level
+    hurtbox.damage = base_damage * power_level * 10
     if from_sub_weapon:
         hurtbox.damage *= 0.5
 

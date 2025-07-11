@@ -9,6 +9,8 @@ class_name WaveSpawner
 @export var enemy_scene : Dictionary[Globals.EnemyType, PackedScene] = {}
 @export var path_follow_scene : PackedScene
 
+@export var enemy_data : Array[EnemyData] = []
+
 var waves : Array[WaveData] = []
 
 @export var total_waves : int = 999
@@ -17,6 +19,8 @@ var current_wave : int = 0
 var last_wave_spawned : bool = false
 
 var enemies_spawned : int = 0
+
+var prev_enemy_data : EnemyData
 
 func _ready() -> void:
 	pass
@@ -81,6 +85,8 @@ func generate_wave():
 
 
 	for i in num_waves:
+		if last_wave_spawned:
+			break
 		var x_coord : int = snappedi(Globals.RNG.randi_range(-30, 30), 5)
 		while !check_available(x_coord):
 			x_coord = snappedi(Globals.RNG.randi_range(-30, 30), 5)
@@ -89,50 +95,54 @@ func generate_wave():
 		wave_data.x_coord = x_coord
 		
 		roll = Globals.RNG.randf()
-		if roll < 0.35:
-			set_wave_data(wave_data,  Globals.EnemyType.BASIC_ENEMY)
-		elif roll < 0.45:
-			set_wave_data(wave_data,  Globals.EnemyType.DIAGONAL_ENEMY)
+		var total_chance : float = 0
+		var chosen : bool = false
+		for data : EnemyData in enemy_data:
+			if chosen:
+				break
+			total_chance += data.spawn_chance
+			if roll < total_chance:
+				if data.enemy_type >= Globals.EnemyType.BASIC_PATH_ENEMY:
+					if enemy_path.can_spawn and prev_enemy_data != data:
+						enemy_path.can_spawn = false
+						set_wave_data(wave_data, data)
+						chosen = true
+						prev_enemy_data = data
+					else:
+						data = enemy_data[0]
+						set_wave_data(wave_data, data)
+						prev_enemy_data = data
+						chosen = true
+				else:
+					set_wave_data(wave_data, data)
+					chosen = true
+					prev_enemy_data = data
 
-		elif roll < 0.55:
-			set_wave_data(wave_data,  Globals.EnemyType.AIMING_ENEMY)
+		if !chosen:
+			set_wave_data(wave_data, enemy_data[0])
+			prev_enemy_data = enemy_data[0]
 
-		elif enemy_path.can_spawn:
-			enemy_path.can_spawn = false
-			set_wave_data(wave_data,  Globals.EnemyType.BASIC_PATH_ENEMY)
-
-		else:
-			set_wave_data(wave_data,  Globals.EnemyType.BASIC_ENEMY)
-
-		
 		waves.append(wave_data)
 		current_wave += 1
 		enemies_spawned += wave_data.enemy_count
 		if current_wave == total_waves:
 			timer.stop()
 			last_wave_spawned = true
-			break
 
-func set_wave_data(wave_data : WaveData, enemy_type : Globals.EnemyType):
-	wave_data.enemy_type = enemy_type
-	if enemy_type == Globals.EnemyType.BASIC_ENEMY:
-		wave_data.enemy_count = Globals.RNG.randi_range(3, 5)
+func set_wave_data(wave_data : WaveData, data : EnemyData):
+	wave_data.enemy_type = data.enemy_type
+	wave_data.enemy_count = Globals.RNG.randi_range(data.min_amount, data.max_amount)
+	wave_data.spawn_interval = data.spawn_frequency
+
+	if data.enemy_type == Globals.EnemyType.BASIC_ENEMY:
 		if Globals.RNG.randf() < 0.25:
 			wave_data.turning = true
-		wave_data.spawn_interval = 1.25
-	elif enemy_type == Globals.EnemyType.DIAGONAL_ENEMY:
-		wave_data.enemy_count = Globals.RNG.randi_range(2, 5)
-		wave_data.turn_threshold = Globals.RNG.randi_range(-20, -10)
-		wave_data.spawn_interval = 1.5		
-	elif enemy_type == Globals.EnemyType.AIMING_ENEMY:
-		wave_data.enemy_count = Globals.RNG.randi_range(1, 3)
-		wave_data.spawn_interval = 2.25
-	elif enemy_type == Globals.EnemyType.BASIC_PATH_ENEMY:
+	elif data.enemy_type == Globals.EnemyType.DIAGONAL_ENEMY:
+		wave_data.turn_threshold = Globals.RNG.randi_range(data.min_turn_threshold, data.max_turn_threshold)
+
+	elif wave_data.enemy_type == Globals.EnemyType.BASIC_PATH_ENEMY:
 		enemy_path.redraw()
 		enemy_path.position.z = Globals.RNG.randf_range(-20, -30)
-		wave_data.enemy_count = Globals.RNG.randi_range(3, 6)
-		wave_data.enemy_type = Globals.EnemyType.BASIC_PATH_ENEMY
-		wave_data.spawn_interval = 1.75		
 
 	wave_data.time_left = wave_data.spawn_interval
 
@@ -149,9 +159,12 @@ func _on_timer_timeout() -> void:
 
 
 func start():
+	last_wave_spawned = false
 	current_wave = 0
+	enemies_spawned = 0
 	timer.start()
 	set_process(true)
 		
 func stop():
 	set_process(false)
+	waves = []

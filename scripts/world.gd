@@ -4,7 +4,7 @@ class_name World
 @export var explosion_scene : PackedScene
 @export var tube_scene : PackedScene
 @export var powerup_scene : PackedScene
-
+@export var damage_label_scene : PackedScene
 
 
 @onready var player : Player = $Player
@@ -38,8 +38,11 @@ func _ready() -> void:
 	left_top_border.set_deferred("disabled", true)
 	right_top_border.set_deferred("disabled", true)
 	back_border.shape.plane.d = -2
+	bkg.mesh.size = Vector2(80, 60)
+	
 
 	flow_speed = Globals.scroll_speed / bkg.mesh.size.y
+	EventBus.enemy_hit.connect(_on_enemy_hit)
 	EventBus.enemy_destroyed.connect(_on_enemy_destroyed)
 	EventBus.building_destroyed.connect(_on_building_destroyed)
 	EventBus.player_died.connect(_on_player_died)
@@ -53,57 +56,57 @@ func _process(delta: float) -> void:
 	bkg.mesh.material.set_shader_parameter("dist", distance)
 
 
-
-func spawn_explosion(pos : Vector3, with_powerup : bool = false):
-	print(with_powerup)
+func spawn_explosion(enemy : Enemy):
 	var explosion : GPUParticles3D = explosion_scene.instantiate()
 	explosion.amount = randi_range(16, 24)
-	explosion.position = pos
+	explosion.position = enemy.global_position
 	add_child(explosion)
-	if with_powerup:
-		explosion.finished.connect(spawn_powerup.bind(pos))
+	if enemy.carries_powerup:
+		explosion.finished.connect(spawn_powerup.bind(enemy.global_position, enemy.powerup_type, enemy.powerup_weapon_type))
 
-func spawn_explosion_on_moving_element(element : Node3D, pos : Vector3, exp_scale : Vector3, with_powerup : bool = false):
+func spawn_explosion_on_moving_element(element : Node3D, building : Building, exp_scale : Vector3):
 	var explosion : GPUParticles3D = explosion_scene.instantiate()
 	explosion.amount = randi_range(16, 32)
-	explosion.position = pos
+	explosion.position = building.position + Vector3.UP * 3
 	explosion.scale = exp_scale
 	explosion.local_coords = true
 	element.add_child(explosion)	
-	if with_powerup:
-		explosion.finished.connect(spawn_powerup_on_moving_element.bind(pos, element))
+	if building.carries_powerup:
+		explosion.finished.connect(spawn_powerup_on_moving_element.bind(building.position + Vector3.UP * 3, building.powerup_type, building.powerup_weapon_type, element))
 
-func spawn_powerup(enemy_pos):
+func spawn_powerup(pos : Vector3, powerup_type : PowerUp.PowerUpType, weapon_type : Weapon.WeaponType):
+	
 	var powerup : PowerUp = powerup_scene.instantiate()
-	powerup.powerup_type = PowerUp.PowerUpType.PRIMARY_WEAPON if Globals.POWERUP_RNG.randf() < 0.425 else PowerUp.PowerUpType.SECONDARY_WEAPON
-	powerup.weapon_type = Globals.POWERUP_RNG.randi_range(Weapon.WeaponType.PULSE_CANNON, Weapon.WeaponType.ROCKET_LAUNCHER) as Weapon.WeaponType
-	if Globals.game_mode == Globals.GameMode.GALAGA:
-		powerup.position = enemy_pos
-	else:
-		powerup.position = enemy_pos + Vector3.UP * 2
+	powerup.position = pos
+
+	powerup.powerup_type = powerup_type
+	powerup.weapon_type = weapon_type
 
 	add_child.call_deferred(powerup)
 
-func spawn_powerup_on_moving_element(enemy_pos : Vector3, element : Node3D):
+func spawn_powerup_on_moving_element(pos : Vector3, powerup_type : PowerUp.PowerUpType, weapon_type : Weapon.WeaponType, element : Node3D):
 	var powerup : PowerUp = powerup_scene.instantiate()
-	powerup.powerup_type = PowerUp.PowerUpType.PRIMARY_WEAPON if Globals.POWERUP_RNG.randf() < 0.425 else PowerUp.PowerUpType.SECONDARY_WEAPON
-	powerup.weapon_type = Globals.POWERUP_RNG.randi_range(Weapon.WeaponType.PULSE_CANNON, Weapon.WeaponType.ROCKET_LAUNCHER) as Weapon.WeaponType
-	if Globals.game_mode == Globals.GameMode.GALAGA:
-		powerup.position = enemy_pos
-	else:
-		powerup.position = enemy_pos + Vector3.UP * 2
+	powerup.position = pos
+	powerup.powerup_type = powerup_type
+	powerup.weapon_type = weapon_type
 	powerup.on_moving_element = true
 	element.add_child.call_deferred(powerup)
 
-func _on_enemy_destroyed(enemy : Node3D):
+func _on_enemy_destroyed(enemy : Enemy):
 	score += enemy.score_value
 	EventBus.score_changed.emit(score)
-	spawn_explosion(enemy.global_position, enemy.carries_powerup)
+	spawn_explosion(enemy)
 
 
+func _on_enemy_hit(enemy : Node3D, damage : float):
+	return
+	var damage_label : Label = damage_label_scene.instantiate()
+	damage_label.text = "%.0f" % damage
+	damage_label.position = get_viewport().get_camera_3d().unproject_position(enemy.global_position) + Vector2.LEFT * 40
+	add_child(damage_label)
 
 func _on_building_destroyed(building : Building, building_parent : Node3D):
-	spawn_explosion_on_moving_element(building_parent, building.position + Vector3.UP * 3.0, Vector3.ONE * 2, building.carries_powerup)
+	spawn_explosion_on_moving_element(building_parent, building, Vector3.ONE * 2)
 	score += building.score_value
 	EventBus.score_changed.emit(score)
 
@@ -137,18 +140,26 @@ func _on_waves_ended():
 	
 		tw.tween_property(self, "flow_speed", 5.0/180.0, 1.0)
 		tw.tween_property(bkg.mesh, "size", Vector2(240.0, 180.0), 1.0)
+
+		left_top_border.set_deferred("disabled", false)
+		right_top_border.set_deferred("disabled", false)
+		top_border.set_deferred("disabled", true)
+		back_border.shape.plane.d = -40
 	else:
 		tw.tween_property(galaga_camera, "transform", $GalagaCameraPos.transform, 1.0)
 	
 		tw.tween_property(self, "flow_speed", 5.0/60, 1.0)
 		tw.tween_property(bkg.mesh, "size", Vector2(80.0, 60.0), 1.0)		
 	
+		left_top_border.set_deferred("disabled", true)
+		right_top_border.set_deferred("disabled", true)
+		top_border.set_deferred("disabled", false)
+		back_border.shape.plane.d = -2
+
+
 	tw.finished.connect(transforming_done)
 
-	left_top_border.set_deferred("disabled", false)
-	right_top_border.set_deferred("disabled", false)
-	top_border.set_deferred("disabled", true)
-	back_border.shape.plane.d = -40
+
 
 
 func transforming_done():

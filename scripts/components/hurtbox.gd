@@ -10,8 +10,12 @@ enum DamageType {
 @export var damage_type : DamageType = DamageType.SINGLE
 @export var damage_interval : float = 0.1 
 @export var actor : Node3D
+@export var instadeath : bool = false
 
 @onready var collision_shape : CollisionShape3D = $CollisionShape3D
+
+var switched_off : bool = false
+
 
 func _ready() -> void:
     if !actor:

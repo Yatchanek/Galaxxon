@@ -19,7 +19,7 @@ size = Vector3(3, 0.3, 2.5)
 [node name="BasicPathEnemy" instance=ExtResource("1_rkqp3")]
 script = ExtResource("2_udhaw")
 flight_time = 7.0
-hp = 3.0
+hp = 30.0
 
 [node name="Wings" type="MeshInstance3D" parent="BodyPivot" index="0"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.5)
@@ -33,6 +33,7 @@ mesh = SubResource("CapsuleMesh_y4rbu")
 surface_material_override/0 = ExtResource("4_5rf0k")
 
 [node name="Hurtbox" parent="." index="1" node_paths=PackedStringArray("actor")]
+damage = 10.0
 actor = NodePath("..")
 
 [node name="Hitbox" parent="." index="2" node_paths=PackedStringArray("actor")]

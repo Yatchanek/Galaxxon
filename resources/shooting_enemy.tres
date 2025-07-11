@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3 uid="uid://8756kld56vql"]
+
+[ext_resource type="Script" uid="uid://dghuvr2kysqm2" path="res://scripts/enemy_data.gd" id="1_wmkmm"]
+
+[resource]
+script = ExtResource("1_wmkmm")
+enemy_type = 2
+spawn_chance = 0.1
+min_amount = 2
+max_amount = 4
+spawn_frequency = 2.25
+min_turn_threshold = -20
+max_turn_threshold = -10
