@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cmaalf560lg66"]
+[gd_scene load_steps=17 format=3 uid="uid://cmaalf560lg66"]
 
 [ext_resource type="Script" uid="uid://dexp6vt7bwsys" path="res://scripts/wave_spawner.gd" id="2_wryhc"]
 [ext_resource type="PackedScene" uid="uid://dppaho64ksomi" path="res://scenes/enemies/basic_enemy.tscn" id="3_fprlg"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://d0g4cnld8nlvm" path="res://scenes/enemies/basic_path_enemy.tscn" id="6_fprlg"]
 [ext_resource type="PackedScene" uid="uid://cir3mi5ohwsr3" path="res://scenes/enemies/aiming_enemy.tscn" id="6_v67v8"]
 [ext_resource type="PackedScene" uid="uid://8ygurfsu7m80" path="res://scenes/enemies/enemy_path.tscn" id="7_fxn12"]
+[ext_resource type="PackedScene" uid="uid://bnpqmu30lv5t0" path="res://scenes/enemies/boss.tscn" id="7_vk5hk"]
 [ext_resource type="PackedScene" uid="uid://cx3e7usydavlx" path="res://scenes/enemies/enemy_path_follow.tscn" id="7_wk823"]
 [ext_resource type="Script" uid="uid://dghuvr2kysqm2" path="res://scripts/enemy_data.gd" id="8_x751n"]
 [ext_resource type="Resource" uid="uid://ceah3eqfa25jl" path="res://resources/basic_enemy.tres" id="9_vk5hk"]
@@ -29,7 +30,8 @@ enemy_scene = Dictionary[int, PackedScene]({
 1: ExtResource("4_wk823"),
 2: ExtResource("5_ii2l1"),
 3: ExtResource("6_v67v8"),
-4: ExtResource("6_fprlg")
+4: ExtResource("6_fprlg"),
+5: ExtResource("7_vk5hk")
 })
 path_follow_scene = ExtResource("7_wk823")
 enemy_data = Array[ExtResource("8_x751n")]([ExtResource("9_vk5hk"), ExtResource("10_dtcti"), ExtResource("11_vllkv"), ExtResource("12_f5xxm"), ExtResource("13_poj6g")])

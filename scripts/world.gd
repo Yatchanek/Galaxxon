@@ -37,7 +37,7 @@ func _input(event: InputEvent) -> void:
 func _ready() -> void:
 	left_top_border.set_deferred("disabled", true)
 	right_top_border.set_deferred("disabled", true)
-	back_border.shape.plane.d = -2
+	back_border.position.z = 3.5
 	bkg.mesh.size = Vector2(80, 60)
 	
 
@@ -100,7 +100,6 @@ func _on_enemy_destroyed(enemy : Enemy):
 
 
 func _on_enemy_hit(enemy : Node3D, damage : float):
-	return
 	var damage_label : Label = damage_label_scene.instantiate()
 	damage_label.text = "%.0f" % damage
 	damage_label.position = get_viewport().get_camera_3d().unproject_position(enemy.global_position) + Vector2.LEFT * 40
@@ -146,7 +145,7 @@ func _on_waves_ended():
 		left_top_border.set_deferred("disabled", false)
 		right_top_border.set_deferred("disabled", false)
 		top_border.set_deferred("disabled", true)
-		back_border.shape.plane.d = -40
+		back_border.position.z = 40.5
 	else:
 		tw.tween_property(galaga_camera, "transform", $GalagaCameraPos.transform, 1.0)
 	
@@ -156,7 +155,7 @@ func _on_waves_ended():
 		left_top_border.set_deferred("disabled", true)
 		right_top_border.set_deferred("disabled", true)
 		top_border.set_deferred("disabled", false)
-		back_border.shape.plane.d = -2
+		back_border.position.z = 3.5
 
 
 	tw.finished.connect(transforming_done)

@@ -1,4 +1,3 @@
-@tool
 extends Path3D
 class_name EnemyPath
 
@@ -32,8 +31,8 @@ func redraw():
 
     if point_num > 1:
         var diff : int = point_num - 1
-        min_z = min(min_z - diff, 5)
-        max_z = max(max_z - diff, 10)
+        min_z = min(min_z - diff, 3)
+        max_z = max(max_z - diff, 7)
 
     curve = Curve3D.new()
     curve.add_point(Vector3(40, 0, 0))

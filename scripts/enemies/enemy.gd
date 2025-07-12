@@ -73,4 +73,8 @@ func blink():
 			tw.finished.connect(func(): can_blink = true)	
 
 func die():
-	pass
+	EventBus.enemy_destroyed.emit(self)
+	set_physics_process(false)
+	hurtbox.disable()
+	hitbox.disable()
+	queue_free()

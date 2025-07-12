@@ -17,6 +17,7 @@ enum WeaponType {
 @export var spread_fire : bool = false
 @export var is_player_weapon : bool = true
 @export var is_subweapon : bool = false
+@export var autostart : bool = true
 
 @export var type : WeaponType
 
@@ -31,6 +32,8 @@ func _ready() -> void:
     if get_parent().name == "Subslot" or get_parent().name == "Subslot2":
         is_subweapon = true
 
+    set_process(autostart)
+
 func upgrade():
     if power_level >= max_power_level:
         return
@@ -41,3 +44,9 @@ func disable():
 
 func enable():
     disabled = false
+
+func activate():
+    set_process(true)
+
+func deactivate():
+    set_process(false)

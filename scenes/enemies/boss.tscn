@@ -1,0 +1,172 @@
+[gd_scene load_steps=16 format=3 uid="uid://bnpqmu30lv5t0"]
+
+[ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="1_3uc6t"]
+[ext_resource type="Script" uid="uid://bi2uskbgoibsl" path="res://scripts/enemies/boss.gd" id="1_7dnpc"]
+[ext_resource type="PackedScene" uid="uid://mato0xxl1qce" path="res://scenes/weapons/laser_weapon.tscn" id="1_ian0n"]
+[ext_resource type="Material" uid="uid://cothpdxipjw2v" path="res://resources/materials/dark_green_material.tres" id="2_h1cus"]
+[ext_resource type="PackedScene" uid="uid://cp5rswyvstmo4" path="res://scenes/components/hurtbox.tscn" id="2_ub7yk"]
+[ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://scenes/weapons/pulse_cannon.tscn" id="2_yye4w"]
+[ext_resource type="Material" uid="uid://crh3gjq6qpwcu" path="res://resources/materials/red_material_bright.tres" id="3_lia8m"]
+[ext_resource type="Material" uid="uid://k4je6fqs1vlc" path="res://resources/materials/blue_material.tres" id="5_jc8i4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rvo7g"]
+size = Vector3(10, 2, 3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_uq4kr"]
+size = Vector3(1, 1, 3)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7dnpc"]
+radius = 1.5
+height = 5.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h1cus"]
+resource_local_to_scene = true
+size = Vector3(10, 3, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cbm28"]
+size = Vector3(9.5, 2, 2.5)
+
+[sub_resource type="Animation" id="Animation_7dnpc"]
+resource_name = "Fight"
+length = 8.0
+loop_mode = 1
+step = 0.1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyPivot/MeshInstance3D2/LaserWeapon")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(5.1, 7),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"activate"
+}, {
+"args": [],
+"method": &"stop"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BodyPivot/MeshInstance3D3/LaserWeapon")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(5.1, 7),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"activate"
+}, {
+"args": [],
+"method": &"stop"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BodyPivot/MeshInstance3D/PulseCannon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1, 4),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"activate"
+}, {
+"args": [],
+"method": &"deactivate"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h1cus"]
+_data = {
+&"Fight": SubResource("Animation_7dnpc")
+}
+
+[node name="Boss" type="Node3D" node_paths=PackedStringArray("hitbox", "hurtbox")]
+visible = false
+script = ExtResource("1_7dnpc")
+hitbox = NodePath("Hitbox")
+hurtbox = NodePath("Hurtbox")
+hp = 2500.0
+score_value = 2500
+
+[node name="BodyPivot" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BodyPivot"]
+mesh = SubResource("BoxMesh_rvo7g")
+surface_material_override/0 = ExtResource("2_h1cus")
+
+[node name="PulseCannon" parent="BodyPivot/MeshInstance3D" instance=ExtResource("2_yye4w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.167, -2.7)
+power_level = 3
+spread_fire = true
+is_player_weapon = false
+autostart = false
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="BodyPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
+mesh = SubResource("BoxMesh_uq4kr")
+surface_material_override/0 = ExtResource("3_lia8m")
+
+[node name="LaserWeapon" parent="BodyPivot/MeshInstance3D2" instance=ExtResource("1_ian0n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.75)
+is_player_weapon = false
+autostart = false
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="BodyPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2)
+mesh = SubResource("BoxMesh_uq4kr")
+surface_material_override/0 = ExtResource("3_lia8m")
+
+[node name="LaserWeapon" parent="BodyPivot/MeshInstance3D3" instance=ExtResource("1_ian0n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.75)
+is_player_weapon = false
+autostart = false
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="BodyPivot"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.167037, 0)
+mesh = SubResource("CapsuleMesh_7dnpc")
+surface_material_override/0 = ExtResource("5_jc8i4")
+
+[node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("1_3uc6t")]
+collision_layer = 0
+collision_mask = 32
+monitorable = false
+actor = NodePath("..")
+
+[node name="CollisionShape3D" parent="Hitbox" index="0"]
+shape = SubResource("BoxShape3D_h1cus")
+
+[node name="Hurtbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("2_ub7yk")]
+collision_layer = 64
+collision_mask = 0
+damage = 20.0
+damage_type = 1
+damage_interval = 0.75
+actor = NodePath("..")
+
+[node name="CollisionShape3D" parent="Hurtbox" index="0"]
+shape = SubResource("BoxShape3D_cbm28")
+
+[node name="LeftRaycast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
+enabled = false
+target_position = Vector3(-2, 0, 0)
+
+[node name="RightRaycast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+target_position = Vector3(2, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_h1cus")
+}
+
+[editable path="Hitbox"]
+[editable path="Hurtbox"]

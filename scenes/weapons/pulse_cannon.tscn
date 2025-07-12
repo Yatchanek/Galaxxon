@@ -4,5 +4,4 @@
 
 [node name="PulseCannon" type="Node3D"]
 script = ExtResource("1_jrt1g")
-bullet_speed = 50
 fire_rate = 0.25

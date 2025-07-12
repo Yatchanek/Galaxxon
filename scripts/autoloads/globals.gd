@@ -11,6 +11,7 @@ enum EnemyType {
 	SHOOTING_ENEMY,
 	AIMING_ENEMY,
     BASIC_PATH_ENEMY,
+    FIRST_BOSS,
 }
 
 var game_mode : GameMode = GameMode.GALAGA

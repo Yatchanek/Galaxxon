@@ -38,6 +38,12 @@ func _process(delta: float) -> void:
 				waves.erase(wave_data)
 
 
+func spawn_boss():
+	var boss : Enemy = enemy_scene[Globals.EnemyType.FIRST_BOSS].instantiate()
+	boss.position = Vector3(0, 0, -45)
+	boss.tree_exited.connect(_on_boss_defeated)
+	add_child.call_deferred(boss)
+
 
 func spawn_enemy(wave_data : WaveData):
 	if wave_data.enemy_type < Globals.EnemyType.BASIC_PATH_ENEMY:
@@ -151,7 +157,7 @@ func _on_enemy_tree_exit():
 	if last_wave_spawned and enemies_spawned == 0:
 		if is_inside_tree():
 			await get_tree().create_timer(2.0).timeout
-			EventBus.waves_ended.emit()
+			spawn_boss()
 
 func _on_timer_timeout() -> void:
 	if (Globals.RNG.randf() < 0.17 and waves.size() < 4) or waves.is_empty():
@@ -168,3 +174,9 @@ func start():
 func stop():
 	set_process(false)
 	waves = []
+
+
+func _on_boss_defeated():
+	if is_inside_tree():
+		await get_tree().create_timer(2.0).timeout
+		EventBus.waves_ended.emit()

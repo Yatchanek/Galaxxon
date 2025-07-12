@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://g7u1uank1std"]
+[gd_scene load_steps=31 format=3 uid="uid://g7u1uank1std"]
 
 [ext_resource type="Script" uid="uid://cn012ndn2bvy8" path="res://scripts/world.gd" id="1_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://42m5coqfeveg" path="res://scenes/player.tscn" id="1_f3sb7"]
@@ -19,6 +19,10 @@ font_size = 32
 font_color = Color(0.227451, 0, 0, 1)
 outline_size = 10
 outline_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q5onr"]
+resource_local_to_scene = true
+albedo_color = Color(1, 0.6, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w7kh3"]
 resource_local_to_scene = true
@@ -65,14 +69,14 @@ shader_parameter/mesh_size = Vector2(80, 60)
 material = SubResource("ShaderMaterial_4mrxx")
 size = Vector2(80, 60)
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_e3hyu"]
-plane = Plane(1, 0, 0, -33)
+[sub_resource type="BoxShape3D" id="BoxShape3D_jhx03"]
+size = Vector3(1, 30, 100)
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_q5onr"]
-plane = Plane(-1, 0, 0, -33)
+[sub_resource type="BoxShape3D" id="BoxShape3D_o8fc1"]
+size = Vector3(1, 50, 100)
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_jhx03"]
-plane = Plane(0, 0, -1, -40)
+[sub_resource type="BoxShape3D" id="BoxShape3D_xo05s"]
+size = Vector3(100, 50, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_w7kh3"]
 size = Vector3(160.33, 25, 1)
@@ -83,8 +87,8 @@ size = Vector3(100, 20, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_7r4gi"]
 size = Vector3(185.729, 25, 1)
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_dss4m"]
-plane = Plane(0, 0, 1, -38)
+[sub_resource type="BoxShape3D" id="BoxShape3D_dss4m"]
+size = Vector3(100, 50, 1)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7t5mc"]
 plane = Plane(0, 1, 0, -1)
@@ -101,12 +105,10 @@ damage_label_scene = ExtResource("5_e3hyu")
 [node name="HUD" type="Control" parent="CanvasLayer"]
 custom_minimum_size = Vector2(360, 0)
 layout_mode = 3
-anchors_preset = 11
-anchor_left = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -320.0
-grow_horizontal = 0
+grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_pkg7o")
 
@@ -122,22 +124,42 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HUD/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HUD/MarginContainer"]
 layout_mode = 2
 
-[node name="ScoreLabel" type="Label" parent="CanvasLayer/HUD/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/HUD/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_right = 64
+
+[node name="BossHealthBar" type="ProgressBar" parent="CanvasLayer/HUD/MarginContainer/HBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(0, 1, 0, 1)
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HUD/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(284, 0)
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/HUD/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Score: 999999"
 label_settings = SubResource("LabelSettings_dwbse")
 horizontal_alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HUD/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HUD/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 2
 
-[node name="ShieldBar" type="ProgressBar" parent="CanvasLayer/HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ShieldBar" type="ProgressBar" parent="CanvasLayer/HUD/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 modulate = Color(0, 0.678431, 1, 0.784314)
 custom_minimum_size = Vector2(24, 32)
@@ -148,7 +170,7 @@ value = 100.0
 fill_mode = 3
 show_percentage = false
 
-[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 modulate = Color(0, 1, 0, 0.784314)
 custom_minimum_size = Vector2(24, 32)
@@ -163,9 +185,13 @@ show_percentage = false
 world = NodePath("..")
 
 [node name="Wings" parent="Player/BodyPivot" index="1"]
+material_override = SubResource("StandardMaterial3D_q5onr")
 surface_material_override/0 = SubResource("StandardMaterial3D_w7kh3")
 
-[node name="Tail" parent="Player/BodyPivot" index="2"]
+[node name="Wings2" parent="Player/BodyPivot" index="2"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q5onr")
+
+[node name="Tail" parent="Player/BodyPivot" index="3"]
 surface_material_override/0 = SubResource("StandardMaterial3D_e3hyu")
 
 [node name="Body" parent="Player/Shield" index="0"]
@@ -199,14 +225,16 @@ mesh = SubResource("PlaneMesh_f3sb7")
 [node name="WorldBorders" type="StaticBody3D" parent="."]
 
 [node name="LeftBorder" type="CollisionShape3D" parent="WorldBorders"]
-shape = SubResource("WorldBoundaryShape3D_e3hyu")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 15, 0)
+shape = SubResource("BoxShape3D_jhx03")
 
 [node name="RighBorder" type="CollisionShape3D" parent="WorldBorders"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
-shape = SubResource("WorldBoundaryShape3D_q5onr")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.5, 15, 0)
+shape = SubResource("BoxShape3D_o8fc1")
 
 [node name="BackBorder" type="CollisionShape3D" parent="WorldBorders"]
-shape = SubResource("WorldBoundaryShape3D_jhx03")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.5)
+shape = SubResource("BoxShape3D_xo05s")
 
 [node name="LeftTopBorder" type="CollisionShape3D" parent="WorldBorders"]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -55.54, 12, -83.821)
@@ -222,7 +250,8 @@ transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 
 shape = SubResource("BoxShape3D_7r4gi")
 
 [node name="TopBorder" type="CollisionShape3D" parent="WorldBorders"]
-shape = SubResource("WorldBoundaryShape3D_dss4m")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, -38.5)
+shape = SubResource("BoxShape3D_dss4m")
 
 [node name="BottomBorder" type="CollisionShape3D" parent="WorldBorders"]
 shape = SubResource("WorldBoundaryShape3D_7t5mc")
@@ -230,7 +259,7 @@ disabled = true
 debug_fill = false
 
 [node name="SpawnManager" parent="." instance=ExtResource("9_7r4gi")]
-total_waves = 10
+total_waves = 1
 
 [node name="GalagaCameraPos" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 16.5, -13.25)

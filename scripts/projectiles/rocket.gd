@@ -23,13 +23,6 @@ func _physics_process(delta: float) -> void:
 
     rotation_quat *= Quaternion(Vector3.UP, TAU * 3 * delta)
 
-    if Globals.game_mode == Globals.GameMode.GALAGA:
-        if position.x < -30 or position.x > 30 or position.z > 2 or position.z < -45:
-            return_to_pool()
-    else:
-        if position.x < -25 or position.x > 25 or position.z < position.x - 53:
-            return_to_pool()
-
     wings.rotation = wings.basis.get_rotation_quaternion().slerp(rotation_quat, 1.0).get_euler()
 
 

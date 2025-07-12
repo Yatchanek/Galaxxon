@@ -24,5 +24,6 @@ func set_muzzles():
 			muzzle.position.x = -interval * ((muzzle_count - 1) / 2) + i * interval
 			if muzzle_count > 2 and spread_fire:
 				muzzle.rotate_y(((muzzle_count - 1) / 2) * PI / 16 -  i * PI / 16)
-			add_child(muzzle)	
+			add_child(muzzle)
+			
 	bullet_power = power_level / 4 + 1

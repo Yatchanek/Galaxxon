@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://42m5coqfeveg"]
+[gd_scene load_steps=33 format=3 uid="uid://42m5coqfeveg"]
 
 [ext_resource type="Script" uid="uid://80aaxx0ho1tj" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://scenes/weapons/pulse_cannon.tscn" id="3_i3pqv"]
@@ -13,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="10_d2wvv"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_fjrip"]
-top_radius = 0.4
 bottom_radius = 0.8
 height = 4.0
 
@@ -22,8 +21,13 @@ albedo_color = Color(0.306923, 0.306923, 0.306923, 1)
 metallic = 0.4
 roughness = 0.5
 
+[sub_resource type="PrismMesh" id="PrismMesh_d2wvv"]
+left_to_right = 0.0
+size = Vector3(2.5, 3, 0.25)
+
 [sub_resource type="PrismMesh" id="PrismMesh_fj7yv"]
-size = Vector3(5, 3, 0.25)
+left_to_right = 1.0
+size = Vector3(2.5, 3, 0.25)
 
 [sub_resource type="PrismMesh" id="PrismMesh_fjrip"]
 left_to_right = 0.0
@@ -124,7 +128,13 @@ skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_fjrip")
 
 [node name="Wings" type="MeshInstance3D" parent="BodyPivot"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(0.984808, -6.64077e-10, 0.173648, -0.173648, -7.5904e-09, 0.984808, 6.64077e-10, -1, -7.5904e-09, 1.5, 0.025, 0.27)
+material_override = ExtResource("6_smehm")
+mesh = SubResource("PrismMesh_d2wvv")
+skeleton = NodePath("../Body")
+
+[node name="Wings2" type="MeshInstance3D" parent="BodyPivot"]
+transform = Transform3D(0.984808, 6.64077e-10, -0.173648, 0.173648, -7.5904e-09, 0.984808, -6.64077e-10, -1, -7.5904e-09, -1.5, 0.025, 0.27)
 mesh = SubResource("PrismMesh_fj7yv")
 skeleton = NodePath("../Body")
 surface_material_override/0 = ExtResource("6_smehm")
