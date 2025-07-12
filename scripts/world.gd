@@ -60,6 +60,8 @@ func spawn_explosion(enemy : Enemy):
 	var explosion : GPUParticles3D = explosion_scene.instantiate()
 	explosion.amount = randi_range(16, 24)
 	explosion.position = enemy.global_position
+	if enemy is FirstBoss:
+		explosion.scale = Vector3(2.25, 2.25, 2.25)
 	add_child(explosion)
 	if enemy.carries_powerup:
 		explosion.finished.connect(spawn_powerup.bind(enemy.global_position, enemy.powerup_type, enemy.powerup_weapon_type))
@@ -122,8 +124,7 @@ func _on_player_died():
 	await get_tree().create_timer(2.0).timeout
 	remove_bullets()
 	Globals.game_mode = Globals.GameMode.GALAGA
-	Globals.RNG.seed = 05152015
-	Globals.POWERUP_RNG.seed = 05152015
+	Globals.reset_rng()
 	get_tree().reload_current_scene()
 
 

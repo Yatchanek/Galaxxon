@@ -19,10 +19,11 @@ var angle : float = 0.0
 var noise_tex : Texture2D
 
 func _ready() -> void:
-    hp = 0
-    body.hide()
-    hitbox.disable()
+    hp = 100
+    #body.hide()
+    #hitbox.disable()
     EventBus.shield_hp_changed.emit(hp / max_hp * 100.0)
+    mat = body.get_surface_override_material(0)
 
 
 func recharge(amount : float):

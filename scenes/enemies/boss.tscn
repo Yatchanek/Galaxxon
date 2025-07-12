@@ -34,7 +34,7 @@ step = 0.1
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("BodyPivot/MeshInstance3D2/LaserWeapon")
+tracks/0/path = NodePath("BodyPivot/MeshInstance3D2/LeftLaser")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -51,7 +51,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("BodyPivot/MeshInstance3D3/LaserWeapon")
+tracks/1/path = NodePath("BodyPivot/MeshInstance3D3/RightLaser")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -93,7 +93,7 @@ visible = false
 script = ExtResource("1_7dnpc")
 hitbox = NodePath("Hitbox")
 hurtbox = NodePath("Hurtbox")
-hp = 2500.0
+hp = 1000.0
 score_value = 2500
 
 [node name="BodyPivot" type="Node3D" parent="."]
@@ -103,6 +103,7 @@ mesh = SubResource("BoxMesh_rvo7g")
 surface_material_override/0 = ExtResource("2_h1cus")
 
 [node name="PulseCannon" parent="BodyPivot/MeshInstance3D" instance=ExtResource("2_yye4w")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.167, -2.7)
 power_level = 3
 spread_fire = true
@@ -114,7 +115,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
 mesh = SubResource("BoxMesh_uq4kr")
 surface_material_override/0 = ExtResource("3_lia8m")
 
-[node name="LaserWeapon" parent="BodyPivot/MeshInstance3D2" instance=ExtResource("1_ian0n")]
+[node name="LeftLaser" parent="BodyPivot/MeshInstance3D2" instance=ExtResource("1_ian0n")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.75)
 is_player_weapon = false
 autostart = false
@@ -124,7 +126,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2)
 mesh = SubResource("BoxMesh_uq4kr")
 surface_material_override/0 = ExtResource("3_lia8m")
 
-[node name="LaserWeapon" parent="BodyPivot/MeshInstance3D3" instance=ExtResource("1_ian0n")]
+[node name="RightLaser" parent="BodyPivot/MeshInstance3D3" instance=ExtResource("1_ian0n")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.75)
 is_player_weapon = false
 autostart = false
@@ -146,7 +149,7 @@ shape = SubResource("BoxShape3D_h1cus")
 [node name="Hurtbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("2_ub7yk")]
 collision_layer = 64
 collision_mask = 0
-damage = 20.0
+damage = 35.0
 damage_type = 1
 damage_interval = 0.75
 actor = NodePath("..")
@@ -167,6 +170,12 @@ target_position = Vector3(2, 0, 0)
 libraries = {
 &"": SubResource("AnimationLibrary_h1cus")
 }
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 
 [editable path="Hitbox"]
 [editable path="Hurtbox"]

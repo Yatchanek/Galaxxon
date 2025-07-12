@@ -24,7 +24,7 @@ var can_blink : bool = true
 var carries_powerup : bool = false
 
 func _ready() -> void:
-	carries_powerup = Globals.POWERUP_RNG.randf() < 0.125
+	carries_powerup = Globals.POWERUP_RNG.randf() < 0.175
 	if carries_powerup:
 		set_powerup()
 	speed = Globals.scroll_speed * speed_coefficient

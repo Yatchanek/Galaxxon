@@ -25,5 +25,10 @@ var POWERUP_RNG : RandomNumberGenerator
 func _ready() -> void:
     RNG = RandomNumberGenerator.new()
     POWERUP_RNG = RandomNumberGenerator.new()
-    RNG.seed = 05152065
-    POWERUP_RNG.seed = 05152006
+    RNG.seed = 1357908
+    POWERUP_RNG.seed = 9753124
+
+
+func reset_rng():
+    RNG.seed = 1357908
+    POWERUP_RNG.seed = 9753124   

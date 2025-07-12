@@ -17,7 +17,7 @@ var powerup_type : PowerUp.PowerUpType = PowerUp.PowerUpType.PRIMARY_WEAPON
 var powerup_weapon_type : Weapon.WeaponType = Weapon.WeaponType.PULSE_CANNON
 
 func _ready() -> void:
-	carries_powerup = Globals.POWERUP_RNG.randf() < 0.125
+	carries_powerup = Globals.POWERUP_RNG.randf() < 0.175
 	if carries_powerup:
 		set_powerup()
 	for body_part : MeshInstance3D in body_parts.get_children():

@@ -106,12 +106,10 @@ func _physics_process(delta: float) -> void:
 		if direction.x != 0:
 			velocity.x = move_toward(velocity.x, direction.x * HORIZONTAL_SPEED, ACCELERATION * delta)
 			rotation_quat = Quaternion(Vector3.FORWARD, PI / 5 * direction.x)
-			#var target_transform : Transform3D = Transform3D.IDENTITY.rotated(Vector3.FORWARD, PI / 5 * direction.x)
-			#body_pivot.transform = body_pivot.transform.interpolate_with(target_transform, 0.1)
+
 		else:
 			velocity.x = move_toward(velocity.x, direction.x * HORIZONTAL_SPEED, ACCELERATION * 3.0 * delta)
 			rotation_quat = Quaternion(Vector3.FORWARD, 0)
-			#body_pivot.transform = body_pivot.transform.interpolate_with(Transform3D.IDENTITY, 0.1)
 
 		if direction.y != 0:
 			if steering_mode == SteeringMode.GALAGA:
@@ -158,6 +156,7 @@ func take_damage(amount : float):
 	if hp <= 0:
 		die()
 	else:
+		pass
 		blink()
 
 func blink():

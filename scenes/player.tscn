@@ -6,20 +6,16 @@
 [ext_resource type="PackedScene" uid="uid://kn6jwqy71lme" path="res://scenes/weapons/rocket_launcher.tscn" id="5_sweqy"]
 [ext_resource type="Script" uid="uid://dufaoa4a0ltqi" path="res://scripts/components/hitbox.gd" id="5_tuyoq"]
 [ext_resource type="PackedScene" uid="uid://br7xolltkcw1r" path="res://scenes/weapons/vulcan_cannon.tscn" id="6_fjrip"]
+[ext_resource type="Material" uid="uid://b6p5pbojykn45" path="res://resources/materials/grey_metallic_material.tres" id="6_jej6c"]
 [ext_resource type="Material" uid="uid://8n56rfwyy6kn" path="res://resources/materials/yellow_material.tres" id="6_smehm"]
-[ext_resource type="Material" uid="uid://cothpdxipjw2v" path="res://resources/materials/dark_green_material.tres" id="7_ur7pv"]
 [ext_resource type="Script" uid="uid://cwv7dq0rcps82" path="res://scripts/components/shield.gd" id="9_d2wvv"]
+[ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="9_f1ej7"]
 [ext_resource type="Shader" uid="uid://iokt1hpq5o6d" path="res://resources/shaders/shield.gdshader" id="9_y4r1p"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="10_d2wvv"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_fjrip"]
 bottom_radius = 0.8
 height = 4.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fjrip"]
-albedo_color = Color(0.306923, 0.306923, 0.306923, 1)
-metallic = 0.4
-roughness = 0.5
 
 [sub_resource type="PrismMesh" id="PrismMesh_d2wvv"]
 left_to_right = 0.0
@@ -125,13 +121,13 @@ weapon_scenes = Dictionary[int, PackedScene]({
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_fjrip")
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_fjrip")
+surface_material_override/0 = ExtResource("6_jej6c")
 
 [node name="Wings" type="MeshInstance3D" parent="BodyPivot"]
 transform = Transform3D(0.984808, -6.64077e-10, 0.173648, -0.173648, -7.5904e-09, 0.984808, 6.64077e-10, -1, -7.5904e-09, 1.5, 0.025, 0.27)
-material_override = ExtResource("6_smehm")
 mesh = SubResource("PrismMesh_d2wvv")
 skeleton = NodePath("../Body")
+surface_material_override/0 = ExtResource("6_smehm")
 
 [node name="Wings2" type="MeshInstance3D" parent="BodyPivot"]
 transform = Transform3D(0.984808, 6.64077e-10, -0.173648, 0.173648, -7.5904e-09, 0.984808, -6.64077e-10, -1, -7.5904e-09, -1.5, 0.025, 0.27)
@@ -142,7 +138,7 @@ surface_material_override/0 = ExtResource("6_smehm")
 [node name="Tail" type="MeshInstance3D" parent="BodyPivot"]
 transform = Transform3D(-0.0502269, 0, 0.998738, 0, 1, 0, -0.998738, 0, -0.0502269, -0.00313649, 1.02971, 1.00134)
 mesh = SubResource("PrismMesh_fjrip")
-surface_material_override/0 = ExtResource("7_ur7pv")
+surface_material_override/0 = ExtResource("9_f1ej7")
 
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.1

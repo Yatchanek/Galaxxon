@@ -11,8 +11,9 @@ func upgrade():
 	super()
 	set_muzzles()
 
-func change_spread():
-	spread_fire = !spread_fire
+func set_spread(active : bool):
+	spread_fire = active
+	set_muzzles()
 
 
 func set_muzzles():
