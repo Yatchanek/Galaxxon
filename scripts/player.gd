@@ -91,9 +91,10 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
 	rotation_quat = body_pivot.basis.get_rotation_quaternion()
-
-	for body_part : MeshInstance3D in body_pivot.get_children():
-		body_colors.append(body_part.get_surface_override_material(0).albedo_color)
+	for surface : int in $BodyPivot/Body.get_surface_override_material_count():
+		body_colors.append($BodyPivot/Body.get_surface_override_material(surface).albedo_color)
+	# for body_part : MeshInstance3D in body_pivot.get_children():
+	# 	body_colors.append(body_part.get_surface_override_material(0).albedo_color)
 	current_weapon = main_weapon_slot.get_child(0)
 	hp = max_hp
 	EventBus.player_hp_changed.emit(hp / max_hp * 100.0)
@@ -162,11 +163,15 @@ func take_damage(amount : float):
 func blink():
 	if !can_blink: 
 		return
-	for i in body_pivot.get_child_count():
-		var body_part : MeshInstance3D = body_pivot.get_child(i)
+	for surface : int in $BodyPivot/Body.get_surface_override_material_count():
 		var tw : Tween = create_tween()
-		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", Color.RED, 0.1)
-		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", body_colors[i], 0.1)
+		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "albedo_color", Color.RED, 0.1)
+		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "albedo_color", body_colors[surface], 0.1)		
+	# for i in body_pivot.get_child_count():
+	# 	var body_part : MeshInstance3D = body_pivot.get_child(i)
+	# 	var tw : Tween = create_tween()
+	# 	tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", Color.RED, 0.1)
+	# 	tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", body_colors[i], 0.1)
 
 		tw.finished.connect(func(): can_blink = true)
 
