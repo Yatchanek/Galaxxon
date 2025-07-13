@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://42m5coqfeveg"]
+[gd_scene load_steps=34 format=3 uid="uid://42m5coqfeveg"]
 
 [ext_resource type="Script" uid="uid://80aaxx0ho1tj" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://scenes/weapons/pulse_cannon.tscn" id="3_i3pqv"]
@@ -12,6 +12,7 @@
 [ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="9_f1ej7"]
 [ext_resource type="Shader" uid="uid://iokt1hpq5o6d" path="res://resources/shaders/shield.gdshader" id="9_y4r1p"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="10_d2wvv"]
+[ext_resource type="Script" uid="uid://brtodd45brrv0" path="res://scripts/components/shield_hitbox.gd" id="13_jej6c"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_fjrip"]
 bottom_radius = 0.8
@@ -91,12 +92,15 @@ seamless = true
 noise = SubResource("FastNoiseLite_jej6c")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oprun"]
-resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("9_y4r1p")
 shader_parameter/shield_color = Color(0, 1, 1, 1)
+shader_parameter/hit_shield_color = Vector4(1, 1, 1, 1)
 shader_parameter/noise_tex = SubResource("NoiseTexture2D_f1ej7")
-shader_parameter/alpha_threshold = 0.5
+shader_parameter/alpha_threshold = 0.25
+shader_parameter/shot_direction = Vector3(0, 0, 0)
+shader_parameter/albedo_color = Vector3(1, 1, 1)
+shader_parameter/is_hit = false
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_d2wvv"]
 radius = 3.5
@@ -159,7 +163,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75, 0, -0.5)
 
 [node name="Hitbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
 collision_layer = 0
-collision_mask = 64
+collision_mask = 192
 monitorable = false
 script = ExtResource("5_tuyoq")
 actor = NodePath("..")
@@ -197,6 +201,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_oprun")
 collision_layer = 0
 collision_mask = 64
 monitorable = false
+script = ExtResource("13_jej6c")
 actor = NodePath("..")
 
 [node name="CollisionShape3D" parent="Shield/Hitbox" index="0"]

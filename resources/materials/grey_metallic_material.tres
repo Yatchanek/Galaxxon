@@ -2,6 +2,7 @@
 
 [resource]
 resource_local_to_scene = true
+cull_mode = 2
 albedo_color = Color(0.281187, 0.281187, 0.281187, 1)
 metallic = 0.5
 roughness = 0.5

@@ -28,7 +28,7 @@ func create_obstacles():
     
 
 func _physics_process(delta: float) -> void:
-    position.z += Globals.scroll_speed * 2.0 * delta
+    position.z += Globals.scroll_speed * 2.5 * delta
     if position.z >= 490:
         queue_free()
 
