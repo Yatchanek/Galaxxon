@@ -1,17 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://jio4jnlmcbf2"]
+[gd_scene load_steps=12 format=3 uid="uid://jio4jnlmcbf2"]
 
 [ext_resource type="Script" uid="uid://bc88jdevxu1bt" path="res://scripts/enemies/diagonal_enemy.gd" id="1_l1rku"]
+[ext_resource type="ArrayMesh" uid="uid://cxe28hw3crajx" path="res://resources/enemy_2.res" id="2_7346a"]
 [ext_resource type="Material" uid="uid://cothpdxipjw2v" path="res://resources/materials/dark_green_material.tres" id="2_l4qja"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="3_l4qja"]
 [ext_resource type="Material" uid="uid://k4je6fqs1vlc" path="res://resources/materials/blue_material.tres" id="3_skeds"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="4_5thxe"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_jlhdv"]
-radius = 1.0
-height = 1.5
-
-[sub_resource type="PrismMesh" id="PrismMesh_gal11"]
-size = Vector3(4, 4, 0.3)
+[ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="5_4l4xq"]
+[ext_resource type="Material" uid="uid://b6p5pbojykn45" path="res://resources/materials/grey_metallic_material.tres" id="6_3omks"]
+[ext_resource type="Material" uid="uid://bevt7q662s8p8" path="res://resources/materials/black_material.tres" id="7_1pwl4"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l4qja"]
 size = Vector3(1.5, 1, 2.8)
@@ -26,19 +23,17 @@ hitbox = NodePath("Hitbox")
 hurtbox = NodePath("Hurtbox")
 hp = 35.0
 score_value = 150
-body_colors = Array[Color]([Color(0, 0.382375, 5.29438e-07, 1), Color(0.359332, 0.557774, 1, 1)])
 
 [node name="BodyPivot" type="Node3D" parent="."]
 
 [node name="Body" type="MeshInstance3D" parent="BodyPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.5)
-mesh = SubResource("SphereMesh_jlhdv")
-surface_material_override/0 = ExtResource("2_l4qja")
-
-[node name="Wings" type="MeshInstance3D" parent="BodyPivot"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
-mesh = SubResource("PrismMesh_gal11")
-surface_material_override/0 = ExtResource("3_skeds")
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0.5)
+mesh = ExtResource("2_7346a")
+surface_material_override/0 = ExtResource("6_3omks")
+surface_material_override/1 = ExtResource("3_skeds")
+surface_material_override/2 = ExtResource("5_4l4xq")
+surface_material_override/3 = ExtResource("2_l4qja")
+surface_material_override/4 = ExtResource("7_1pwl4")
 
 [node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
 collision_layer = 64

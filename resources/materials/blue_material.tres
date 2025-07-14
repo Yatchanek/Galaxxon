@@ -3,5 +3,3 @@
 [resource]
 resource_local_to_scene = true
 albedo_color = Color(1.34766e-06, 0.331335, 0.435599, 1)
-metallic_specular = 0.6
-roughness = 0.6

@@ -12,6 +12,11 @@ func _ready() -> void:
 	desired_velocity = velocity
 	turn_threshold = randf_range(-25.0, -10.0)
 
+
+func set_colors():
+	for surface : int in $BodyPivot/Body.get_surface_override_material_count():
+		body_colors.append($BodyPivot/Body.get_surface_override_material(surface).albedo_color)
+
 func _physics_process(delta: float) -> void:
 	elapsed_time += delta
 	if turned:
@@ -26,15 +31,27 @@ func _physics_process(delta: float) -> void:
 	if !turned and elapsed_time > 2.0 and position.y > turn_threshold:
 		turned = true
 		if position.x >= 0:
-			desired_velocity = velocity.rotated(Vector3.UP, -PI / 2.5)
-			rotation_quat = Quaternion(Vector3.UP, -PI / 2.5) * Quaternion(Vector3.FORWARD, PI / 3)
+			desired_velocity = velocity.rotated(Vector3.UP, -PI / 3)
+			rotation_quat = Quaternion(Vector3.UP, -PI / 3) * Quaternion(Vector3.FORWARD, PI / 3)
 		else:
-			desired_velocity = velocity.rotated(Vector3.UP, PI / 2.5)
-			rotation_quat = Quaternion(Vector3.UP, PI / 2.5)  * Quaternion(Vector3.FORWARD, -PI / 3)
+			desired_velocity = velocity.rotated(Vector3.UP, PI / 3)
+			rotation_quat = Quaternion(Vector3.UP, PI / 3)  * Quaternion(Vector3.FORWARD, -PI / 3)
 
 
 	if position.z > 5 or position.x < -35 or position.x > 35:
 		queue_free()
+
+
+func blink():
+	if !can_blink:
+		return
+	for surface : int in $BodyPivot/Body.get_surface_override_material_count():
+		var tw : Tween = create_tween()
+		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "albedo_color", Color.WHITE, 0.1)
+		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "albedo_color", body_colors[surface], 0.1)		
+
+		if surface == $BodyPivot/Body.get_surface_override_material_count() - 1:
+			tw.finished.connect(func(): can_blink = true)
 
 
 func die():

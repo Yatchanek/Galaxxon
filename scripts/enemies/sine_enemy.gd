@@ -12,6 +12,11 @@ func _ready() -> void:
 	super()
 	set_process(turning)
 
+
+func set_colors():
+	for surface : int in $BodyPivot/Body.get_surface_override_material_count():
+		body_colors.append($BodyPivot/Body.get_surface_override_material(surface).albedo_color)
+
 func _process(delta: float) -> void:
 	angle += delta * 4.0
 
@@ -40,6 +45,18 @@ func _physics_process(delta: float) -> void:
 
 	if position.x > 35 or position.x < -35 or position.z > 5:
 		queue_free()
+
+
+func blink():
+	if !can_blink:
+		return
+	for surface : int in $BodyPivot/Body.get_surface_override_material_count():
+		var tw : Tween = create_tween()
+		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "albedo_color", Color.WHITE, 0.1)
+		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "albedo_color", body_colors[surface], 0.1)		
+
+		if surface == $BodyPivot/Body.get_surface_override_material_count() - 1:
+			tw.finished.connect(func(): can_blink = true)
 
 func die():
 	EventBus.enemy_destroyed.emit(self)
