@@ -22,7 +22,7 @@ func _ready() -> void:
         actor = get_parent()
 
 func destroy():
-    if actor is Projectile:
+    if actor is Projectile and !actor is SonicWave:
         actor.return_to_pool()
 
 func set_size(size : Vector3):

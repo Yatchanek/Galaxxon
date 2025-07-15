@@ -70,7 +70,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.5, 16.3151, 0)
 mesh = SubResource("BoxMesh_v3sr0")
 
 [node name="Hurtbox" type="Area3D" parent="UpperBody" node_paths=PackedStringArray("actor")]
-collision_layer = 128
+collision_layer = 16
 collision_mask = 0
 monitoring = false
 script = ExtResource("3_e6053")
@@ -85,7 +85,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.5, 3.36414, 0)
 mesh = SubResource("BoxMesh_e6053")
 
 [node name="Hurtbox" type="Area3D" parent="BottomBody" node_paths=PackedStringArray("actor")]
-collision_layer = 128
+collision_layer = 16
 collision_mask = 0
 monitoring = false
 script = ExtResource("3_e6053")
@@ -102,6 +102,7 @@ mesh = SubResource("BoxMesh_nvvid")
 script = ExtResource("5_e6053")
 
 [node name="Body" type="StaticBody3D" parent="."]
+collision_mask = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)

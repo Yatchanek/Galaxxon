@@ -18,9 +18,9 @@ var type : BulletPool.BulletType
 
 func adjust_collision(is_player_bullet : bool):
     if is_player_bullet:
-        hurtbox.collision_layer = 32
+        hurtbox.collision_layer = 16
     else:
-        hurtbox.collision_layer = 64
+        hurtbox.collision_layer = 32
 
 
 func initialize(_type : BulletPool.BulletType, _speed : float, _power_level : int, is_player_bullet : bool, _from_sub_weapon : bool):

@@ -52,7 +52,7 @@ is_player_weapon = false
 
 [node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.5)
-collision_layer = 64
+collision_layer = 16
 collision_mask = 0
 monitoring = false
 script = ExtResource("3_dhunw")
@@ -64,6 +64,7 @@ shape = SubResource("BoxShape3D_rj5pj")
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("3_bghml")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.9738e-14, -0.5)
+collision_layer = 8
 collision_mask = 32
 actor = NodePath("..")
 

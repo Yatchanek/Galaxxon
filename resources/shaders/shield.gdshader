@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_mix, depth_draw_opaque;
+render_mode blend_mix, cull_disabled, depth_draw_opaque;
 
 uniform vec4 shield_color : source_color;
 uniform vec4 hit_shield_color = vec4(1.0, 1.0, 1.0, 1.0);
@@ -15,7 +15,7 @@ void fragment() {
 	uv.x += 0.05 * TIME;
 	uv.y -= 0.05 * TIME;
 	float noise = texture(noise_tex, uv).r;
-	if (is_hit) {
+	if (is_hit && FRONT_FACING) {
 		vec3 world_normal = (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
 		float dot_product = dot(world_normal, shot_direction);
 		dot_product = (dot_product + 1.0) * 0.5;

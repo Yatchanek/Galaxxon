@@ -15,7 +15,7 @@ size = Vector3(1.5, 1, 2.8)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1c0am"]
 resource_local_to_scene = true
-size = Vector3(4, 0.5, 2.5)
+size = Vector3(4, 0.900879, 2.5)
 
 [node name="DiagonalEnemy" type="Node3D" node_paths=PackedStringArray("hitbox", "hurtbox")]
 script = ExtResource("1_l1rku")
@@ -36,7 +36,7 @@ surface_material_override/3 = ExtResource("2_l4qja")
 surface_material_override/4 = ExtResource("7_1pwl4")
 
 [node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
-collision_layer = 64
+collision_layer = 16
 collision_mask = 0
 monitoring = false
 script = ExtResource("4_5thxe")
@@ -48,11 +48,12 @@ shape = SubResource("BoxShape3D_l4qja")
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("3_l4qja")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.5)
+collision_layer = 8
 collision_mask = 32
 actor = NodePath("..")
 
 [node name="CollisionShape3D" parent="Hitbox" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.098877, -0.5)
 shape = SubResource("BoxShape3D_1c0am")
 
 [editable path="Hitbox"]

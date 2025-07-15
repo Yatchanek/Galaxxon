@@ -3,7 +3,8 @@ extends Node3D
 enum BulletType {
 	BASIC_BULLET,
 	EXPLOSIVE_BULLET,
-	ROCKET
+	ROCKET,
+	SONIC_WAVE
 }
 
 @export var bullet_scenes : Dictionary[BulletType, PackedScene] = {}

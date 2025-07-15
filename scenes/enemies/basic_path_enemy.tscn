@@ -33,10 +33,12 @@ mesh = SubResource("CapsuleMesh_y4rbu")
 surface_material_override/0 = ExtResource("4_5rf0k")
 
 [node name="Hurtbox" parent="." index="1" node_paths=PackedStringArray("actor")]
+collision_layer = 16
 damage = 10.0
 actor = NodePath("..")
 
 [node name="Hitbox" parent="." index="2" node_paths=PackedStringArray("actor")]
+collision_layer = 8
 actor = NodePath("..")
 
 [node name="CollisionShape3D" parent="Hitbox" index="0"]

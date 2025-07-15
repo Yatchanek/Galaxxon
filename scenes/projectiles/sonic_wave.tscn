@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://b10sqkan6u4w5"]
+
+[ext_resource type="Script" uid="uid://bk2x1xyl76wpx" path="res://scripts/projectiles/sonic_wave.gd" id="1_o7gk7"]
+[ext_resource type="Shader" uid="uid://bvwpn6qq7n5m3" path="res://sonic_wave.gdshader" id="1_ylbuq"]
+[ext_resource type="PackedScene" uid="uid://cp5rswyvstmo4" path="res://scenes/components/hurtbox.tscn" id="2_o7gk7"]
+[ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="3_1iebk"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_trw25"]
+radius = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3f6oi"]
+render_priority = 0
+shader = ExtResource("1_ylbuq")
+shader_parameter/direction = Vector3(1, 0, 1)
+shader_parameter/albedo_color = Color(0, 0.362406, 0.429376, 1)
+shader_parameter/is_hit = false
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mdfvq"]
+resource_local_to_scene = true
+size = Vector3(2.8, 0.5, 0.5)
+
+[node name="SonicWave" type="Node3D"]
+script = ExtResource("1_o7gk7")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.4, 0, 0, 0)
+mesh = SubResource("SphereMesh_trw25")
+surface_material_override/0 = SubResource("ShaderMaterial_3f6oi")
+
+[node name="Hurtbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("2_o7gk7")]
+damage = 5.0
+actor = NodePath("..")
+
+[node name="CollisionShape3D" parent="Hurtbox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00110626, -0.036499, -0.270309)
+
+[node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("3_1iebk")]
+collision_layer = 1
+collision_mask = 1
+actor = NodePath("..")
+
+[node name="CollisionShape3D" parent="Hitbox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2)
+shape = SubResource("BoxShape3D_mdfvq")
+
+[editable path="Hurtbox"]
+[editable path="Hitbox"]

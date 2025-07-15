@@ -48,7 +48,7 @@ actor = NodePath("..")
 shape = SubResource("BoxShape3D_t4vbm")
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("4_i2bxc")]
-collision_layer = 1
+collision_layer = 0
 collision_mask = 1
 actor = NodePath("..")
 

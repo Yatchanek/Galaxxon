@@ -29,6 +29,15 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="viewport"
 
+[layer_names]
+
+3d_physics/layer_1="Borders & Environment"
+3d_physics/layer_3="Player hitbox"
+3d_physics/layer_4="Enemy hitboxes"
+3d_physics/layer_5="Enemy hurtboxes"
+3d_physics/layer_6="Player hurtboxes"
+3d_physics/layer_7="Pickups"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

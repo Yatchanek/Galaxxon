@@ -138,7 +138,7 @@ mesh = SubResource("CapsuleMesh_7dnpc")
 surface_material_override/0 = ExtResource("5_jc8i4")
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("1_3uc6t")]
-collision_layer = 0
+collision_layer = 8
 collision_mask = 32
 monitorable = false
 actor = NodePath("..")
@@ -147,7 +147,7 @@ actor = NodePath("..")
 shape = SubResource("BoxShape3D_h1cus")
 
 [node name="Hurtbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("2_ub7yk")]
-collision_layer = 64
+collision_layer = 16
 collision_mask = 0
 damage = 35.0
 damage_type = 1

@@ -176,6 +176,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, -17)
 mesh = SubResource("PlaneMesh_f3sb7")
 
 [node name="WorldBorders" type="StaticBody3D" parent="."]
+collision_mask = 4
 
 [node name="LeftBorder" type="CollisionShape3D" parent="WorldBorders"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 15, 0)
