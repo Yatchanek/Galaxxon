@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://batytms2gpn6j"]
+
+[ext_resource type="Script" uid="uid://dhyyi67qptonr" path="res://scripts/weapons/sonic_cannon.gd" id="1_7efp3"]
+
+[node name="SonicCannon" type="Node3D"]
+script = ExtResource("1_7efp3")
+bullet_type = 3
+fire_rate = 0.3
+bullet_speed = 60

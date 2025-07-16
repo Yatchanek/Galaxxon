@@ -32,10 +32,10 @@ func _physics_process(delta: float) -> void:
 		turned = true
 		if position.x >= 0:
 			desired_velocity = velocity.rotated(Vector3.UP, -PI / 3)
-			rotation_quat = Quaternion(Vector3.UP, -PI / 3) * Quaternion(Vector3.FORWARD, PI / 3)
+			rotation_quat = Quaternion(Vector3.UP, -PI / 3) * Quaternion(Vector3.FORWARD, PI / 6)
 		else:
 			desired_velocity = velocity.rotated(Vector3.UP, PI / 3)
-			rotation_quat = Quaternion(Vector3.UP, PI / 3)  * Quaternion(Vector3.FORWARD, -PI / 3)
+			rotation_quat = Quaternion(Vector3.UP, PI / 3)  * Quaternion(Vector3.FORWARD, -PI / 6)
 
 
 	if position.z > 5 or position.x < -35 or position.x > 35:

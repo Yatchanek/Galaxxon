@@ -26,4 +26,4 @@ func set_muzzles():
 				muzzle.rotate_y(((muzzle_count - 1) / 2) * PI / 16 -  i * PI / 16)
 			add_child(muzzle)
 			
-	bullet_power = power_level / 4 + 1
+	bullet_power = (power_level - 1) / 3 + 1

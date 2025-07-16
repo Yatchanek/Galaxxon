@@ -17,14 +17,16 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Globals="*res://scripts/autoloads/globals.gd"
 BulletPool="*res://scenes/autoloads/bullet_pool.tscn"
+Globals="*res://scripts/autoloads/globals.gd"
+Enums="*res://scripts/autoloads/enums.gd"
 EventBus="*res://scripts/autoloads/event_bus.gd"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/mode=4
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="viewport"
@@ -32,6 +34,7 @@ window/stretch/mode="viewport"
 [layer_names]
 
 3d_physics/layer_1="Borders & Environment"
+3d_physics/layer_2="Environment hurtboxes"
 3d_physics/layer_3="Player hitbox"
 3d_physics/layer_4="Enemy hitboxes"
 3d_physics/layer_5="Enemy hurtboxes"

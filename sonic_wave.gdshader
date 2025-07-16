@@ -10,12 +10,16 @@ void fragment() {
 
 	vec3 world_normal = (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
 	float dot_product = dot(world_normal, direction);
-	if (dot_product > 0.1 && FRONT_FACING || dot_product < -0.1	 && !FRONT_FACING) {
-		ALBEDO = albedo_color.rgb * 2.0;
-			dot_product  = abs(dot_product) + 1.0;
-			dot_product *= 0.5;
-			ALPHA = smoothstep(0.5, 1.0, dot_product);	
-
+	if (dot_product > 0.1 && FRONT_FACING || dot_product < -0.1 && ! FRONT_FACING) {
+		ALBEDO = albedo_color.rgb * 1.5;
+		dot_product  = abs(dot_product) + 1.0;
+		dot_product *= 0.5;
+		float max_alpha = 0.65;
+		if (!FRONT_FACING) {
+			max_alpha = 0.25;
+		}
+			
+		ALPHA = min(smoothstep(0.4, 1.0, dot_product), max_alpha);	
 		
 	}
 	else {

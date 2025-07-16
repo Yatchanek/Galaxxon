@@ -76,7 +76,7 @@ func spawn_explosion_on_moving_element(element : Node3D, building : Building, ex
 	if building.carries_powerup:
 		explosion.finished.connect(spawn_powerup_on_moving_element.bind(building.position + Vector3.UP * 3, building.powerup_type, building.powerup_weapon_type, element))
 
-func spawn_powerup(pos : Vector3, powerup_type : PowerUp.PowerUpType, weapon_type : Weapon.WeaponType):
+func spawn_powerup(pos : Vector3, powerup_type : PowerUp.PowerUpType, weapon_type : Enums.WeaponType):
 	
 	var powerup : PowerUp = powerup_scene.instantiate()
 	powerup.position = pos
@@ -86,7 +86,7 @@ func spawn_powerup(pos : Vector3, powerup_type : PowerUp.PowerUpType, weapon_typ
 
 	add_child.call_deferred(powerup)
 
-func spawn_powerup_on_moving_element(pos : Vector3, powerup_type : PowerUp.PowerUpType, weapon_type : Weapon.WeaponType, element : Node3D):
+func spawn_powerup_on_moving_element(pos : Vector3, powerup_type : PowerUp.PowerUpType, weapon_type : Enums.WeaponType, element : Node3D):
 	var powerup : PowerUp = powerup_scene.instantiate()
 	powerup.position = pos
 	powerup.powerup_type = powerup_type
@@ -135,6 +135,7 @@ func _on_waves_ended():
 	tw.set_parallel()
 	tw.tween_property(player, "position:z", 0.0, 1.0)
 	tw.tween_property(player, "position:x", 0.0, 1.0)
+	
 	tw.tween_property(player, "transform", Transform3D.IDENTITY, 1.0)
 	if Globals.game_mode == Globals.GameMode.GALAGA:
 		tw.tween_property(galaga_camera, "transform", $ZaxxonCameraPos.transform, 1.0)
@@ -148,7 +149,7 @@ func _on_waves_ended():
 		back_border.position.z = 40.5
 	else:
 		tw.tween_property(galaga_camera, "transform", $GalagaCameraPos.transform, 1.0)
-	
+		tw.tween_property(player, "position:y", 0.0, 1.0)
 		tw.tween_property(self, "flow_speed", 5.0/60, 1.0)
 		tw.tween_property(bkg.mesh, "size", Vector2(80.0, 60.0), 1.0)		
 	

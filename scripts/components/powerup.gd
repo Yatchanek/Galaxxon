@@ -10,10 +10,10 @@ enum PowerUpType {
 
 
 @export var powerup_type : PowerUpType = PowerUpType.PRIMARY_WEAPON
-@export var weapon_type : Weapon.WeaponType
+@export var weapon_type : Enums.WeaponType
 
-@export var weapon_materials : Dictionary[Weapon.WeaponType, Resource] = {}
-@export var weapon_texts : Dictionary[Weapon.WeaponType, String] = {}
+@export var weapon_materials : Dictionary[Enums.WeaponType, Resource] = {}
+@export var weapon_texts : Dictionary[Enums.WeaponType, String] = {}
 @export var other_materials : Dictionary[PowerUpType, Resource] = {}
 @export var other_texts : Dictionary[PowerUpType, String] = {}
 

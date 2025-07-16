@@ -1,29 +1,21 @@
-[gd_scene load_steps=14 format=3 uid="uid://dx0062o1xecke"]
+[gd_scene load_steps=15 format=3 uid="uid://dx0062o1xecke"]
 
 [ext_resource type="Script" uid="uid://bpxyhdjlrtdto" path="res://scripts/components/powerup.gd" id="1_soxr7"]
+[ext_resource type="Material" uid="uid://8n56rfwyy6kn" path="res://resources/materials/yellow_material.tres" id="2_82p6x"]
 [ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="2_q8oqy"]
+[ext_resource type="Material" uid="uid://cjlaj4uc5223w" path="res://resources/materials/green_material.tres" id="3_fc0vg"]
+[ext_resource type="Material" uid="uid://k4je6fqs1vlc" path="res://resources/materials/blue_material.tres" id="4_dwfa1"]
 [ext_resource type="Material" uid="uid://bevt7q662s8p8" path="res://resources/materials/black_material.tres" id="4_qs3vn"]
 [ext_resource type="FontFile" uid="uid://cwcwuijx2mhrk" path="res://resources/fonts/Orbitron-VariableFont_wght.ttf" id="6_17mjw"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qs3vn"]
-resource_local_to_scene = true
-albedo_color = Color(1, 0.6, 0, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qo23h"]
-resource_local_to_scene = true
-albedo_color = Color(0, 0.596512, 3.85046e-07, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_17mjw"]
-resource_local_to_scene = true
-albedo_color = Color(1.34766e-06, 0.331335, 0.435599, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t2ywf"]
-resource_local_to_scene = true
-albedo_color = Color(0.690196, 0, 0, 1)
+[ext_resource type="Material" uid="uid://b86xh1awimn70" path="res://resources/materials/bluegreen_material.tres" id="6_jij5l"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_82p6x"]
 resource_local_to_scene = true
 albedo_color = Color(2.07, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_17mjw"]
+resource_local_to_scene = true
+albedo_color = Color(1.34766e-06, 0.331335, 0.435599, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_qs3vn"]
 resource_local_to_scene = true
@@ -49,22 +41,23 @@ depth = 0.2
 resource_local_to_scene = true
 
 [node name="Powerup" type="Area3D"]
-collision_layer = 512
+collision_layer = 64
 collision_mask = 0
 monitoring = false
 script = ExtResource("1_soxr7")
 weapon_materials = Dictionary[int, Resource]({
-0: SubResource("StandardMaterial3D_qs3vn"),
-1: SubResource("StandardMaterial3D_qo23h"),
-2: SubResource("StandardMaterial3D_17mjw"),
-3: SubResource("StandardMaterial3D_t2ywf")
+0: ExtResource("2_82p6x"),
+1: ExtResource("3_fc0vg"),
+2: ExtResource("4_dwfa1"),
+3: ExtResource("2_q8oqy"),
+4: ExtResource("6_jij5l")
 })
 weapon_texts = Dictionary[int, String]({
 0: "P",
 1: "V",
 2: "L",
 3: "R",
-4: "C"
+4: "S"
 })
 other_materials = Dictionary[int, Resource]({
 2: SubResource("StandardMaterial3D_82p6x"),
@@ -72,7 +65,7 @@ other_materials = Dictionary[int, Resource]({
 })
 other_texts = Dictionary[int, String]({
 2: "+",
-3: "S"
+3: "F"
 })
 
 [node name="Body" type="MeshInstance3D" parent="."]

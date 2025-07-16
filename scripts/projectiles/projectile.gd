@@ -5,7 +5,7 @@ class_name Projectile
 @onready var hitbox : HitBox = $Hitbox
 @onready var body : MeshInstance3D = $Body
 
-@export var base_damage : int = 1
+@export var base_damage : float = 1
 @export var speed : float = 75
 @export var from_sub_weapon : bool = false
 
@@ -13,17 +13,17 @@ var velocity : Vector3
 var power_level : int = 1
 var prev_power_level : int = 1
 
-var type : BulletPool.BulletType
+var type : Enums.BulletType
 
 
 func adjust_collision(is_player_bullet : bool):
     if is_player_bullet:
-        hurtbox.collision_layer = 16
-    else:
         hurtbox.collision_layer = 32
+    else:
+        hurtbox.collision_layer = 16
 
 
-func initialize(_type : BulletPool.BulletType, _speed : float, _power_level : int, is_player_bullet : bool, _from_sub_weapon : bool):
+func initialize(_type : Enums.BulletType, _speed : float, _power_level : int, is_player_bullet : bool, _from_sub_weapon : bool):
     type = _type
     speed = _speed
     
@@ -38,9 +38,11 @@ func initialize(_type : BulletPool.BulletType, _speed : float, _power_level : in
                 child.scale = Vector3.ONE
 
     adjust_collision(is_player_bullet)
+
     if power_level != _power_level:
         prev_power_level = power_level
         power_level = _power_level
+
     set_damage()
 
 

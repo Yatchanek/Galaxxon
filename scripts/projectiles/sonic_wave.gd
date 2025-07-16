@@ -3,6 +3,8 @@ class_name SonicWave
 
 var mat : ShaderMaterial
 
+@export var colors : Array[Color] = []
+
 func _ready() -> void:
     set_physics_process(false)
     mat = $Body.get_surface_override_material(0)
@@ -13,7 +15,7 @@ func _physics_process(delta: float) -> void:
 
 func set_damage():
     super()
-
+    mat.set_shader_parameter("albedo_color", colors[power_level - 1])
 
 
 func start():

@@ -17,7 +17,7 @@ var velocity : Vector3
 var rotation_quat : Quaternion
 
 var powerup_type : PowerUp.PowerUpType
-var powerup_weapon_type : Weapon.WeaponType
+var powerup_weapon_type : Enums.WeaponType
 
 var can_blink : bool = true
 
@@ -45,7 +45,7 @@ func set_powerup():
 		powerup_type = PowerUp.PowerUpType.SHIELD
 
 	if powerup_type <= PowerUp.PowerUpType.SECONDARY_WEAPON:	
-		powerup_weapon_type = Globals.POWERUP_RNG.randi_range(Weapon.WeaponType.PULSE_CANNON, Weapon.WeaponType.ROCKET_LAUNCHER) as Weapon.WeaponType
+		powerup_weapon_type = Globals.POWERUP_RNG.randi_range(Enums.WeaponType.PULSE_CANNON, Enums.WeaponType.SONIC_CANNON) as Enums.WeaponType
 
 func set_colors():
 	for body_part : MeshInstance3D in body_pivot.get_children():

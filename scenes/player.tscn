@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://42m5coqfeveg"]
+[gd_scene load_steps=37 format=3 uid="uid://42m5coqfeveg"]
 
 [ext_resource type="Script" uid="uid://80aaxx0ho1tj" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://scenes/weapons/pulse_cannon.tscn" id="3_i3pqv"]
@@ -15,6 +15,7 @@
 [ext_resource type="Material" uid="uid://k4je6fqs1vlc" path="res://resources/materials/blue_material.tres" id="9_oprun"]
 [ext_resource type="Shader" uid="uid://iokt1hpq5o6d" path="res://resources/shaders/shield.gdshader" id="9_y4r1p"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="10_d2wvv"]
+[ext_resource type="PackedScene" uid="uid://batytms2gpn6j" path="res://scenes/weapons/sonic_cannon.tscn" id="12_qfm1y"]
 [ext_resource type="Script" uid="uid://brtodd45brrv0" path="res://scripts/components/shield_hitbox.gd" id="13_jej6c"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_d2wvv"]
@@ -96,10 +97,10 @@ shader = ExtResource("9_y4r1p")
 shader_parameter/shield_color = Color(0, 1, 1, 1)
 shader_parameter/hit_shield_color = Vector4(1, 1, 1, 1)
 shader_parameter/noise_tex = SubResource("NoiseTexture2D_f1ej7")
-shader_parameter/alpha_threshold = 0.25
+shader_parameter/alpha_threshold = 0.35
 shader_parameter/shot_direction = Vector3(0, 0, 0)
 shader_parameter/albedo_color = Vector3(1, 1, 1)
-shader_parameter/is_hit = true
+shader_parameter/is_hit = false
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_d2wvv"]
 radius = 3.5
@@ -156,9 +157,7 @@ one_shot = true
 [node name="MainWeaponSlot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
 
-[node name="PulseCannon" parent="MainWeaponSlot" instance=ExtResource("3_i3pqv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.635082)
-bullet_type = 3
+[node name="SonicCannon" parent="MainWeaponSlot" instance=ExtResource("12_qfm1y")]
 
 [node name="SecondaryWeaponSlots" type="Node3D" parent="."]
 
@@ -170,7 +169,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75, 0, -0.5)
 
 [node name="Hitbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
 collision_layer = 0
-collision_mask = 17
+collision_mask = 19
 monitorable = false
 script = ExtResource("5_tuyoq")
 actor = NodePath("..")
@@ -213,7 +212,7 @@ skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_oprun")
 
 [node name="Hitbox" parent="Shield" node_paths=PackedStringArray("actor") instance=ExtResource("10_d2wvv")]
-collision_layer = 0
+collision_layer = 4
 monitorable = false
 script = ExtResource("13_jej6c")
 actor = NodePath("..")

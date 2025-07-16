@@ -18,32 +18,36 @@ var top_pos : float = 1.5 * mesh_scale
 var bottom_pos : float = sqrt(3) * 0.1 * mesh_scale
 
 func _ready() -> void:
-    set_process(false)
-    slit_position = Globals.RNG.randf_range(slit_height * 0.5, total_height - slit_height * 0.5)
-    if is_equal_approx(slit_position, slit_height * 0.5):
-        upper_body.hide()
-        upper_hurtbox.disable()
-    elif is_equal_approx(slit_position, total_height - slit_height * 0.5):
-        bottom_body.hide()
-        bottom_hurtbox.disable()
+	set_process(false)
+	slit_position = Globals.RNG.randf_range(slit_height * 0.5, total_height - slit_height * 0.5)
+	if is_equal_approx(slit_position, slit_height * 0.5):
+		upper_body.hide()
+		upper_hurtbox.disable()
+	elif is_equal_approx(slit_position, total_height - slit_height * 0.5):
+		bottom_body.hide()
+		bottom_hurtbox.disable()
 
-    upper_body.mesh.size.y = slit_position - slit_height * 0.5
-    upper_body.position.y = top_pos - upper_body.mesh.size.y * 0.5
-    upper_collision.shape.size = upper_body.mesh.size
-    upper_collision.position = upper_body.position
+	upper_body.mesh.size.y = slit_position - slit_height * 0.5
+	upper_body.position.y = top_pos - upper_body.mesh.size.y * 0.5
+	upper_collision.shape.size = upper_body.mesh.size
+	upper_collision.position = upper_body.position
 
-    bottom_body.mesh.size.y = total_height - slit_position - slit_height * 0.5
-    bottom_body.position.y = bottom_pos + bottom_body.mesh.size.y * 0.5
-    bottom_collision.shape.size = bottom_body.mesh.size
-    bottom_collision.position = bottom_body.position
+	bottom_body.mesh.size.y = total_height - slit_position - slit_height * 0.5
+	bottom_body.position.y = bottom_pos + bottom_body.mesh.size.y * 0.5
+	bottom_collision.shape.size = bottom_body.mesh.size
+	bottom_collision.position = bottom_body.position
 
-    if !Engine.is_editor_hint():
-        upper_hurtbox.set_size(upper_body.mesh.size)
-        bottom_hurtbox.set_size(bottom_body.mesh.size)
-        set_process(true)
+	if !Engine.is_editor_hint():
+		upper_hurtbox.set_size(upper_body.mesh.size)
+		bottom_hurtbox.set_size(bottom_body.mesh.size)
+		set_process(true)
 
 
 func _process(_delta: float) -> void:
-    if global_position.z > 6.0:
-        upper_body.mesh.material.albedo_color.a = 0.5
-        set_process(false)
+	if global_position.z > 6.0:
+		upper_body.mesh.material.albedo_color.a = 0.5
+		set_process(false)
+
+func _on_visible_on_screen_notifier_3d_screen_exited() -> void:
+	if global_position.z > 0:
+		queue_free()

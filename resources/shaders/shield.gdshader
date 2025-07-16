@@ -20,7 +20,7 @@ void fragment() {
 		float dot_product = dot(world_normal, shot_direction);
 		dot_product = (dot_product + 1.0) * 0.5;
 			ALBEDO = mix(albedo_color, shield_color.rgb, smoothstep(0.0, 0.5, dot_product));
-			ALPHA = (smoothstep(alpha_threshold, 1.0, noise) - dot_product) + 0.3;
+			ALPHA = (smoothstep(alpha_threshold, 1.0, noise) - dot_product) + 0.5;
 	}
 	else {
 		ALBEDO = mix(albedo_color, shield_color.rgb, 1.0);

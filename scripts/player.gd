@@ -21,7 +21,7 @@ const ACCELERATION : float = 100.0
 @export var rocket_launcher_scene : PackedScene
 @export var hitbox : HitBox
 
-@export var weapon_scenes : Dictionary[Weapon.WeaponType, PackedScene] = {}
+@export var weapon_scenes : Dictionary[Enums.WeaponType, PackedScene] = {}
 
 @export var body_colors : Array[Color] = []
 
@@ -167,11 +167,7 @@ func blink():
 		var tw : Tween = create_tween()
 		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "albedo_color", Color.RED, 0.1)
 		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "albedo_color", body_colors[surface], 0.1)		
-	# for i in body_pivot.get_child_count():
-	# 	var body_part : MeshInstance3D = body_pivot.get_child(i)
-	# 	var tw : Tween = create_tween()
-	# 	tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", Color.RED, 0.1)
-	# 	tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", body_colors[i], 0.1)
+
 
 		tw.finished.connect(func(): can_blink = true)
 

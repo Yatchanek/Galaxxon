@@ -6,6 +6,7 @@ enum WeaponType {
     VULCAN_CANNON,
     LASER_CANNON,
     ROCKET_LAUNCHER,
+    SONIC_CANNON,
     CIRCLE_CANNON,
 }
 

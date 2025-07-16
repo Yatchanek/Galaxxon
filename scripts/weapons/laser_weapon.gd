@@ -26,7 +26,7 @@ func _ready() -> void:
         laser.mesh.radius = 0.25
         hurtbox.damage *= 0.5
     if !is_player_weapon:
-        hurtbox.collision_layer = 64
+        hurtbox.collision_layer = 16
     max_power_level = 3
     laser.hide()
     hurtbox.disable()

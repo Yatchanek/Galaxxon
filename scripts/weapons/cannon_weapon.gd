@@ -1,7 +1,7 @@
 extends Weapon
 class_name CannonWeapon
 
-@export var bullet_type : int
+@export var bullet_type : Enums.BulletType
 
 func _ready() -> void:
 	super()

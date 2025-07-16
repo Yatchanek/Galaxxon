@@ -7,23 +7,26 @@
 
 [sub_resource type="SphereMesh" id="SphereMesh_trw25"]
 radius = 2.0
+height = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3f6oi"]
 render_priority = 0
 shader = ExtResource("1_ylbuq")
-shader_parameter/direction = Vector3(1, 0, 1)
-shader_parameter/albedo_color = Color(0, 0.362406, 0.429376, 1)
+shader_parameter/direction = Vector3(0, 0, 1)
+shader_parameter/albedo_color = Color(0, 0.443137, 0.270588, 1)
 shader_parameter/is_hit = false
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mdfvq"]
 resource_local_to_scene = true
-size = Vector3(2.8, 0.5, 0.5)
+size = Vector3(3.75, 1.41064, 0.5)
 
 [node name="SonicWave" type="Node3D"]
 script = ExtResource("1_o7gk7")
+colors = Array[Color]([Color(0, 0.443137, 0.270588, 1), Color(0, 0.443137, 0.588235, 1), Color(0.956863, 0.137255, 0.145098, 1)])
+base_damage = 0.8
 
 [node name="Body" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.4, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.6, 0, 0, 0)
 mesh = SubResource("SphereMesh_trw25")
 surface_material_override/0 = SubResource("ShaderMaterial_3f6oi")
 
@@ -32,15 +35,15 @@ damage = 5.0
 actor = NodePath("..")
 
 [node name="CollisionShape3D" parent="Hurtbox" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00110626, -0.036499, -0.270309)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.628)
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("3_1iebk")]
-collision_layer = 1
+collision_layer = 0
 collision_mask = 1
 actor = NodePath("..")
 
 [node name="CollisionShape3D" parent="Hitbox" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0350585, -0.00183107, 0.44882)
 shape = SubResource("BoxShape3D_mdfvq")
 
 [editable path="Hurtbox"]
