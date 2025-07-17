@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cgipbsu2mlfks"
-path="res://.godot/imported/block.glb-30822b96b9886207ec95ab37510d01b1.scn"
+uid="uid://svxr5su1r7cg"
+path="res://.godot/imported/wall.glb-f83d6b1c13ae339d6b116abe147ea3cd.scn"
 
 [deps]
 
-source_file="res://resources/block.glb"
-dest_files=["res://.godot/imported/block.glb-30822b96b9886207ec95ab37510d01b1.scn"]
+source_file="res://resources/wall.glb"
+dest_files=["res://.godot/imported/wall.glb-f83d6b1c13ae339d6b116abe147ea3cd.scn"]
 
 [params]
 
@@ -34,13 +34,13 @@ animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
 "meshes": {
-"block_Cylinder_006": {
+"wall_Cylinder": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 60.0,
 "save_to_file/enabled": true,
-"save_to_file/path": "res://resources/block_Cylinder_006.res"
+"save_to_file/path": "res://resources/wall_Cylinder.res"
 }
 }
 }

@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://carggi0qnfq5e"]
+
+[ext_resource type="Texture2D" uid="uid://cuffnbj12a451" path="res://images/wall_1_roughness.png" id="1_vulua"]
+
+[resource]
+albedo_color = Color(0.605274, 0.605274, 0.605274, 1)
+albedo_texture = ExtResource("1_vulua")
+metallic_specular = 0.25
+uv1_scale = Vector3(0.024, 0.025, 0.04)
+uv1_triplanar = true
+uv1_triplanar_sharpness = 125.0
+texture_filter = 2

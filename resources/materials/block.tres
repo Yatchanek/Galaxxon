@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://e6e1ug0yddkg"]
+
+[ext_resource type="Texture2D" uid="uid://cuffnbj12a451" path="res://images/wall_1_roughness.png" id="1_6hspv"]
+
+[resource]
+albedo_texture = ExtResource("1_6hspv")
+metallic_specular = 0.25
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_triplanar = true
+uv1_triplanar_sharpness = 125.0
+texture_filter = 2

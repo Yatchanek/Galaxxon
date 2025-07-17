@@ -15,15 +15,54 @@ enum LayoutType {
 var x_slots : int = 6
 var z_slots : int = 3
 
-var y_pos : float = sqrt(3) * 1.5
-var start_x : float = 5.0
+var y_pos : float = -2.0
+var start_x : int = 0
+var start_z : int = 5
 
-func spawn_section(start_z : float) -> float:
+var block_mat = preload("res://resources/materials/block.tres")
+
+var current_z : int
+
+var cell_size : Vector2 = Vector2.ONE * 10.0
+var grid_size : Vector2i = Vector2i(6, 45)
+
+var elevated_positions : Dictionary[Vector2i, float] = {}
+
+func _ready() -> void:
+    current_z = start_z
+
+func create_layout():
+    var noise : FastNoiseLite = FastNoiseLite.new()
+    noise.seed = randi()
+
+    for i in grid_size.x:
+        for j in grid_size.y:
+            if randf() > 0.03:
+                continue
+            var noise_value : float = (noise.get_noise_2d(i * 10, j * 10) + 1.0) * 0.5
+
+            var block : MeshInstance3D = MeshInstance3D.new()
+            block.mesh = BoxMesh.new()
+            block.mesh.size = Vector3(cell_size.x, noise_value * 15.0, cell_size.y)
+
+            block.position = Vector3(-25 + i * cell_size.x, y_pos + block.mesh.size.y * 0.5, -start_z * cell_size.y - j * cell_size.y)
+            block.mesh.material = block_mat
+
+            spawn_target.add_child.call_deferred(block)
+
+            elevated_positions[Vector2i(i, start_z + j)] = block.mesh.size.y
+
+    var finished : bool = false
+
+    while !finished:
+        finished = spawn_section()
+
+func spawn_section() -> bool:
+    if current_z >= grid_size.y - 8:
+        return true
     if Globals.RNG.randf() < 0.2:
-        var obstacle : SlitObstacle = obstacle_scene.instantiate()
-        obstacle.position = Vector3(0, 0, start_z - Globals.RNG.randf_range(0, 25))
-        spawn_target.add_child.call_deferred(obstacle)
-        start_z -= z_slots * 20
+        return false
+
     else:
         var max_columns : int = Globals.RNG.randi_range(1, 2)
         var columns_in_use : Array[int] = []
@@ -43,28 +82,31 @@ func spawn_section(start_z : float) -> float:
                             attempts += 1
                             break
                 if valid:
-                    for j : int  in z_slots:
+                    for j : int  in range(0, 6, 2):
                         var bldg : Building 
                         if Globals.RNG.randf() < 0.5:
                             bldg = silo_scene.instantiate()
                         else:
                             bldg = stationary_plane_scene.instantiate()
-                        bldg.position = Vector3(start_x + 10 * candidate, y_pos, start_z - 20 * j)
+                        bldg.position = Vector3(-25 + cell_size.x * candidate, y_pos, -current_z * cell_size.y - j * cell_size.y)
+                        if elevated_positions.has(Vector2i(candidate, current_z + j)):
+                            bldg.position.y += elevated_positions[Vector2i(candidate, current_z + j)]
+                            print("On elevated")
                         spawn_target.add_child.call_deferred(bldg)
                     columns_in_use.append(candidate)
-            start_z -= z_slots * 20
+            current_z += 6
 
         else:
             var max_items : int = Globals.RNG.randi_range(3, 6)
-            var used_positions : Array[Vector2] = []
+            var used_positions : Array[Vector2i] = []
 
             for i : int in max_items:
-                var candidate : Vector2 
+                var candidate : Vector2i 
 
                 var valid : bool = false
                 var attempts : int = 0
                 while !valid:
-                    candidate = Vector2(Globals.RNG.randi_range(0, x_slots), Globals.RNG.randi_range(0, z_slots))
+                    candidate = Vector2i(Globals.RNG.randi_range(0, grid_size.x), current_z + Globals.RNG.randi_range(0, 3) * 2)
                     if attempts >= 10:
                         break
                     valid = true
@@ -81,10 +123,14 @@ func spawn_section(start_z : float) -> float:
                     else:
                         bldg = stationary_plane_scene.instantiate()
 
-                    bldg.position = Vector3(start_x + 10 * candidate.x, y_pos, start_z - 20 * candidate.y)
+                    bldg.position = Vector3(-25 + cell_size.x * candidate.x, y_pos, -cell_size.y * candidate.y)
+                    if elevated_positions.has(Vector2i(candidate.x, candidate.y)):
+                            bldg.position.y += elevated_positions[Vector2i(candidate.x, candidate.y)]
+                            print("On elevated")
+
                     spawn_target.add_child.call_deferred(bldg)
                     used_positions.append(candidate)
-            start_z -= z_slots * 20
+            current_z += 6
 
-    return start_z
+    return false
 

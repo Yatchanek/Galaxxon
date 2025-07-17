@@ -213,7 +213,7 @@ disabled = true
 debug_fill = false
 
 [node name="SpawnManager" parent="." instance=ExtResource("9_7r4gi")]
-total_waves = 10
+total_waves = 1
 
 [node name="GalagaCameraPos" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 16.5, -13.25)

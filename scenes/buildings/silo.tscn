@@ -26,12 +26,16 @@ script = ExtResource("2_rs3ca")
 hp = 40.0
 
 [node name="Hurtbox" parent="." index="0"]
+collision_layer = 16
 damage_type = 0
 damage_interval = 0.1
 instadeath = true
 
 [node name="CollisionShape3D" parent="Hurtbox" index="0"]
 shape = SubResource("BoxShape3D_egwma")
+
+[node name="Hitbox" parent="." index="1"]
+collision_layer = 8
 
 [node name="CollisionShape3D" parent="Hitbox" index="0"]
 shape = SubResource("BoxShape3D_1v75i")

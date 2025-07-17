@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://77qysjyonave"]
 
 [ext_resource type="Script" uid="uid://dgv3negj6qkgp" path="res://scripts/components/slit_obstacle.gd" id="1_v3sr0"]
-[ext_resource type="ArrayMesh" uid="uid://ke3ivirwhh2h" path="res://resources/block_Cylinder_006.res" id="2_e6053"]
+[ext_resource type="ArrayMesh" uid="uid://cowa4c5u0mfsa" path="res://resources/block_new_Cylinder_001.res" id="2_e6053"]
 [ext_resource type="Texture2D" uid="uid://cuffnbj12a451" path="res://images/wall_1_roughness.png" id="2_v3sr0"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="3_e6053"]
 [ext_resource type="Script" uid="uid://bc287iiupc46g" path="res://scripts/indicator.gd" id="5_e6053"]
@@ -17,7 +17,7 @@ texture_filter = 2
 [sub_resource type="BoxMesh" id="BoxMesh_v3sr0"]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_e6053")
-size = Vector3(100, 12.3698, 7.5)
+size = Vector3(89, 12.37, 5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i7vqt"]
 resource_local_to_scene = true
@@ -34,7 +34,7 @@ texture_filter = 2
 [sub_resource type="BoxMesh" id="BoxMesh_e6053"]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_v3sr0")
-size = Vector3(100, 1.53214, 7.5)
+size = Vector3(89, 1.532, 5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_e6053"]
 resource_local_to_scene = true
@@ -48,7 +48,7 @@ material = SubResource("StandardMaterial3D_v6io7")
 size = Vector3(0.5, 0.5, 0.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v6io7"]
-size = Vector3(15, 20, 5)
+size = Vector3(7.5, 20, 5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nvvid"]
 resource_local_to_scene = true
@@ -62,11 +62,15 @@ size = Vector3(100, 1.53214, 7.5)
 script = ExtResource("1_v3sr0")
 
 [node name="Side" type="MeshInstance3D" parent="."]
-transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0)
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 5, 0, 0, 0)
+mesh = ExtResource("2_e6053")
+
+[node name="Side2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-15, 0, 0, 0, 15, 0, 0, 0, 5, 92, 0, 0)
 mesh = ExtResource("2_e6053")
 
 [node name="UpperBody" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.5, 16.3151, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 16.315, 0)
 mesh = SubResource("BoxMesh_v3sr0")
 
 [node name="Hurtbox" type="Area3D" parent="UpperBody" node_paths=PackedStringArray("actor")]
@@ -81,7 +85,7 @@ actor = NodePath("../..")
 shape = SubResource("BoxShape3D_i7vqt")
 
 [node name="BottomBody" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.5, 3.36414, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 3.364, 0)
 mesh = SubResource("BoxMesh_e6053")
 
 [node name="Hurtbox" type="Area3D" parent="BottomBody" node_paths=PackedStringArray("actor")]
@@ -96,7 +100,7 @@ actor = NodePath("../..")
 shape = SubResource("BoxShape3D_e6053")
 
 [node name="Indicator" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.7853, 10.7778, 3.90529)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.622, 10.778, 2.6)
 layers = 2
 mesh = SubResource("BoxMesh_nvvid")
 script = ExtResource("5_e6053")
@@ -105,7 +109,11 @@ script = ExtResource("5_e6053")
 collision_mask = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 12, 0)
+shape = SubResource("BoxShape3D_v6io7")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.5, 12, 0)
 shape = SubResource("BoxShape3D_v6io7")
 
 [node name="UpperCollision" type="CollisionShape3D" parent="Body"]

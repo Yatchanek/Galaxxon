@@ -1,10 +1,11 @@
 extends Node3D
 class_name Segment
 
-@onready var body : MeshInstance3D = $Body
+# @onready var body : MeshInstance3D = $Body
 @onready var obstacle_spawner : ObstacleSpawner = $ObstacleSpawner
 
 @export var length : float = 450    
+
 
 var thread : Thread
 
@@ -13,24 +14,23 @@ var current_z = -15
 
 func _ready() -> void:
     thread = Thread.new()
-    body.scale.z = length
-    body.mesh.surface_get_material(0).uv1_scale.z = length / body.scale.x
+    # body.scale.z = length
+    # body.mesh.surface_get_material(0).uv1_scale.z = length / body.scale.x
     thread.start(create_obstacles)
     await get_tree().create_timer(0.1).timeout
     show()
    # create_obstacles()
 
 func create_obstacles():
-    while current_z >= -390:
-        current_z = obstacle_spawner.spawn_section(current_z)
-        current_z -= 20
+    obstacle_spawner.create_layout()
 
-    
+
 
 func _physics_process(delta: float) -> void:
-    position.z += Globals.scroll_speed * 2.5 * delta
-    if position.z >= 490:
-        queue_free()
+    if !Engine.is_editor_hint():
+        position.z += Globals.scroll_speed * 2.5 * delta
+        if position.z >= 490:
+            queue_free()
 
 func _exit_tree() -> void:
     if thread.is_started():

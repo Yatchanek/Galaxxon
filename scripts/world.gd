@@ -170,7 +170,7 @@ func transforming_done():
 		Globals.game_mode = Globals.GameMode.ZAXXON
 		player.steering_mode = player.SteeringMode.ZAXXON
 		var tube : Segment = tube_scene.instantiate()
-		tube.position = Vector3(-34.5, -5, -95)
+		tube.position = Vector3(0, 0, -95)
 		tube.tree_exited.connect(_on_waves_ended)
 		segment = tube
 		add_child.call_deferred(tube)
