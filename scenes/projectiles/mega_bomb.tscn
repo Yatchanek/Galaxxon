@@ -1,0 +1,49 @@
+[gd_scene load_steps=9 format=3 uid="uid://c5p46f6fcnrcl"]
+
+[ext_resource type="Script" uid="uid://cao5djf8t88b4" path="res://scripts/projectiles/mega_bomb.gd" id="1_di8av"]
+[ext_resource type="Material" uid="uid://crh3gjq6qpwcu" path="res://resources/materials/red_material_bright.tres" id="4_b2wda"]
+[ext_resource type="PackedScene" uid="uid://dhhlr6deier38" path="res://scenes/weapons/circle_canon_weapon.tscn" id="5_a1gar"]
+[ext_resource type="PackedScene" uid="uid://cp5rswyvstmo4" path="res://scenes/components/hurtbox.tscn" id="7_ja1us"]
+[ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="7_nle5q"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_pcdw8"]
+radius = 1.0
+height = 2.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_iijw8"]
+radius = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_oubv4"]
+radius = 1.0
+
+[node name="MegaBomb" type="Node3D"]
+script = ExtResource("1_di8av")
+hurtbox_scene = ExtResource("7_ja1us")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("SphereMesh_pcdw8")
+surface_material_override/0 = ExtResource("4_b2wda")
+
+[node name="CircleCannonWeapon" parent="." instance=ExtResource("5_a1gar")]
+muzzle_count = 16
+bullet_speed = 25
+
+[node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("7_nle5q")]
+collision_layer = 4
+collision_mask = 0
+actor = NodePath("..")
+
+[node name="CollisionShape3D" parent="Hitbox" index="0"]
+shape = SubResource("SphereShape3D_iijw8")
+
+[node name="Hurtbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("7_ja1us")]
+collision_layer = 32
+collision_mask = 0
+actor = NodePath("..")
+
+[node name="CollisionShape3D" parent="Hurtbox" index="0"]
+shape = SubResource("SphereShape3D_oubv4")
+
+[editable path="Hitbox"]
+[editable path="Hurtbox"]

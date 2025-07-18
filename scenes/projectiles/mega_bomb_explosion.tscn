@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://ctcjauugj4hvq"]
+
+[ext_resource type="Script" uid="uid://bih4s355rfx0q" path="res://scripts/projectiles/mega_bomb_explosion.gd" id="1_hjoiu"]
+[ext_resource type="PackedScene" uid="uid://cp5rswyvstmo4" path="res://scenes/components/hurtbox.tscn" id="2_0vda5"]
+
+[sub_resource type="Curve" id="Curve_hjoiu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.381443, 0.764834), -2.0766, -2.0766, 0, 0, Vector2(1, 0.106368), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0vda5"]
+curve = SubResource("Curve_hjoiu")
+
+[node name="MegaBombExplosion" type="Node3D"]
+script = ExtResource("1_hjoiu")
+hurtbox_scene = ExtResource("2_0vda5")
+laser_curve = SubResource("CurveTexture_0vda5")
+
+[node name="Hurtboxes" type="Node3D" parent="."]

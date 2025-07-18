@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://42m5coqfeveg"]
+[gd_scene load_steps=36 format=3 uid="uid://42m5coqfeveg"]
 
 [ext_resource type="Script" uid="uid://80aaxx0ho1tj" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://scenes/weapons/pulse_cannon.tscn" id="3_i3pqv"]
@@ -15,7 +15,6 @@
 [ext_resource type="Material" uid="uid://k4je6fqs1vlc" path="res://resources/materials/blue_material.tres" id="9_oprun"]
 [ext_resource type="Shader" uid="uid://iokt1hpq5o6d" path="res://resources/shaders/shield.gdshader" id="9_y4r1p"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="10_d2wvv"]
-[ext_resource type="PackedScene" uid="uid://batytms2gpn6j" path="res://scenes/weapons/sonic_cannon.tscn" id="12_qfm1y"]
 [ext_resource type="Script" uid="uid://brtodd45brrv0" path="res://scripts/components/shield_hitbox.gd" id="13_jej6c"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_d2wvv"]
@@ -157,7 +156,10 @@ one_shot = true
 [node name="MainWeaponSlot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
 
-[node name="SonicCannon" parent="MainWeaponSlot" instance=ExtResource("12_qfm1y")]
+[node name="PulseCannon" parent="MainWeaponSlot" instance=ExtResource("3_i3pqv")]
+bullet_type = 4
+fire_rate = 1.0
+bullet_speed = 10
 
 [node name="SecondaryWeaponSlots" type="Node3D" parent="."]
 

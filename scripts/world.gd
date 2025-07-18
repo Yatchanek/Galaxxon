@@ -5,6 +5,7 @@ class_name World
 @export var tube_scene : PackedScene
 @export var powerup_scene : PackedScene
 @export var damage_label_scene : PackedScene
+@export var bomb_explosion_scene : PackedScene
 
 
 @onready var player : Player = $Player
@@ -48,6 +49,7 @@ func _ready() -> void:
 	EventBus.player_died.connect(_on_player_died)
 	EventBus.waves_ended.connect(_on_waves_ended)
 	EventBus.score_changed.emit(score)
+	EventBus.mega_bomb_exploded.connect(_on_mega_bomb_exploded)
 
 
 func _process(delta: float) -> void:
@@ -162,7 +164,10 @@ func _on_waves_ended():
 	tw.finished.connect(transforming_done)
 
 
-
+func _on_mega_bomb_exploded(pos : Vector3):
+	var explosion : MegaBombExplosion = bomb_explosion_scene.instantiate()
+	explosion.position = pos
+	add_child.call_deferred(explosion)
 
 func transforming_done():
 	transforming = false

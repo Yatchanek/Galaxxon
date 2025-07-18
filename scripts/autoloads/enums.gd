@@ -4,7 +4,8 @@ enum BulletType {
     BASIC_BULLET,
     EXPLOSIVE_BULLET,
     ROCKET,
-    SONIC_WAVE
+    SONIC_WAVE,
+    MEGA_BOMB
 }
 
 enum WeaponType {

@@ -8,6 +8,8 @@
 [sub_resource type="SphereMesh" id="SphereMesh_trw25"]
 radius = 2.0
 height = 2.0
+radial_segments = 32
+rings = 16
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3f6oi"]
 render_priority = 0

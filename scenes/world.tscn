@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://g7u1uank1std"]
+[gd_scene load_steps=25 format=3 uid="uid://g7u1uank1std"]
 
 [ext_resource type="Script" uid="uid://cn012ndn2bvy8" path="res://scripts/world.gd" id="1_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://42m5coqfeveg" path="res://scenes/player.tscn" id="1_f3sb7"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dx0062o1xecke" path="res://scenes/components/powerup.tscn" id="4_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://dxj4h0ee4wh1w" path="res://scenes/components/damage_label.tscn" id="5_e3hyu"]
 [ext_resource type="FontFile" uid="uid://cwcwuijx2mhrk" path="res://resources/fonts/Orbitron-VariableFont_wght.ttf" id="5_w7kh3"]
+[ext_resource type="PackedScene" uid="uid://ctcjauugj4hvq" path="res://scenes/projectiles/mega_bomb_explosion.tscn" id="6_q5onr"]
 [ext_resource type="PackedScene" uid="uid://gbwi00phf4bv" path="res://scenes/components/tube.tscn" id="8_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://cmaalf560lg66" path="res://scenes/spawn_manager.tscn" id="9_7r4gi"]
 
@@ -66,6 +67,7 @@ explosion_scene = ExtResource("2_pkg7o")
 tube_scene = ExtResource("8_4mrxx")
 powerup_scene = ExtResource("4_w7kh3")
 damage_label_scene = ExtResource("5_e3hyu")
+bomb_explosion_scene = ExtResource("6_q5onr")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -213,7 +215,6 @@ disabled = true
 debug_fill = false
 
 [node name="SpawnManager" parent="." instance=ExtResource("9_7r4gi")]
-total_waves = 1
 
 [node name="GalagaCameraPos" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 16.5, -13.25)

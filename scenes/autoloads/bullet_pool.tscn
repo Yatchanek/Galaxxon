@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbr51jrhxaeim"]
+[gd_scene load_steps=7 format=3 uid="uid://dbr51jrhxaeim"]
 
 [ext_resource type="Script" uid="uid://c1atyjastrnud" path="res://scripts/autoloads/bullet_pool.gd" id="1_k06l4"]
 [ext_resource type="PackedScene" uid="uid://dsvrbcqig88fv" path="res://scenes/projectiles/bullet.tscn" id="2_mmuav"]
 [ext_resource type="PackedScene" uid="uid://bpvjmfq6h8xlc" path="res://scenes/projectiles/explosive_bullet.tscn" id="3_shakb"]
 [ext_resource type="PackedScene" uid="uid://ninxiramedb1" path="res://scenes/projectiles/rocket.tscn" id="3_sn5cb"]
 [ext_resource type="PackedScene" uid="uid://b10sqkan6u4w5" path="res://scenes/projectiles/sonic_wave.tscn" id="5_4ic4q"]
+[ext_resource type="PackedScene" uid="uid://c5p46f6fcnrcl" path="res://scenes/projectiles/mega_bomb.tscn" id="6_0ascr"]
 
 [node name="BulletPool" type="Node3D"]
 script = ExtResource("1_k06l4")
@@ -12,11 +13,13 @@ bullet_scenes = Dictionary[int, PackedScene]({
 0: ExtResource("2_mmuav"),
 1: ExtResource("3_shakb"),
 2: ExtResource("3_sn5cb"),
-3: ExtResource("5_4ic4q")
+3: ExtResource("5_4ic4q"),
+4: ExtResource("6_0ascr")
 })
 bullet_count = Dictionary[int, int]({
 0: 60,
 1: 10,
 2: 16,
-3: 60
+3: 60,
+4: 5
 })

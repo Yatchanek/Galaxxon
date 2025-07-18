@@ -1,18 +1,19 @@
 [gd_scene load_steps=7 format=3 uid="uid://mato0xxl1qce"]
 
 [ext_resource type="Script" uid="uid://cxan7y887bobq" path="res://scripts/weapons/laser_weapon.gd" id="1_x3min"]
-[ext_resource type="Shader" uid="uid://bdwbbox8iotla" path="res://resources/shaders/laser.gdshader" id="2_quhlf"]
+[ext_resource type="Material" uid="uid://cy5pd1ji3ew01" path="res://resources/materials/laser_shader_material.tres" id="2_x3min"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="3_sjgsu"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6uqi0"]
-render_priority = 0
-shader = ExtResource("2_quhlf")
+[sub_resource type="Curve" id="Curve_x3min"]
+_data = [Vector2(0, 0.367419), 0.0, 0.0, 0, 0, Vector2(0.752577, 0.798308), 1.63035, 1.63035, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="TubeTrailMesh" id="TubeTrailMesh_x3min"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_6uqi0")
+material = ExtResource("2_x3min")
 sections = 4
 section_length = 5.0
+curve = SubResource("Curve_x3min")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vr7c4"]
 size = Vector3(1, 1, 15)
