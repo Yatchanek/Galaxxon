@@ -180,7 +180,6 @@ func set_wave_data(wave_data : WaveData, data : EnemyData):
 
 func setup_next_stage():
 	current_stage += 1
-	prints("Advancing stage to", current_stage)
 	if current_stage % 5 == 0:
 		spawn_boss()
 
@@ -195,7 +194,7 @@ func setup_next_stage():
 				total_waves = Globals.RNG.randi_range(5, 10)
 				launch_normal_waves()
 				print("Launching normal waves")
-			else:	
+			elif current_stage > 3:	
 				await get_tree().create_timer(2.0).timeout
 				EventBus.waves_ended.emit()
 				print("Going isometric")
@@ -206,7 +205,7 @@ func setup_next_stage():
 				launch_normal_waves()
 				print("Launching normal waves")
 
-			else:
+			elif current_stage > 3:
 				await get_tree().create_timer(2.0).timeout
 				EventBus.waves_ended.emit()				
 				print("Going isometric")
