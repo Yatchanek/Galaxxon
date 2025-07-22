@@ -50,7 +50,9 @@ func _ready() -> void:
 	EventBus.waves_ended.connect(_on_waves_ended)
 	EventBus.score_changed.emit(score)
 	EventBus.mega_bomb_exploded.connect(_on_mega_bomb_exploded)
-
+	$SpawnManager.total_waves = Globals.RNG.randi_range(5, 10)
+	await get_tree().create_timer(2.0).timeout
+	$SpawnManager.start()
 
 func _process(delta: float) -> void:
 	distance += flow_speed * delta
@@ -135,7 +137,7 @@ func _on_waves_ended():
 	var tw : Tween = create_tween()
 	tw.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	tw.set_parallel()
-	tw.tween_property(player, "position:z", 0.0, 1.0)
+	tw.tween_property(player, "position:z", -1.0, 1.0)
 	tw.tween_property(player, "position:x", 0.0, 1.0)
 	
 	tw.tween_property(player, "transform", Transform3D.IDENTITY, 1.0)

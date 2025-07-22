@@ -16,3 +16,14 @@ enum WeaponType {
     SONIC_CANNON,
     CIRCLE_CANNON,
 }
+
+
+enum EnemyType {
+	BASIC_ENEMY,
+	DIAGONAL_ENEMY,
+	SHOOTING_ENEMY,
+	AIMING_ENEMY,
+    BASIC_PATH_ENEMY,
+    ASTEROID,
+    FIRST_BOSS,
+}

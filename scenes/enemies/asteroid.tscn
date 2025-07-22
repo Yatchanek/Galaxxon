@@ -1,0 +1,55 @@
+[gd_scene load_steps=12 format=3 uid="uid://c8rhhptsmt63u"]
+
+[ext_resource type="Script" uid="uid://thdvv5woi8ig" path="res://scripts/enemies/asteroid.gd" id="1_j2n00"]
+[ext_resource type="ArrayMesh" uid="uid://d1xxs3td50x6c" path="res://resources/rocks_rock.res" id="2_w7b4c"]
+[ext_resource type="ArrayMesh" uid="uid://b732t4x04toxr" path="res://resources/rocks_rock_001.res" id="3_eyico"]
+[ext_resource type="Material" uid="uid://f14hnulde65m" path="res://resources/materials/grey_material.tres" id="3_prswt"]
+[ext_resource type="ArrayMesh" uid="uid://dwokfqk455f16" path="res://resources/rocks_rock_002.res" id="4_xemuc"]
+[ext_resource type="ArrayMesh" uid="uid://dmbkggm1lw6qt" path="res://resources/rocks_rock_003.res" id="5_xr4jj"]
+[ext_resource type="ArrayMesh" uid="uid://bcmb8wjie0jrw" path="res://resources/rocks_rock_004.res" id="6_xemuc"]
+[ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="7_p6f1c"]
+[ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="8_wjlib"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o841t"]
+size = Vector3(3, 3, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qi2p4"]
+resource_local_to_scene = true
+size = Vector3(3, 3, 3)
+
+[node name="Asteroid" type="Node3D" node_paths=PackedStringArray("hitbox", "hurtbox")]
+script = ExtResource("1_j2n00")
+meshes = Array[ArrayMesh]([ExtResource("2_w7b4c"), ExtResource("3_eyico"), ExtResource("4_xemuc"), ExtResource("5_xr4jj"), ExtResource("6_xemuc")])
+hitbox = NodePath("Hitbox")
+hurtbox = NodePath("Hurtbox")
+hp = 50.0
+score_value = 50
+
+[node name="BodyPivot" type="Node3D" parent="."]
+transform = Transform3D(0.987802, 0.0307132, -0.152661, -0.0372252, 0.998507, -0.039983, 0.151205, 0.0451781, 0.987469, 0, 0, 0)
+
+[node name="Body" type="MeshInstance3D" parent="BodyPivot"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+material_override = ExtResource("3_prswt")
+mesh = ExtResource("4_xemuc")
+
+[node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+script = ExtResource("7_p6f1c")
+damage = 10.0
+actor = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+shape = SubResource("BoxShape3D_o841t")
+
+[node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("8_wjlib")]
+collision_layer = 8
+collision_mask = 32
+actor = NodePath("..")
+
+[node name="CollisionShape3D" parent="Hitbox" index="0"]
+shape = SubResource("BoxShape3D_qi2p4")
+
+[editable path="Hitbox"]

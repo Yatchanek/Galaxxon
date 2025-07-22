@@ -59,6 +59,8 @@ func explode():
     elif targets.size() > 1:
         targets.sort_custom(func(a, b): return global_position.distance_squared_to(a.global_position) < global_position.distance_squared_to(b.global_position))
 
+    #targets.resize(5)
+
     for target in targets:
         var h_b : HurtBox = hurtbox_scene.instantiate()
         h_b.position = to_local(target.global_position)

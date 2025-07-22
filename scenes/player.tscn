@@ -154,12 +154,9 @@ wait_time = 0.1
 one_shot = true
 
 [node name="MainWeaponSlot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.7765)
 
 [node name="PulseCannon" parent="MainWeaponSlot" instance=ExtResource("3_i3pqv")]
-bullet_type = 4
-fire_rate = 1.0
-bullet_speed = 10
 
 [node name="SecondaryWeaponSlots" type="Node3D" parent="."]
 
@@ -221,6 +218,10 @@ actor = NodePath("..")
 
 [node name="CollisionShape3D" parent="Shield/Hitbox" index="0"]
 shape = SubResource("SphereShape3D_d2wvv")
+
+[node name="MegaBombLaunchSpot" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.74317)
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]

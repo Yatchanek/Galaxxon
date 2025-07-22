@@ -32,7 +32,6 @@ surface_material_override/0 = ExtResource("2_qhfy3")
 [node name="CircleCannonWeapon" parent="." instance=ExtResource("4_qhfy3")]
 muzzle_count = 16
 bullet_speed = 25
-bullet_speed = 25
 
 [node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
 collision_layer = 16
@@ -45,9 +44,10 @@ actor = NodePath("..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
 shape = SubResource("SphereShape3D_pcdw8")
 
-[node name="Hitbox" parent="." instance=ExtResource("5_qhfy3")]
-collision_layer = 1
+[node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("5_qhfy3")]
+collision_layer = 0
 collision_mask = 1
+actor = NodePath("..")
 
 [node name="CollisionShape3D" parent="Hitbox" index="0"]
 shape = SubResource("SphereShape3D_iijw8")

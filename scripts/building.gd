@@ -30,13 +30,15 @@ func set_powerup():
 		powerup_type = PowerUp.PowerUpType.PRIMARY_WEAPON
 	elif roll < 0.75:
 		powerup_type = PowerUp.PowerUpType.SECONDARY_WEAPON
-	elif roll < 0.9:
+	elif roll < 0.88:
 		powerup_type = PowerUp.PowerUpType.HEALTH
-	else:
+	elif roll < 0.95:
 		powerup_type = PowerUp.PowerUpType.SHIELD
+	else:
+		powerup_type = PowerUp.PowerUpType.MEGA_BOMB
 
 	if powerup_type <= PowerUp.PowerUpType.SECONDARY_WEAPON:	
-		powerup_weapon_type = Globals.POWERUP_RNG.randi_range(Enums.WeaponType.PULSE_CANNON, Enums.WeaponType.SONIC_CANNON) as Enums.WeaponType
+		powerup_weapon_type = Globals.POWERUP_RNG.randi_range(Enums.WeaponType.PULSE_CANNON, Enums.WeaponType.ROCKET_LAUNCHER) as Enums.WeaponType
 
 
 func take_damage(amount : float):

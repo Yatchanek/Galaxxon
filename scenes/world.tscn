@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://g7u1uank1std"]
+[gd_scene load_steps=32 format=3 uid="uid://g7u1uank1std"]
 
 [ext_resource type="Script" uid="uid://cn012ndn2bvy8" path="res://scripts/world.gd" id="1_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://42m5coqfeveg" path="res://scenes/player.tscn" id="1_f3sb7"]
@@ -12,6 +12,13 @@
 [ext_resource type="PackedScene" uid="uid://ctcjauugj4hvq" path="res://scenes/projectiles/mega_bomb_explosion.tscn" id="6_q5onr"]
 [ext_resource type="PackedScene" uid="uid://gbwi00phf4bv" path="res://scenes/components/tube.tscn" id="8_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://cmaalf560lg66" path="res://scenes/spawn_manager.tscn" id="9_7r4gi"]
+[ext_resource type="PackedScene" uid="uid://dppaho64ksomi" path="res://scenes/enemies/basic_enemy.tscn" id="13_pm21f"]
+[ext_resource type="PackedScene" uid="uid://jio4jnlmcbf2" path="res://scenes/enemies/diagonal_enemy.tscn" id="14_2lf6f"]
+[ext_resource type="PackedScene" uid="uid://dy6gxlv74amyw" path="res://scenes/enemies/shooting_enemy.tscn" id="15_7iits"]
+[ext_resource type="PackedScene" uid="uid://cir3mi5ohwsr3" path="res://scenes/enemies/aiming_enemy.tscn" id="16_oo54l"]
+[ext_resource type="PackedScene" uid="uid://d0g4cnld8nlvm" path="res://scenes/enemies/basic_path_enemy.tscn" id="17_kpybi"]
+[ext_resource type="PackedScene" uid="uid://c8rhhptsmt63u" path="res://scenes/enemies/asteroid.tscn" id="18_ctatt"]
+[ext_resource type="PackedScene" uid="uid://bnpqmu30lv5t0" path="res://scenes/enemies/boss.tscn" id="19_xgqkh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_dwbse"]
 font = ExtResource("5_w7kh3")
@@ -128,6 +135,27 @@ size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 2
 
+[node name="MegaBombsContainer" type="VBoxContainer" parent="CanvasLayer/HUD/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/HUD/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/MegaBombsContainer"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+color = Color(1, 1, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/HUD/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/MegaBombsContainer"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+color = Color(1, 1, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="CanvasLayer/HUD/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/MegaBombsContainer"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+color = Color(1, 1, 0, 1)
+
 [node name="ShieldBar" type="ProgressBar" parent="CanvasLayer/HUD/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 modulate = Color(0, 0.678431, 1, 0.784314)
@@ -151,6 +179,7 @@ fill_mode = 3
 show_percentage = false
 
 [node name="Player" parent="." instance=ExtResource("1_f3sb7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 
 [node name="GalagaCamera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 16.5, -13.25)
@@ -215,6 +244,16 @@ disabled = true
 debug_fill = false
 
 [node name="SpawnManager" parent="." instance=ExtResource("9_7r4gi")]
+enemy_scene = Dictionary[int, PackedScene]({
+0: ExtResource("13_pm21f"),
+1: ExtResource("14_2lf6f"),
+2: ExtResource("15_7iits"),
+3: ExtResource("16_oo54l"),
+4: ExtResource("17_kpybi"),
+5: ExtResource("18_ctatt"),
+6: ExtResource("19_xgqkh")
+})
+total_waves = 1
 
 [node name="GalagaCameraPos" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 16.5, -13.25)

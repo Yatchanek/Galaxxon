@@ -5,7 +5,7 @@ class_name HUD
 @onready var health_bar : ProgressBar = %HealthBar
 @onready var shield_bar : ProgressBar = %ShieldBar
 @onready var boss_health_bar : ProgressBar = %BossHealthBar
-
+@onready var mega_bombs_container : VBoxContainer = %MegaBombsContainer
 
 func _ready() -> void:
     EventBus.score_changed.connect(_on_score_changed)
@@ -14,6 +14,12 @@ func _ready() -> void:
     EventBus.boss_entered.connect(_on_boss_entered)
     EventBus.boss_health_changed.connect(_on_boss_health_changed)
     EventBus.boss_defeated.connect(_on_boss_defeated)
+    EventBus.mega_bombs_changed.connect(_on_mega_bombs_changed)
+
+
+func _on_mega_bombs_changed(amount: int):
+    for i in mega_bombs_container.get_child_count():
+        mega_bombs_container.get_child(i).visible = i < amount
 
 func _on_score_changed(score : int):
     score_label.text = "Score: %d" % score

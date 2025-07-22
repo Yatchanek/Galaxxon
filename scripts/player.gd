@@ -38,6 +38,7 @@ const ACCELERATION : float = 100.0
 @onready var sub_weapon_slot_left : Node3D = $SecondaryWeaponSlots/Subslot
 @onready var sub_weapon_slot_right : Node3D = $SecondaryWeaponSlots/Subslot2
 @onready var shield : Shield = $Shield
+@onready var mega_bomb_launch_spot : Marker3D = %MegaBombLaunchSpot
 
 @onready var sub_weapon_slots : Array[Node3D] = [$SecondaryWeaponSlots/Subslot, $SecondaryWeaponSlots/Subslot2]
 
@@ -56,6 +57,9 @@ var last_sub_updated : int = 0
 const max_hp : int = 200
 var hp : float = 20
 
+const max_mega_bombs : int = 3
+var mega_bombs : int = 0
+
 var controls_disabled : bool = false
 
 var can_blink : bool = true
@@ -64,46 +68,53 @@ var rotation_quat : Quaternion
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
-		if event.pressed and event.keycode == KEY_Q and !event.is_echo():
-			current_weapon.upgrade()
-		if event.pressed and event.keycode == KEY_Z and !event.is_echo():
-			if current_weapon is CannonWeapon:
-				current_weapon.change_spread()
-		if event.pressed and event.keycode == KEY_P:
-			current_weapon.queue_free()
-			if current_weapon is PulseCannon:
-				var new_weapon : LaserWeapon = laser_weapon_scene.instantiate()
-				main_weapon_slot.add_child(new_weapon)
-				current_weapon = new_weapon
-			elif current_weapon is LaserWeapon:
-				var new_weapon : VulcanCannon = vulcan_cannon_scene.instantiate()
-				main_weapon_slot.add_child(new_weapon)
-				current_weapon = new_weapon
-			elif current_weapon is VulcanCannon:
-				var new_weapon : RocketLauncher = rocket_launcher_scene.instantiate()
-				main_weapon_slot.add_child(new_weapon)
-				current_weapon = new_weapon
-			else:
-				var new_weapon : PulseCannon = pulse_cannon_scene.instantiate()
-				main_weapon_slot.add_child(new_weapon)
-				current_weapon = new_weapon
+		if event.pressed and event.keycode == KEY_ESCAPE:
+			get_tree().quit()
+		# if event.pressed and event.keycode == KEY_Q and !event.is_echo():
+		# 	current_weapon.upgrade()
+		# if event.pressed and event.keycode == KEY_Z and !event.is_echo():
+		# 	if current_weapon is CannonWeapon:
+		# 		current_weapon.change_spread()
+		# if event.pressed and event.keycode == KEY_P:
+		# 	current_weapon.queue_free()
+		# 	if current_weapon is PulseCannon:
+		# 		var new_weapon : LaserWeapon = laser_weapon_scene.instantiate()
+		# 		main_weapon_slot.add_child(new_weapon)
+		# 		current_weapon = new_weapon
+		# 	elif current_weapon is LaserWeapon:
+		# 		var new_weapon : VulcanCannon = vulcan_cannon_scene.instantiate()
+		# 		main_weapon_slot.add_child(new_weapon)
+		# 		current_weapon = new_weapon
+		# 	elif current_weapon is VulcanCannon:
+		# 		var new_weapon : RocketLauncher = rocket_launcher_scene.instantiate()
+		# 		main_weapon_slot.add_child(new_weapon)
+		# 		current_weapon = new_weapon
+		# 	else:
+		# 		var new_weapon : PulseCannon = pulse_cannon_scene.instantiate()
+		# 		main_weapon_slot.add_child(new_weapon)
+		# 		current_weapon = new_weapon
 
 
 func _ready() -> void:
 	rotation_quat = body_pivot.basis.get_rotation_quaternion()
 	for surface : int in $BodyPivot/Body.get_surface_override_material_count():
 		body_colors.append($BodyPivot/Body.get_surface_override_material(surface).albedo_color)
-	# for body_part : MeshInstance3D in body_pivot.get_children():
-	# 	body_colors.append(body_part.get_surface_override_material(0).albedo_color)
 	current_weapon = main_weapon_slot.get_child(0)
 	hp = max_hp
+	EventBus.mega_bombs_changed.emit(mega_bombs)
 	EventBus.player_hp_changed.emit(hp / max_hp * 100.0)
 	EventBus.player = self
 	Globals.player = self
 
+
 func _physics_process(delta: float) -> void:
 	if !controls_disabled:
-		var direction : Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+		var direction : Vector2
+		if steering_mode == SteeringMode.GALAGA:
+			direction = Input.get_vector("left", "right", "forward", "backward")
+		else:
+			direction = Input.get_vector("left", "right", "up", "down")
+
 		if direction.x != 0:
 			velocity.x = move_toward(velocity.x, direction.x * HORIZONTAL_SPEED, ACCELERATION * delta)
 			rotation_quat = Quaternion(Vector3.FORWARD, PI / 5 * direction.x)
@@ -132,6 +143,10 @@ func _physics_process(delta: float) -> void:
 		position.z = clamp(position.z, -35, 0)
 		position.y = clamp(position.y, 0, 20)
 
+
+		if Input.is_action_just_pressed("megabomb"):
+			launch_megabomb()
+
 func disable():
 	controls_disabled = true
 	velocity = Vector3.ZERO
@@ -148,6 +163,15 @@ func enable():
 		if slot.get_child_count() > 0:
 			var weapon : Weapon = slot.get_child(0)
 			weapon.enable()
+
+
+func launch_megabomb():
+	if mega_bombs <= 0:
+		return
+	else:
+		mega_bombs -= 1
+		BulletPool.release_from_pool(mega_bomb_launch_spot, true, 1, Enums.BulletType.MEGA_BOMB, 10, false)
+
 
 func take_damage(amount : float):
 	if dead:
@@ -184,6 +208,10 @@ func _on_collector_area_entered(area: PowerUp) -> void:
 
 	elif area.powerup_type == PowerUp.PowerUpType.SHIELD:
 		shield.recharge(25)
+
+	elif area.powerup_type == PowerUp.PowerUpType.MEGA_BOMB:
+		mega_bombs = clamp(mega_bombs + 1, 0, max_mega_bombs)
+		EventBus.mega_bombs_changed.emit(mega_bombs)
 
 	elif area.powerup_type == PowerUp.PowerUpType.PRIMARY_WEAPON:
 		if area.weapon_type == current_weapon.type:

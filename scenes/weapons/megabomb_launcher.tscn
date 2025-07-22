@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://bag8rvmlek4tj"]
+
+[ext_resource type="Script" uid="uid://rvu5cavx3vk3" path="res://scripts/weapons/pulse_cannon.gd" id="1_epbgy"]
+
+[node name="MegaBombLauncher" type="Node3D"]
+script = ExtResource("1_epbgy")
+bullet_type = 4
+fire_rate = 2.0
+power_level = null
+max_power_level = null
+bullet_speed = 10
+bullet_power = null
+spread_fire = null
+is_player_weapon = null
+is_subweapon = null
+autostart = null
+type = null
