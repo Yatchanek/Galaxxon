@@ -198,6 +198,9 @@ transform = Transform3D(0.983888, -0.0146867, 0.178181, -0.152366, 0.45252, 0.87
 layers = 3
 light_energy = 3.0
 shadow_enabled = true
+shadow_opacity = 0.85
+directional_shadow_pancake_size = 5.0
+sky_mode = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_dwbse")

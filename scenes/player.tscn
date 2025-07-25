@@ -33,46 +33,46 @@ size = Vector3(1.25, 1.25, 0.25)
 size = Vector3(1.5, 1, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_smehm"]
-size = Vector3(4.5, 1, 3)
+size = Vector3(4.5, 3, 3)
 
-[sub_resource type="Gradient" id="Gradient_smehm"]
-offsets = PackedFloat32Array(0, 0.537445, 0.603524, 1)
-colors = PackedColorArray(3, 3, 0, 1, 3, 0, 0, 1, 3, 0, 0, 1, 3, 1, 0, 1)
+[sub_resource type="Curve" id="Curve_a8ls1"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.720648, 0.325581), -1.81899, -1.81899, 0, 0, Vector2(0.951417, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_ur7pv"]
-gradient = SubResource("Gradient_smehm")
+[sub_resource type="CurveTexture" id="CurveTexture_qfm1y"]
+curve = SubResource("Curve_a8ls1")
 
 [sub_resource type="Gradient" id="Gradient_y4r1p"]
-offsets = PackedFloat32Array(0, 0.546256, 1)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+offsets = PackedFloat32Array(0.0132159, 0.506608, 0.722467)
+colors = PackedColorArray(0.645372, 0.645372, 0, 1, 0.647059, 0.647059, 0, 1, 1, 0, 0, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_d2wvv"]
 gradient = SubResource("Gradient_y4r1p")
 
 [sub_resource type="Curve" id="Curve_3v2ag"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.523256), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.497976, 0.709302), -1.76032, -1.76032, 0, 0, Vector2(1, 0.27907), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_jej6c"]
 curve = SubResource("Curve_3v2ag")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f1ej7"]
-emission_shape = 1
-emission_sphere_radius = 0.1
-gravity = Vector3(0, 0, 19.6)
-scale_min = 0.15
+particle_flag_align_y = true
+angle_min = 90.0
+angle_max = 90.0
+gravity = Vector3(0, 0, 9.8)
+scale_min = 0.4
 scale_max = 0.4
 scale_curve = SubResource("CurveTexture_jej6c")
 color_ramp = SubResource("GradientTexture1D_d2wvv")
-color_initial_ramp = SubResource("GradientTexture1D_ur7pv")
+alpha_curve = SubResource("CurveTexture_qfm1y")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oprun"]
-transparency = 4
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a8ls1"]
+transparency = 1
 vertex_color_use_as_albedo = true
-disable_receive_shadows = true
 
-[sub_resource type="SphereMesh" id="SphereMesh_a8ls1"]
-material = SubResource("StandardMaterial3D_oprun")
+[sub_resource type="TorusMesh" id="TorusMesh_qfm1y"]
+material = SubResource("StandardMaterial3D_a8ls1")
 
 [sub_resource type="SphereMesh" id="SphereMesh_3v2ag"]
 radius = 3.5
@@ -169,7 +169,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75, 0, -0.5)
 [node name="Hitbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
 collision_layer = 0
 collision_mask = 19
-monitorable = false
 script = ExtResource("5_tuyoq")
 actor = NodePath("..")
 
@@ -186,20 +185,23 @@ monitorable = false
 shape = SubResource("BoxShape3D_smehm")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.25, 2.29873)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.25, 2.5)
 amount = 32
-speed_scale = 1.5
+lifetime = 1.5
+preprocess = 1.5
+visibility_aabb = AABB(-2, -2, -1.99992, 4, 4, 9.5457)
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_f1ej7")
-draw_pass_1 = SubResource("SphereMesh_a8ls1")
+draw_pass_1 = SubResource("TorusMesh_qfm1y")
 
-[node name="GPUParticles3D2" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.25, 2.299)
+[node name="GPUParticles3D3" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.25, 2.5)
 amount = 32
-speed_scale = 1.5
+lifetime = 1.5
+preprocess = 1.5
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_f1ej7")
-draw_pass_1 = SubResource("SphereMesh_a8ls1")
+draw_pass_1 = SubResource("TorusMesh_qfm1y")
 
 [node name="Shield" type="Node3D" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("9_d2wvv")
@@ -226,6 +228,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.74317)
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="Hitbox" method="_on_area_exited"]
+[connection signal="body_entered" from="Hitbox" to="Hitbox" method="_on_body_entered"]
 [connection signal="area_entered" from="Collector" to="." method="_on_collector_area_entered"]
 
 [editable path="Shield/Hitbox"]

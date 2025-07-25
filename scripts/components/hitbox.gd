@@ -65,6 +65,8 @@ func _on_area_exited(area:Area3D) -> void:
 				set_process(false)
 
 
-func _on_body_entered(_body:Node3D) -> void:
+func _on_body_entered(body:Node3D) -> void:
 	if actor is Projectile:
 		actor.return_to_pool()
+	if actor is Player:
+		actor.take_damage(999999)

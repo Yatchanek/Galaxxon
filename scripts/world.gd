@@ -20,6 +20,8 @@ class_name World
 @onready var left_top_border : CollisionShape3D = $WorldBorders/LeftTopBorder
 @onready var right_top_border : CollisionShape3D = $WorldBorders/RightTopBorder
 
+@onready var spawn_manager : WaveSpawner = $SpawnManager
+
 var score : int = 0
 
 var flow_speed : float
@@ -50,9 +52,9 @@ func _ready() -> void:
 	EventBus.waves_ended.connect(_on_waves_ended)
 	EventBus.score_changed.emit(score)
 	EventBus.mega_bomb_exploded.connect(_on_mega_bomb_exploded)
-	$SpawnManager.total_waves = Globals.RNG.randi_range(5, 10)
+	spawn_manager.total_waves = 1#Globals.RNG.randi_range(5, 10)
 	await get_tree().create_timer(2.0).timeout
-	$SpawnManager.start()
+	spawn_manager.start()
 
 func _process(delta: float) -> void:
 	distance += flow_speed * delta
@@ -179,12 +181,14 @@ func transforming_done():
 		var tube : Segment = tube_scene.instantiate()
 		tube.position = Vector3(0, 0, -95)
 		tube.tree_exited.connect(_on_waves_ended)
+		tube.initialize()
 		segment = tube
-		add_child.call_deferred(tube)
+		tube.obstacles_placed.connect(func(): add_child.call_deferred(tube))
 	else:
 		Globals.game_mode = Globals.GameMode.GALAGA
 		player.steering_mode = player.SteeringMode.GALAGA
-		$SpawnManager.start()
+		spawn_manager.start()
+		
 	player.enable()
 
 

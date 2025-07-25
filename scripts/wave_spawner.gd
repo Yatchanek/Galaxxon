@@ -17,7 +17,7 @@ enum SpawnType {
 
 var waves : Array[WaveData] = []
 
-@export var total_waves : int = 999
+@export var total_waves : int = 1
 var current_wave : int = 0
 
 var last_wave_spawned : bool = false
@@ -63,6 +63,7 @@ func spawn_boss():
 func spawn_asteroid():
 	enemies_spawned += 1
 	var asteroid : Asteroid = enemy_scene[Enums.EnemyType.ASTEROID].instantiate()
+	asteroid.tree_exited.connect(_on_enemy_tree_exit)
 	asteroid.position = Vector3(Globals.RNG.randf_range(-25, 25), 0, -40)
 	add_child.call_deferred(asteroid)
 
@@ -113,8 +114,9 @@ func generate_wave():
 	if roll > 0.99:
 		num_waves = 3
 
-
+	#print("Number of waves:", num_waves)
 	for i in num_waves:
+		#print("Iteration:", i)
 		if last_wave_spawned:
 			break
 		var x_coord : int = snappedi(Globals.RNG.randi_range(-30, 30), 5)
@@ -158,6 +160,8 @@ func generate_wave():
 		if current_wave == total_waves:
 			timer.stop()
 			last_wave_spawned = true
+			#print("Last wave spawned")
+	#print("Enemies spawned", enemies_spawned)		
 
 func set_wave_data(wave_data : WaveData, data : EnemyData):
 	wave_data.enemy_type = data.enemy_type
@@ -179,36 +183,43 @@ func set_wave_data(wave_data : WaveData, data : EnemyData):
 
 
 func setup_next_stage():
+	#print("Setup next stage")
 	current_stage += 1
 	if current_stage % 5 == 0:
+		#print("Spawn boss")
 		spawn_boss()
 
 	else:
-		if currently_spawning == SpawnType.ENEMY:
-			var roll : float = Globals.RNG.randf()
-			if current_stage > 3 and roll < 0.2:
-				launch_asteroid_field()
-				print("Launching asteroids")
-				
-			elif roll < 0.7:
-				total_waves = Globals.RNG.randi_range(5, 10)
-				launch_normal_waves()
-				print("Launching normal waves")
-			elif current_stage > 3:	
-				await get_tree().create_timer(2.0).timeout
-				EventBus.waves_ended.emit()
-				print("Going isometric")
-		else:
-			var roll : float = Globals.RNG.randf()
-			if roll < 0.7:
-				total_waves = Globals.RNG.randi_range(5, 10)
-				launch_normal_waves()
-				print("Launching normal waves")
+		await get_tree().create_timer(2.0).timeout
+		EventBus.waves_ended.emit()
 
-			elif current_stage > 3:
-				await get_tree().create_timer(2.0).timeout
-				EventBus.waves_ended.emit()				
-				print("Going isometric")
+		# if currently_spawning == SpawnType.ENEMY:
+		# 	var roll : float = Globals.RNG.randf()
+		# 	if current_stage > 3 and roll < 0.2:
+		# 		launch_asteroid_field()
+		# 		#print("Launching asteroids")
+				
+		# 	elif roll < 0.7 or current_stage <= 3:
+		# 		total_waves = 1#Globals.RNG.randi_range(5, 10)
+		# 		launch_normal_waves()
+				
+		# 		#print("Launching normal waves")
+		# 	else:	
+		# 		await get_tree().create_timer(2.0).timeout
+		# 		EventBus.waves_ended.emit()
+		# 		#print("Going isometric")
+
+		# else:
+		# 	var roll : float = Globals.RNG.randf()
+		# 	if roll < 0.7 or current_stage <= 3:
+		# 		total_waves = 1#Globals.RNG.randi_range(5, 10)
+		# 		launch_normal_waves()
+		# 		#print("Launching normal waves")
+
+		# 	else:
+		# 		await get_tree().create_timer(2.0).timeout
+		# 		EventBus.waves_ended.emit()				
+		# 		#print("Going isometric")
 
 
 func launch_asteroid_field():
@@ -226,15 +237,17 @@ func launch_normal_waves():
 	currently_spawning = SpawnType.ENEMY
 	timer.wait_time = 2.0
 	timer.start()
+	#print("Launching waves")
 	set_process(true)
 
 
 func _on_enemy_tree_exit():
 	enemies_spawned -= 1
+	#prints("Enemies spawned:", enemies_spawned)
 	if last_wave_spawned and enemies_spawned == 0:
 		if is_inside_tree():
 			stage_ended = true
-			print("Stage ended")
+			#print("Stage ended")
 			timer.start(2.0)
 
 
@@ -254,6 +267,7 @@ func _on_timer_timeout() -> void:
 	
 
 func start():
+	#print("Starting")
 	last_wave_spawned = false
 	current_wave = 0
 	enemies_spawned = 0
