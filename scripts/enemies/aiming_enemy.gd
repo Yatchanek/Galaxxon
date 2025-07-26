@@ -1,7 +1,6 @@
 extends Enemy
 class_name AimingEnemy
 
-@export var turning : bool = false
 @onready var body : MeshInstance3D = $BodyPivot/Body
 
 func _ready() -> void:

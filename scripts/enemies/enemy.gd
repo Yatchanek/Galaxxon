@@ -3,6 +3,10 @@ class_name Enemy
 
 @onready var body_pivot = $BodyPivot
 
+@export var yawing : bool = false
+@export var rolling : bool = false
+@export var turning : bool = false
+
 @export var hitbox : HitBox
 @export var hurtbox : HurtBox
 @export var hp : float = 5

@@ -70,11 +70,12 @@ func spawn_asteroid():
 
 
 func spawn_enemy(wave_data : WaveData):
-	if wave_data.enemy_type < Enums.EnemyType.BASIC_PATH_ENEMY:
-		var enemy : Enemy = enemy_scene[wave_data.enemy_type].instantiate()
+	if wave_data.enemy_data.enemy_type < Enums.EnemyType.BASIC_PATH_ENEMY:
+		var enemy : Enemy = enemy_scene[wave_data.enemy_data.enemy_type].instantiate()
 		enemy.position = Vector3(wave_data.x_coord, 0, -50)
+		enemy.hp = ceil(min(wave_data.enemy_data.base_hp * (1.0 + 0.1 * current_stage / 3), wave_data.enemy_data.base_hp * 5))
 		enemy.rotate_y(PI)
-		if enemy is SineEnemy:
+		if enemy is SineEnemy or enemy is ShootingEnemy:
 			enemy.yawing = wave_data.yawing
 			enemy.rolling = wave_data.rolling
 			enemy.turning = wave_data.turning
@@ -126,10 +127,17 @@ func generate_wave():
 		var wave_data : WaveData = WaveData.new()
 		wave_data.x_coord = x_coord
 		
-		roll = Globals.RNG.randf()
+		
 		var total_chance : float = 0
 		var chosen : bool = false
+		var available_enemies : Array[EnemyData] = []
+		var total_weight : float = 0
 		for data : EnemyData in enemy_data:
+			if current_stage >= data.min_stage:
+				available_enemies.append(data)
+				total_weight += data.spawn_chance
+		roll = Globals.RNG.randf_range(0, total_weight)
+		for data : EnemyData in available_enemies:
 			if chosen:
 				break
 			total_chance += data.spawn_chance
@@ -164,17 +172,17 @@ func generate_wave():
 	#print("Enemies spawned", enemies_spawned)		
 
 func set_wave_data(wave_data : WaveData, data : EnemyData):
-	wave_data.enemy_type = data.enemy_type
+	wave_data.enemy_data = data
 	wave_data.enemy_count = Globals.RNG.randi_range(data.min_amount, data.max_amount)
 	wave_data.spawn_interval = data.spawn_frequency
 
-	if data.enemy_type == Enums.EnemyType.BASIC_ENEMY:
+	if data.enemy_type == Enums.EnemyType.BASIC_ENEMY or data.enemy_type == Enums.EnemyType.SHOOTING_ENEMY:
 		if Globals.RNG.randf() < 0.25:
 			wave_data.turning = true
 	elif data.enemy_type == Enums.EnemyType.DIAGONAL_ENEMY:
 		wave_data.turn_threshold = Globals.RNG.randi_range(data.min_turn_threshold, data.max_turn_threshold)
 
-	elif wave_data.enemy_type == Enums.EnemyType.BASIC_PATH_ENEMY:
+	elif data.enemy_type == Enums.EnemyType.BASIC_PATH_ENEMY:
 		enemy_path.redraw()
 		enemy_path.position.z = Globals.RNG.randf_range(-20, -30)
 
@@ -190,36 +198,33 @@ func setup_next_stage():
 		spawn_boss()
 
 	else:
-		await get_tree().create_timer(2.0).timeout
-		EventBus.waves_ended.emit()
-
-		# if currently_spawning == SpawnType.ENEMY:
-		# 	var roll : float = Globals.RNG.randf()
-		# 	if current_stage > 3 and roll < 0.2:
-		# 		launch_asteroid_field()
-		# 		#print("Launching asteroids")
+		if currently_spawning == SpawnType.ENEMY:
+			var roll : float = Globals.RNG.randf()
+			if current_stage > 3 and roll < 0.2:
+				launch_asteroid_field()
+				#print("Launching asteroids")
 				
-		# 	elif roll < 0.7 or current_stage <= 3:
-		# 		total_waves = 1#Globals.RNG.randi_range(5, 10)
-		# 		launch_normal_waves()
+			elif roll < 0.65 or current_stage <= 3:
+				total_waves = Globals.RNG.randi_range(5, 10)
+				launch_normal_waves()
 				
-		# 		#print("Launching normal waves")
-		# 	else:	
-		# 		await get_tree().create_timer(2.0).timeout
-		# 		EventBus.waves_ended.emit()
-		# 		#print("Going isometric")
+				#print("Launching normal waves")
+			elif roll < 1.0 or current_stage % 7 == 0:	
+				await get_tree().create_timer(2.0).timeout
+				EventBus.waves_ended.emit()
+				#print("Going isometric")
 
-		# else:
-		# 	var roll : float = Globals.RNG.randf()
-		# 	if roll < 0.7 or current_stage <= 3:
-		# 		total_waves = 1#Globals.RNG.randi_range(5, 10)
-		# 		launch_normal_waves()
-		# 		#print("Launching normal waves")
+		else:
+			var roll : float = Globals.RNG.randf()
+			if roll < 0.65 or current_stage <= 3:
+				total_waves = Globals.RNG.randi_range(5, 10)
+				launch_normal_waves()
+				#print("Launching normal waves")
 
-		# 	else:
-		# 		await get_tree().create_timer(2.0).timeout
-		# 		EventBus.waves_ended.emit()				
-		# 		#print("Going isometric")
+			else:
+				await get_tree().create_timer(2.0).timeout
+				EventBus.waves_ended.emit()				
+				#print("Going isometric")
 
 
 func launch_asteroid_field():

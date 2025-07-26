@@ -1,9 +1,7 @@
 extends Enemy
 class_name SineEnemy
 
-@export var yawing : bool = false
-@export var rolling : bool = false
-@export var turning : bool = false
+
 
 var angle : float = 0.0
 var angle_2 : float = 0.0

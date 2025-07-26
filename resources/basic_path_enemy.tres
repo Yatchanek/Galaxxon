@@ -6,8 +6,10 @@
 script = ExtResource("1_nfybm")
 enemy_type = 4
 spawn_chance = 0.15
+min_stage = 3
 min_amount = 2
 max_amount = 5
 spawn_frequency = 1.5
 min_turn_threshold = -20
 max_turn_threshold = -10
+base_hp = 30

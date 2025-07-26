@@ -170,6 +170,7 @@ func launch_megabomb():
 		return
 	else:
 		mega_bombs -= 1
+		EventBus.mega_bombs_changed.emit()
 		BulletPool.release_from_pool(mega_bomb_launch_spot, true, 1, Enums.BulletType.MEGA_BOMB, 10, false)
 
 
@@ -220,6 +221,7 @@ func _on_collector_area_entered(area: PowerUp) -> void:
 			current_weapon.queue_free()
 			var new_weapon : Weapon = weapon_scenes[area.weapon_type].instantiate()
 			new_weapon.is_player_weapon = true
+			new_weapon.power_level = 1
 			current_weapon = new_weapon
 			main_weapon_slot.add_child(new_weapon)
 			
@@ -228,11 +230,13 @@ func _on_collector_area_entered(area: PowerUp) -> void:
 			var new_weapon : Weapon = weapon_scenes[area.weapon_type].instantiate()
 			new_weapon.is_subweapon = true
 			new_weapon.is_player_weapon = true
+			new_weapon.power_level = 1
 			sub_weapon_slot_left.add_child(new_weapon)
 			secondary_weapon_left = new_weapon
 		elif !secondary_weapon_right:
 			var new_weapon : Weapon = weapon_scenes[area.weapon_type].instantiate()
 			new_weapon.is_subweapon = true
+			new_weapon.power_level = 1
 			new_weapon.is_player_weapon = true
 			sub_weapon_slot_right.add_child(new_weapon)
 			secondary_weapon_right = new_weapon
@@ -248,10 +252,12 @@ func _on_collector_area_entered(area: PowerUp) -> void:
 				if last_sub_updated % 2 == 0:
 					secondary_weapon_left.queue_free()
 					sub_weapon_slot_left.add_child(new_weapon)
+					new_weapon.power_level = 1
 					secondary_weapon_left = new_weapon
 				else:
 					secondary_weapon_right.queue_free()
 					sub_weapon_slot_right.add_child(new_weapon)
+					new_weapon.power_level = 1
 					secondary_weapon_right = new_weapon
 
 				last_sub_updated += 1	

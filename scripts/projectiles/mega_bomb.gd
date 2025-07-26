@@ -13,7 +13,7 @@ func _physics_process(delta: float) -> void:
     super(delta)
 
     elapsed_time += delta
-    if elapsed_time >= 2.0:
+    if elapsed_time >= 1.5:
         explode()
         elapsed_time = 0.0
 

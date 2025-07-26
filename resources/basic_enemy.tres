@@ -4,9 +4,12 @@
 
 [resource]
 script = ExtResource("1_vr5n7")
-spawn_chance = 0.4
+enemy_type = 0
+spawn_chance = 0.5
+min_stage = 1
 min_amount = 3
 max_amount = 5
 spawn_frequency = 1.5
 min_turn_threshold = -20
 max_turn_threshold = -10
+base_hp = 30

@@ -1,8 +1,6 @@
 extends Enemy
 class_name ShootingEnemy
 
-@export var turning : bool = false
-
 var angle : float = 0.0
 
 func _ready() -> void:
@@ -17,7 +15,8 @@ func _physics_process(delta: float) -> void:
 	velocity = -global_basis.z.rotated(Vector3.UP, PI / 6 * sin(angle)) * speed
 	position += velocity * delta
 
-	if position.x > 25 or position.x < -25 or position.z > 5:
+
+	if position.x > 35 or position.x < -35 or position.z > 5:
 		queue_free()
 
 func die():

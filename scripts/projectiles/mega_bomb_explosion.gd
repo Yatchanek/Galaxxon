@@ -65,7 +65,7 @@ func explode():
         var h_b : HurtBox = hurtbox_scene.instantiate()
         h_b.position = to_local(target.global_position)
         h_b.collision_layer = 32
-        h_b.damage = 10
+        h_b.damage = max(30.0 / targets.size(), 5)
         h_b.damage_type = h_b.DamageType.CONTINUOUS
         h_b.damage_interval = 0.05
         hurtboxes.add_child.call_deferred(h_b)

@@ -8,6 +8,8 @@ class_name Segment
 @export var silo_scene : PackedScene
 @export var stationary_plane_scene : PackedScene
 @export var obstacle_scene : PackedScene
+@export var hole_obstacle_scene : PackedScene
+@export var block_scene : PackedScene
 
 signal obstacles_placed
 
@@ -45,7 +47,18 @@ func _ready() -> void:
 func create_obstacles():
     for row in grid_size.y:
         var roll : float = Globals.RNG.randf()
-        if roll < 0.35:
+        if roll < 0.1:
+            if Globals.RNG.randf() < 0.5:
+                var obstacle : SlitObstacle = obstacle_scene.instantiate()
+                obstacle.position = Vector3(0, 0, -cell_size.y * (5 + row))
+                add_child(obstacle)
+            else:
+                var obstacle : MovingHoleObstacle = hole_obstacle_scene.instantiate()
+                obstacle.position = Vector3(0, 0, -cell_size.y * (5 + row))
+                add_child(obstacle)
+            row += 3
+
+        elif roll < 0.45:
             roll = Globals.RNG.randf()
             var items_in_row : int = 1
             if roll < 0.025:
@@ -58,24 +71,30 @@ func create_obstacles():
                 var idx : int = Globals.RNG.randi_range(0, slots.size() - 1)
                 var x_coord : int = slots[idx]
                 if roll < 0.75:
-
                     slots.remove_at(idx)
-                    var silo : Building = silo_scene.instantiate()
+                    var bldg : Building
+                    roll = Globals.RNG.randf()
+                    if roll < 0.15:
+                        bldg = bunker_scene.instantiate()
+                    elif roll < 0.65:
+                        bldg = silo_scene.instantiate()
+                    else:
+                        bldg = stationary_plane_scene.instantiate()
                     if row > 0:
                         while obstacle_grid[(row - 1) * grid_size.x + x_coord] == ObstacleTypes.HIGH_OBSTACLE or obstacle_grid[(row - 1) * grid_size.x + x_coord] == ObstacleTypes.WALL:
                             idx = Globals.RNG.randi_range(0, slots.size() - 1)
                             x_coord = slots[idx]
                             slots.remove_at(idx)
 
-                    silo.position = Vector3(-30 + cell_size.x * (x_coord + 0.5), y_pos, -cell_size.y * (5 + row))
+                    bldg.position = Vector3(-30 + cell_size.x * (x_coord + 0.5), y_pos, -cell_size.y * (5 + row))
                     obstacle_grid[row * grid_size.x + x_coord] = ObstacleTypes.NORMAL_OBSTACLE
                     roll = Globals.RNG.randf()
                     if roll < 0.15:
                         var height : float = spawn_block(x_coord, row)
-                        silo.position.y += height
+                        bldg.position.y += height
                         obstacle_grid[row * grid_size.x + x_coord] = ObstacleTypes.HIGH_OBSTACLE
 
-                    add_child(silo)
+                    add_child(bldg)
                 else:
                     spawn_block(x_coord, row)
                     obstacle_grid[row * grid_size.x + x_coord] = ObstacleTypes.WALL
@@ -85,20 +104,20 @@ func create_obstacles():
 
 
 func spawn_block(x_coord : int, row : int) -> float:
-    var block : MeshInstance3D = MeshInstance3D.new()
-    block.mesh = BoxMesh.new()
-    block.mesh.size = Vector3(cell_size.x, Globals.RNG.randf_range(5, 18), cell_size.y)
-    block.position = Vector3(-30 + cell_size.x * (x_coord + 0.5), y_pos + block.mesh.size.y * 0.5, -cell_size.y * (5 + row))
+    var block : Block = block_scene.instantiate()
+    var height : float = Globals.RNG.randf_range(5, 18)
+    block.initialize(height)
+    block.position = Vector3(-30 + cell_size.x * (x_coord + 0.5), y_pos, -cell_size.y * (5 + row))
     obstacle_grid[row * grid_size.x + x_coord] = ObstacleTypes.WALL
     add_child(block)
 
     var collision_shape : CollisionShape3D = CollisionShape3D.new()
     collision_shape.shape = BoxShape3D.new()
-    collision_shape.shape.size = block.mesh.size
-    collision_shape.position = block.position
+    collision_shape.shape.size = height
+    collision_shape.position = block.position + Vector3.UP * height * 0.5
     $Walls.add_child(collision_shape)
 
-    return block.mesh.size.y
+    return height
 
 func _physics_process(delta: float) -> void:
     if !Engine.is_editor_hint():

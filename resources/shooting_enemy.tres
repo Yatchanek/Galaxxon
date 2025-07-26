@@ -6,8 +6,10 @@
 script = ExtResource("1_wmkmm")
 enemy_type = 2
 spawn_chance = 0.1
+min_stage = 3
 min_amount = 2
 max_amount = 4
 spawn_frequency = 2.25
 min_turn_threshold = -20
 max_turn_threshold = -10
+base_hp = 40

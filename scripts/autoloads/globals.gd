@@ -14,6 +14,30 @@ enum EnemyType {
     FIRST_BOSS,
 }
 
+var enemy_data : Dictionary[EnemyType, Dictionary] = {
+    EnemyType.BASIC_ENEMY : {
+        "first_spawn": 1,
+        "weight" : 0.5,
+    },
+    EnemyType.DIAGONAL_ENEMY : {
+        "first_spawn": 1,
+        "weight" : 0.25, 
+    },
+    EnemyType.SHOOTING_ENEMY : {
+        "first_spawn": 3,
+        "weight" : 0.1, 
+    },  
+    EnemyType.AIMING_ENEMY : {
+        "first_spawn": 5,
+        "weight" : 0.075, 
+    }, 
+    EnemyType.BASIC_PATH_ENEMY : {
+        "first_spawn": 4,
+        "weight" : 0.2, 
+    },     
+}
+
+
 var game_mode : GameMode = GameMode.GALAGA
 var scroll_speed : float = 5.0
 
