@@ -9,7 +9,7 @@ signal player_hp_changed(value : float)
 signal shield_hp_changed(value : float)
 signal boss_entered
 signal boss_health_changed(value : float)
-signal mega_bomb_exploded(pos : Vector3)
+signal mega_bomb_exploded(pos : Vector3, bomb : MegaBomb)
 signal mega_bombs_changed(amount: int)
 signal boss_defeated
 signal player_died

@@ -60,6 +60,7 @@ func spawn_boss():
 	boss.position = Vector3(0, 0, -45)
 	boss.tree_exited.connect(_on_boss_defeated)
 	add_child.call_deferred(boss)
+	timer.stop()
 
 
 func spawn_asteroid():

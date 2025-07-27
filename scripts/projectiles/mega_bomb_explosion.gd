@@ -5,8 +5,11 @@ class_name MegaBombExplosion
 @export var laser_curve : CurveTexture
 
 @onready var hurtboxes : Node3D = $Hurtboxes
+@onready var rays : Node3D = $Rays
 
 var elapsed_time : float = 0.0
+
+var parent_bomb : MegaBomb
 
 var mat : ShaderMaterial = preload("res://resources/materials/laser_shader_material.tres")
 
@@ -18,13 +21,22 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+
     elapsed_time += delta
     if elapsed_time >= 1.0:
         queue_free()
+        parent_bomb.return_to_pool()
 
-    for i in targets.size():
+    for i in range(targets.size() - 1, -1, -1):
         if is_instance_valid(targets[i]):
             hurtboxes.get_child(i).position = to_local(targets[i].global_position)
+        else:
+            rays.get_child(i).queue_free()
+            hurtboxes.get_child(i).queue_free()
+            targets.remove_at(i)
+            if targets.is_empty():
+                queue_free()
+                parent_bomb.return_to_pool()
 
 func explode():
     set_process(true)
@@ -87,4 +99,4 @@ func explode():
         mesh_instance.material_override = mat
         mesh_instance.set_instance_shader_parameter("laser_color", Color.RED)
 
-        add_child(mesh_instance)
+        rays.add_child(mesh_instance)

@@ -12,4 +12,4 @@ max_amount = 4
 spawn_frequency = 1.5
 min_turn_threshold = -20
 max_turn_threshold = -10
-base_hp = 35
+base_hp = 40

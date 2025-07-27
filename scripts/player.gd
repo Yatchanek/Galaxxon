@@ -58,7 +58,7 @@ const max_hp : int = 200
 var hp : float = 20
 
 const max_mega_bombs : int = 3
-var mega_bombs : int = 0
+var mega_bombs : int = max_mega_bombs
 
 var controls_disabled : bool = false
 
@@ -170,7 +170,7 @@ func launch_megabomb():
 		return
 	else:
 		mega_bombs -= 1
-		EventBus.mega_bombs_changed.emit()
+		EventBus.mega_bombs_changed.emit(mega_bombs)
 		BulletPool.release_from_pool(mega_bomb_launch_spot, true, 1, Enums.BulletType.MEGA_BOMB, 10, false)
 
 

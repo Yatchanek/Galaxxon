@@ -168,9 +168,10 @@ func _on_waves_ended():
 	tw.finished.connect(transforming_done)
 
 
-func _on_mega_bomb_exploded(pos : Vector3):
+func _on_mega_bomb_exploded(pos : Vector3, bomb : MegaBomb):
 	var explosion : MegaBombExplosion = bomb_explosion_scene.instantiate()
 	explosion.position = pos
+	explosion.parent_bomb = bomb
 	add_child.call_deferred(explosion)
 
 func transforming_done():

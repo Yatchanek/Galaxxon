@@ -16,3 +16,5 @@ hurtbox_scene = ExtResource("2_0vda5")
 laser_curve = SubResource("CurveTexture_0vda5")
 
 [node name="Hurtboxes" type="Node3D" parent="."]
+
+[node name="Rays" type="Node3D" parent="."]

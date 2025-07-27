@@ -23,12 +23,9 @@ func explode():
     set_physics_process(false)
 
     elapsed_time = 0.0
-    EventBus.mega_bomb_exploded.emit(global_position)
+    EventBus.mega_bomb_exploded.emit(global_position, self)
     stop()
-    await get_tree().create_timer(1.0).timeout
-    if is_inside_tree():
-        return_to_pool()
-        return
+
 
 func start():
     velocity = -global_basis.z * speed
@@ -37,5 +34,4 @@ func start():
 
 func stop():
     super()
-
     elapsed_time = 0.0
