@@ -21,6 +21,8 @@ script = ExtResource("1_bybiq")
 hitbox = NodePath("Hitbox")
 hurtbox = NodePath("Hurtbox")
 hp = 30.0
+speed_coefficient = 6.0
+speed = 9.0
 
 [node name="BodyPivot" type="Node3D" parent="."]
 

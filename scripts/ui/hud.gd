@@ -6,6 +6,9 @@ class_name HUD
 @onready var shield_bar : ProgressBar = %ShieldBar
 @onready var boss_health_bar : ProgressBar = %BossHealthBar
 @onready var mega_bombs_container : VBoxContainer = %MegaBombsContainer
+@onready var stage_completed_label : Label = %StageCompletedLabel
+
+var elapsed_time : float = 0.0
 
 func _ready() -> void:
     EventBus.score_changed.connect(_on_score_changed)
@@ -15,6 +18,16 @@ func _ready() -> void:
     EventBus.boss_health_changed.connect(_on_boss_health_changed)
     EventBus.boss_defeated.connect(_on_boss_defeated)
     EventBus.mega_bombs_changed.connect(_on_mega_bombs_changed)
+    EventBus.stage_ended.connect(_on_stage_ended)
+
+    set_process(false)
+
+func _process(delta: float) -> void:
+    elapsed_time += delta
+    if elapsed_time >= 1.5:
+        stage_completed_label.hide()
+        elapsed_time = 0.0
+        set_process(false)
 
 
 func _on_mega_bombs_changed(amount: int):
@@ -45,3 +58,8 @@ func _on_boss_health_changed(value : float):
 
 func _on_boss_defeated():
     boss_health_bar.hide()
+
+
+func _on_stage_ended():
+    stage_completed_label.show()
+    set_process(true)

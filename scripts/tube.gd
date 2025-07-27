@@ -1,8 +1,6 @@
 extends Node3D
 class_name Segment
 
-@onready var walls : StaticBody3D = $Walls
-
 @export var length : int = 450    
 @export var bunker_scene : PackedScene
 @export var silo_scene : PackedScene
@@ -45,16 +43,18 @@ func _ready() -> void:
     show()
 
 func create_obstacles():
-    for row in grid_size.y:
+    var row : int = 0
+    while row < grid_size.y:
         var roll : float = Globals.RNG.randf()
         if roll < 0.1:
+            row += 2
             if Globals.RNG.randf() < 0.5:
                 var obstacle : SlitObstacle = obstacle_scene.instantiate()
-                obstacle.position = Vector3(0, 0, -cell_size.y * (5 + row))
+                obstacle.position = Vector3(-30, -5, -cell_size.y * (5 + row))
                 add_child(obstacle)
             else:
                 var obstacle : MovingHoleObstacle = hole_obstacle_scene.instantiate()
-                obstacle.position = Vector3(0, 0, -cell_size.y * (5 + row))
+                obstacle.position = Vector3(-30, -5, -cell_size.y * (5 + row))
                 add_child(obstacle)
             row += 3
 
@@ -93,35 +93,31 @@ func create_obstacles():
                         var height : float = spawn_block(x_coord, row)
                         bldg.position.y += height
                         obstacle_grid[row * grid_size.x + x_coord] = ObstacleTypes.HIGH_OBSTACLE
-
+                        prints("Building on block of height", height, ", y position", bldg.position.y)
                     add_child(bldg)
                 else:
                     spawn_block(x_coord, row)
                     obstacle_grid[row * grid_size.x + x_coord] = ObstacleTypes.WALL
-                    
+        row += 1            
 
     obstacles_placed.emit()
 
 
 func spawn_block(x_coord : int, row : int) -> float:
     var block : Block = block_scene.instantiate()
-    var height : float = Globals.RNG.randf_range(5, 18)
+    var height : float = Globals.RNG.randf_range(5, 15)
+    
     block.initialize(height)
     block.position = Vector3(-30 + cell_size.x * (x_coord + 0.5), y_pos, -cell_size.y * (5 + row))
+    #prints("Block height", height, "Block position", block.position)
     obstacle_grid[row * grid_size.x + x_coord] = ObstacleTypes.WALL
     add_child(block)
-
-    var collision_shape : CollisionShape3D = CollisionShape3D.new()
-    collision_shape.shape = BoxShape3D.new()
-    collision_shape.shape.size = height
-    collision_shape.position = block.position + Vector3.UP * height * 0.5
-    $Walls.add_child(collision_shape)
-
+    
     return height
 
 func _physics_process(delta: float) -> void:
     if !Engine.is_editor_hint():
-        position.z += Globals.scroll_speed * 2.5 * delta
+        position.z += Globals.scroll_speed * 3.0 * delta
         if position.z >= 490:
             queue_free()
 

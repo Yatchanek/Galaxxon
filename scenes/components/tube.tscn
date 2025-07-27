@@ -15,6 +15,7 @@ material = ExtResource("8_7c6xm")
 size = Vector3(92, 3, 450)
 
 [node name="Tube" type="Node3D"]
+visible = false
 script = ExtResource("1_5aisg")
 bunker_scene = ExtResource("4_785nk")
 silo_scene = ExtResource("5_cy6co")
@@ -40,6 +41,3 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 1.5, -225)
 mesh = SubResource("BoxMesh_lf0ay")
 skeleton = NodePath("../..")
-
-[node name="Walls" type="StaticBody3D" parent="."]
-collision_mask = 52

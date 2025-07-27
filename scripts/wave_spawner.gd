@@ -34,6 +34,8 @@ var current_stage : int = 0
 
 var stage_ended : bool = false
 
+var max_lines_in_wave : int = 1
+
 func _ready() -> void:
 	currently_spawning = SpawnType.ENEMY
 	set_process(false)
@@ -101,7 +103,7 @@ func spawn_enemy(wave_data : WaveData):
 
 func check_available(x_coord : int) -> bool:
 	for wave_data in waves:
-		if wave_data.x_coord == x_coord:
+		if abs(wave_data.x_coord - x_coord) <= 1:
 			return false
 	
 	return true
@@ -191,7 +193,7 @@ func set_wave_data(wave_data : WaveData, data : EnemyData):
 
 
 func setup_next_stage():
-	#print("Setup next stage")
+	
 	current_stage += 1
 	if current_stage % 5 == 0:
 		#print("Spawn boss")
@@ -253,6 +255,7 @@ func _on_enemy_tree_exit():
 		if is_inside_tree():
 			stage_ended = true
 			#print("Stage ended")
+			
 			timer.start(2.0)
 
 
@@ -260,6 +263,7 @@ func _on_enemy_tree_exit():
 func _on_timer_timeout() -> void:
 	if stage_ended:
 		stage_ended = false
+		EventBus.stage_ended.emit()
 		setup_next_stage()
 	else:
 		if currently_spawning == SpawnType.ENEMY:

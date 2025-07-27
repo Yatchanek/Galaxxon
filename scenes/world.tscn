@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://g7u1uank1std"]
+[gd_scene load_steps=33 format=3 uid="uid://g7u1uank1std"]
 
 [ext_resource type="Script" uid="uid://cn012ndn2bvy8" path="res://scripts/world.gd" id="1_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://42m5coqfeveg" path="res://scenes/player.tscn" id="1_f3sb7"]
@@ -26,6 +26,13 @@ font_size = 32
 font_color = Color(0.227451, 0, 0, 1)
 outline_size = 10
 outline_color = Color(1, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pm21f"]
+font = ExtResource("5_w7kh3")
+font_size = 96
+font_color = Color(0, 0, 0, 1)
+outline_size = 32
+outline_color = Color(1, 1, 0, 1)
 
 [sub_resource type="Environment" id="Environment_dwbse"]
 background_mode = 1
@@ -177,6 +184,24 @@ step = 1.0
 value = 100.0
 fill_mode = 3
 show_percentage = false
+
+[node name="StageCompletedLabel" type="Label" parent="CanvasLayer/HUD"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "STAGE COMPLETED"
+label_settings = SubResource("LabelSettings_pm21f")
 
 [node name="Player" parent="." instance=ExtResource("1_f3sb7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)

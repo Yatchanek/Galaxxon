@@ -18,20 +18,25 @@ resource_local_to_scene = true
 size = Vector3(3, 3, 3)
 
 [node name="Asteroid" type="Node3D" node_paths=PackedStringArray("hitbox", "hurtbox")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.71555e-42, 0, 0)
 script = ExtResource("1_j2n00")
 meshes = Array[ArrayMesh]([ExtResource("2_w7b4c"), ExtResource("3_eyico"), ExtResource("4_xemuc"), ExtResource("5_xr4jj"), ExtResource("6_xemuc")])
+yawing = null
+rolling = null
+turning = null
 hitbox = NodePath("Hitbox")
 hurtbox = NodePath("Hurtbox")
 hp = 50.0
+speed_coefficient = 7.0
 score_value = 50
+speed = 7.0
 
 [node name="BodyPivot" type="Node3D" parent="."]
-transform = Transform3D(0.987802, 0.0307132, -0.152661, -0.0372252, 0.998507, -0.039983, 0.151205, 0.0451781, 0.987469, 0, 0, 0)
 
 [node name="Body" type="MeshInstance3D" parent="BodyPivot"]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 material_override = ExtResource("3_prswt")
-mesh = ExtResource("4_xemuc")
+mesh = ExtResource("2_w7b4c")
 
 [node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
 collision_layer = 16

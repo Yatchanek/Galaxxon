@@ -1,4 +1,3 @@
-@tool
 extends Enemy
 class_name Asteroid
 
@@ -22,7 +21,7 @@ func _ready() -> void:
 
 	#print(meshes.pick_random())
 
-	speed = Globals.scroll_speed * speed_coefficient
+	speed = Globals.scroll_speed + speed_coefficient
 	velocity = global_basis.z * speed
 	rotation_quat = body_pivot.transform.basis.get_rotation_quaternion()
 	set_colors()

@@ -26,8 +26,9 @@ script = ExtResource("1_qgynv")
 hitbox = NodePath("Hitbox")
 hurtbox = NodePath("Hurtbox")
 hp = 40.0
-speed_coefficient = 1.75
+speed_coefficient = 3.0
 score_value = 200
+speed = 7.0
 
 [node name="BodyPivot" type="Node3D" parent="."]
 

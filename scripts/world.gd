@@ -109,7 +109,7 @@ func _on_enemy_destroyed(enemy : Enemy):
 func _on_enemy_hit(enemy : Node3D, damage : float):
 	var damage_label : Label = damage_label_scene.instantiate()
 	damage_label.text = "%.0f" % damage
-	damage_label.position = get_viewport().get_camera_3d().unproject_position(enemy.global_position) + Vector2.LEFT * 40
+	damage_label.position = get_viewport().get_camera_3d().unproject_position(enemy.global_position) + Vector2.LEFT * 40 + Vector2.RIGHT * randf_range(-40, 40)
 	add_child(damage_label)
 
 func _on_building_destroyed(building : Building, building_parent : Node3D):

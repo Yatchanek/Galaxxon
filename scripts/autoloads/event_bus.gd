@@ -14,6 +14,7 @@ signal mega_bombs_changed(amount: int)
 signal boss_defeated
 signal player_died
 
-signal waves_ended()
+signal waves_ended
+signal stage_ended
 
 var player : Player

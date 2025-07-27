@@ -30,7 +30,7 @@ script = ExtResource("1_do404")
 hitbox = NodePath("Hitbox")
 hurtbox = NodePath("Hurtbox")
 hp = 50.0
-speed_coefficient = 1.5
+speed_coefficient = 4.0
 score_value = 300
 body_colors = Array[Color]([Color(1, 0, 0, 1), Color(0.226396, 0.451443, 1, 1), Color(0, 1, 0, 1)])
 

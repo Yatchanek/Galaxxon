@@ -16,7 +16,8 @@ class_name Enemy
 
 @export var body_colors : Array[Color] = []
 
-var speed : float
+@export var speed : float = 5.0
+
 var velocity : Vector3
 var rotation_quat : Quaternion
 
@@ -31,7 +32,7 @@ func _ready() -> void:
 	carries_powerup = Globals.POWERUP_RNG.randf() < 0.175
 	if carries_powerup:
 		set_powerup()
-	speed = Globals.scroll_speed * speed_coefficient
+	#speed = Globals.scroll_speed + speed_coefficient
 	velocity = -global_basis.z * speed
 	rotation_quat = body_pivot.transform.basis.get_rotation_quaternion()
 	set_colors()
