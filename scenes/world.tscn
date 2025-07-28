@@ -20,6 +20,18 @@
 [ext_resource type="PackedScene" uid="uid://c8rhhptsmt63u" path="res://scenes/enemies/asteroid.tscn" id="18_ctatt"]
 [ext_resource type="PackedScene" uid="uid://bnpqmu30lv5t0" path="res://scenes/enemies/boss.tscn" id="19_xgqkh"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4mrxx"]
+render_priority = 0
+shader = ExtResource("2_tlwt5")
+shader_parameter/albedo_tex = ExtResource("3_aqk2v")
+shader_parameter/speed_scale = 0.0
+shader_parameter/dist = 0.0
+shader_parameter/mesh_size = Vector2(80, 60)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_f3sb7"]
+material = SubResource("ShaderMaterial_4mrxx")
+size = Vector2(80, 60)
+
 [sub_resource type="LabelSettings" id="LabelSettings_dwbse"]
 font = ExtResource("5_w7kh3")
 font_size = 32
@@ -38,18 +50,6 @@ outline_color = Color(1, 1, 0, 1)
 background_mode = 1
 glow_enabled = true
 glow_bloom = 0.2
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4mrxx"]
-render_priority = 0
-shader = ExtResource("2_tlwt5")
-shader_parameter/albedo_tex = ExtResource("3_aqk2v")
-shader_parameter/speed_scale = 0.0
-shader_parameter/dist = 0.0
-shader_parameter/mesh_size = Vector2(80, 60)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_f3sb7"]
-material = SubResource("ShaderMaterial_4mrxx")
-size = Vector2(80, 60)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jhx03"]
 size = Vector3(1, 30, 100)
@@ -83,7 +83,12 @@ powerup_scene = ExtResource("4_w7kh3")
 damage_label_scene = ExtResource("5_e3hyu")
 bomb_explosion_scene = ExtResource("6_q5onr")
 
+[node name="Background" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, -17)
+mesh = SubResource("PlaneMesh_f3sb7")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
 
 [node name="HUD" type="Control" parent="CanvasLayer"]
 custom_minimum_size = Vector2(360, 0)
@@ -229,10 +234,6 @@ sky_mode = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_dwbse")
-
-[node name="Background" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, -17)
-mesh = SubResource("PlaneMesh_f3sb7")
 
 [node name="WorldBorders" type="StaticBody3D" parent="."]
 collision_mask = 4

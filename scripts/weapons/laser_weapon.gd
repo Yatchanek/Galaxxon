@@ -46,7 +46,7 @@ func upgrade():
 
 func _process(delta: float) -> void:
     if is_player_weapon:
-        if Input.is_action_just_pressed("fire"):
+        if Input.is_action_pressed("fire") and !is_shooting:
             shoot()
         if Input.is_action_just_released("fire"):
             stop()

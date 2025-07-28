@@ -30,6 +30,7 @@ func _physics_process(delta: float) -> void:
 
 	if !turned and elapsed_time > 2.0 and position.y > turn_threshold:
 		turned = true
+		$BodyPivot/Engine.lifetime = 1.5
 		if position.x >= 0:
 			desired_velocity = velocity.rotated(Vector3.UP, -PI / 3)
 			rotation_quat = Quaternion(Vector3.UP, -PI / 3) * Quaternion(Vector3.FORWARD, PI / 6)

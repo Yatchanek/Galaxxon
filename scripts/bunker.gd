@@ -22,7 +22,7 @@ func _process(_delta: float) -> void:
 
 	turret_pivot.rotation = turret_pivot.basis.get_rotation_quaternion().slerp(rotation_quat, 0.075).get_euler()
 	
-	turret_pivot.rotation.x = clamp(turret_pivot.rotation.x, -PI / 12, PI / 4)
+	turret_pivot.rotation.x = clamp(turret_pivot.rotation.x, -PI / 12, PI / 4.5)
 
 
 func _on_visible_on_screen_notifier_3d_screen_exited() -> void:

@@ -1,34 +1,27 @@
-[gd_scene load_steps=13 format=3 uid="uid://bi0mp8sg3bf40"]
+[gd_scene load_steps=14 format=3 uid="uid://bi0mp8sg3bf40"]
 
 [ext_resource type="Script" uid="uid://37l4po4iwb4u" path="res://scripts/bunker.gd" id="1_764y3"]
 [ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://scenes/weapons/pulse_cannon.tscn" id="2_ewk1p"]
-[ext_resource type="Material" uid="uid://cothpdxipjw2v" path="res://resources/materials/dark_green_material.tres" id="4_hf2lx"]
+[ext_resource type="ArrayMesh" uid="uid://dl0vqqnvq4sa7" path="res://resources/bunker_Cube_001.res" id="4_18dne"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="4_hk1w7"]
+[ext_resource type="Material" uid="uid://8n56rfwyy6kn" path="res://resources/materials/yellow_material.tres" id="5_18dne"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="5_hk1w7"]
 [ext_resource type="Material" uid="uid://bevt7q662s8p8" path="res://resources/materials/black_material.tres" id="5_ttu5d"]
+[ext_resource type="ArrayMesh" uid="uid://d2oh25p6frmq1" path="res://resources/turret_body_Sphere_009.res" id="6_3ofwy"]
 [ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="6_k3v4v"]
+[ext_resource type="ArrayMesh" uid="uid://bbo1bflkvurk3" path="res://resources/turret_Sphere_008.res" id="9_j1due"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tyiie"]
-size = Vector3(7, 6, 7)
+size = Vector3(6, 3, 6)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6gqei"]
 resource_local_to_scene = true
-size = Vector3(7, 5, 7)
+size = Vector3(7, 3.41211, 7)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_764y3"]
-top_radius = 4.0
-bottom_radius = 4.0
-height = 3.0
-radial_segments = 16
-
-[sub_resource type="SphereMesh" id="SphereMesh_hk1w7"]
-radius = 3.0
-height = 4.0
-radial_segments = 16
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_tyiie"]
-height = 6.0
-radial_segments = 16
+[sub_resource type="CylinderMesh" id="CylinderMesh_8ruvy"]
+top_radius = 0.25
+bottom_radius = 0.25
+height = 5.0
 
 [node name="Bunker" type="Node3D"]
 script = ExtResource("1_764y3")
@@ -45,7 +38,7 @@ actor = NodePath("..")
 instadeath = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47876, 0)
 shape = SubResource("BoxShape3D_tyiie")
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("5_hk1w7")]
@@ -54,37 +47,41 @@ collision_mask = 32
 actor = NodePath("..")
 
 [node name="CollisionShape3D" parent="Hitbox" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.70605, 0)
 shape = SubResource("BoxShape3D_6gqei")
 
 [node name="BodyParts" type="Node3D" parent="."]
 
 [node name="Body" type="MeshInstance3D" parent="BodyParts"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-mesh = SubResource("CylinderMesh_764y3")
+mesh = ExtResource("4_18dne")
 skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("4_hf2lx")
+surface_material_override/0 = ExtResource("5_18dne")
 
 [node name="TurretBody" type="MeshInstance3D" parent="BodyParts"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, 0)
-mesh = SubResource("SphereMesh_hk1w7")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.24227, 0)
+mesh = ExtResource("6_3ofwy")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("5_ttu5d")
 
 [node name="TurretPivot" type="Node3D" parent="BodyParts/TurretBody"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.934617, 0)
-
-[node name="Turret" type="MeshInstance3D" parent="BodyParts/TurretBody/TurretPivot"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -2.84217e-14, 0, -4)
-mesh = SubResource("CylinderMesh_tyiie")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("6_k3v4v")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="PulseCannon" parent="BodyParts/TurretBody/TurretPivot" instance=ExtResource("2_ewk1p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.456945, -6.5817)
 fire_rate = 1.5
 bullet_power = 1
 is_player_weapon = false
+
+[node name="Turret" type="MeshInstance3D" parent="BodyParts/TurretBody/TurretPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = ExtResource("9_j1due")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("6_k3v4v")
+
+[node name="Barrel" type="MeshInstance3D" parent="BodyParts/TurretBody/TurretPivot"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.448902, -3.6063)
+mesh = SubResource("CylinderMesh_8ruvy")
+surface_material_override/0 = ExtResource("6_k3v4v")
 
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
 transform = Transform3D(-1, 0, 8.74228e-08, -8.74228e-08, -4.37114e-08, -1, 3.82137e-15, -1, 4.37114e-08, 4.30422e-07, 5.5892, -4.43177)

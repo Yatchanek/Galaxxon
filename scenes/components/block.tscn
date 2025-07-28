@@ -3,30 +3,26 @@
 [ext_resource type="Script" uid="uid://d3qptt0dhmoni" path="res://scripts/components/block.gd" id="1_6n0x3"]
 [ext_resource type="Texture2D" uid="uid://cuffnbj12a451" path="res://images/wall_1_roughness.png" id="1_bkgfl"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_a01hf"]
-resource_local_to_scene = true
-size = Vector3(10, 16.3172, 10)
+[sub_resource type="BoxMesh" id="BoxMesh_6n0x3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6n0x3"]
 resource_local_to_scene = true
 albedo_texture = ExtResource("1_bkgfl")
-uv1_scale = Vector3(0.3, 0.489516, 0.3)
+uv1_scale = Vector3(0.3, 0.230119, 0.3)
 uv1_triplanar = true
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_a01hf"]
-resource_local_to_scene = true
-size = Vector3(10, 16.3172, 10)
+[sub_resource type="BoxShape3D" id="BoxShape3D_4j425"]
 
 [node name="Block" type="Node3D"]
 script = ExtResource("1_6n0x3")
 
 [node name="Body" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.1586, 0)
-mesh = SubResource("BoxMesh_a01hf")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.83532, 0)
+mesh = SubResource("BoxMesh_6n0x3")
 surface_material_override/0 = SubResource("StandardMaterial3D_6n0x3")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape" type="CollisionShape3D" parent="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.1586, 0)
-shape = SubResource("BoxShape3D_a01hf")
+shape = SubResource("BoxShape3D_4j425")
