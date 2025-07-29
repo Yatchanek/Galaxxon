@@ -40,7 +40,7 @@ func initialize():
 
 func _ready() -> void:
     await get_tree().create_timer(0.1).timeout
-    show()
+    #show()
 
 func create_obstacles():
     var row : int = 0

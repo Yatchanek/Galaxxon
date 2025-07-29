@@ -89,8 +89,3 @@ megabomb={
 3d_physics/layer_5="Enemy hurtboxes"
 3d_physics/layer_6="Player hurtboxes"
 3d_physics/layer_7="Pickups"
-
-[rendering]
-
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"

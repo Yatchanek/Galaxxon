@@ -11,7 +11,7 @@ class_name World
 @onready var player : Player = $Player
 @onready var galaga_camera : Camera3D = $GalagaCamera
 @onready var zaxxon_camera : Camera3D = $ZaxxonCamera
-@onready var bkg : MeshInstance3D = $Background
+@onready var bkg : MeshInstance3D = $Ground
 
 @onready var top_border : CollisionShape3D = $WorldBorders/TopBorder
 @onready var left_border : CollisionShape3D = $WorldBorders/LeftBorder
@@ -32,6 +32,8 @@ var segment : Segment
 
 var transforming : bool = false
 
+var elapsed_time : float = 0.0
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_C:
@@ -41,10 +43,8 @@ func _ready() -> void:
 	left_top_border.set_deferred("disabled", true)
 	right_top_border.set_deferred("disabled", true)
 	back_border.position.z = 3.5
-	bkg.mesh.size = Vector2(80, 60)
-	
+	flow_speed = 5.0 / bkg.mesh.size.y
 
-	flow_speed = Globals.scroll_speed / bkg.mesh.size.y
 	EventBus.enemy_hit.connect(_on_enemy_hit)
 	EventBus.enemy_destroyed.connect(_on_enemy_destroyed)
 	EventBus.building_destroyed.connect(_on_building_destroyed)
@@ -58,8 +58,14 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	distance += flow_speed * delta
-
 	bkg.mesh.material.set_shader_parameter("dist", distance)
+	if transforming:
+		elapsed_time += delta
+		var weight = min(elapsed_time / 2.0, 2.0) * 0.125
+		if Globals.game_mode == Globals.GameMode.GALAGA:
+			galaga_camera.transform = galaga_camera.transform.interpolate_with($ZaxxonCameraPos.transform, weight)
+		else:
+			galaga_camera.transform = galaga_camera.transform.interpolate_with($GalagaCameraPos.transform, weight)
 
 
 func spawn_explosion(enemy : Enemy):
@@ -136,29 +142,34 @@ func _on_player_died():
 func _on_waves_ended():
 	player.disable()
 	transforming = true
+	elapsed_time = 0.0
+	set_process(true)
 	var tw : Tween = create_tween()
 	tw.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	tw.set_parallel()
-	tw.tween_property(player, "position:z", -1.0, 1.0)
-	tw.tween_property(player, "position:x", 0.0, 1.0)
+	tw.tween_property(player, "position:z", -2.0, 2.0)
+	tw.tween_property(player, "position:x", 0.0, 2.0)
 	
-	tw.tween_property(player, "transform", Transform3D.IDENTITY, 1.0)
-	if Globals.game_mode == Globals.GameMode.GALAGA:
-		tw.tween_property(galaga_camera, "transform", $ZaxxonCameraPos.transform, 1.0)
+	tw.tween_property(player, "transform", Transform3D.IDENTITY, 2.0)
 	
-		tw.tween_property(self, "flow_speed", 5.0/180.0, 1.0)
-		tw.tween_property(bkg.mesh, "size", Vector2(240.0, 180.0), 1.0)
 
+	if Globals.game_mode == Globals.GameMode.GALAGA:
+		#tw.tween_property(galaga_camera, "transform", $ZaxxonCameraPos.transform, 2.0)
+		tw.tween_property(player, "position:y", -22.0, 2.0)
+		tw.tween_property(self, "flow_speed", 5.0/30.0, 2.0)
+		tw.tween_property(Globals, "scroll_speed", 25.0, 2.0)
+		#tw.tween_property(bkg.mesh, "size:y", 180.0, 2.0)
 		left_top_border.set_deferred("disabled", false)
 		right_top_border.set_deferred("disabled", false)
 		top_border.set_deferred("disabled", true)
 		back_border.position.z = 40.5
 	else:
-		tw.tween_property(galaga_camera, "transform", $GalagaCameraPos.transform, 1.0)
-		tw.tween_property(player, "position:y", 0.0, 1.0)
-		tw.tween_property(self, "flow_speed", 5.0/60, 1.0)
-		tw.tween_property(bkg.mesh, "size", Vector2(80.0, 60.0), 1.0)		
-	
+		#tw.tween_property(galaga_camera, "transform", $GalagaCameraPos.transform, 2.0)
+		tw.tween_property(player, "position:y", 0.0, 2.0)
+		tw.tween_property(self, "flow_speed", 5.0/150.0, 2.0)
+		tw.tween_property(Globals, "scroll_speed", 5.0, 2.0)
+		#tw.tween_property(bkg.mesh, "size:y", 60.0, 2.0)		
+
 		left_top_border.set_deferred("disabled", true)
 		right_top_border.set_deferred("disabled", true)
 		top_border.set_deferred("disabled", false)
@@ -179,6 +190,9 @@ func transforming_done():
 	if Globals.game_mode == Globals.GameMode.GALAGA:
 		Globals.game_mode = Globals.GameMode.ZAXXON
 		player.steering_mode = player.SteeringMode.ZAXXON
+		galaga_camera.transform = $ZaxxonCameraPos.transform
+
+
 		var tube : Segment = tube_scene.instantiate()
 		tube.position = Vector3(0, 0, -95)
 		tube.tree_exited.connect(_on_waves_ended)
@@ -188,6 +202,9 @@ func transforming_done():
 	else:
 		Globals.game_mode = Globals.GameMode.GALAGA
 		player.steering_mode = player.SteeringMode.GALAGA
+		galaga_camera.transform = $GalagaCameraPos.transform
+
+		Globals.scroll_speed = 5.0
 		spawn_manager.start()
 		
 	player.enable()

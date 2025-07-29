@@ -74,7 +74,7 @@ func blink():
 	for i in body_pivot.get_child_count():
 		var body_part : MeshInstance3D = body_pivot.get_child(i)
 		var tw : Tween = create_tween()
-		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", Color.WHITE, 0.05)
+		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", Color.RED, 0.05)
 		tw.tween_property(body_part.get_surface_override_material(0), "albedo_color", body_colors[i], 0.05)
 		if i == body_pivot.get_child_count() - 1:
 			tw.finished.connect(func(): can_blink = true)	

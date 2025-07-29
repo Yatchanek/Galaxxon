@@ -32,7 +32,6 @@ const ACCELERATION : float = 100.0
 
 @onready var body_pivot : Node3D = $BodyPivot
 @onready var body : MeshInstance3D = $BodyPivot/Body
-@onready var wings : MeshInstance3D = $BodyPivot/Wings
 @onready var shoot_timer : Timer = $ShootTimer
 @onready var main_weapon_slot : Node3D = $MainWeaponSlot
 @onready var sub_weapon_slot_left : Node3D = $SecondaryWeaponSlots/Subslot
@@ -141,7 +140,7 @@ func _physics_process(delta: float) -> void:
 		position += velocity * delta
 		position.x = clamp(position.x, -30, 30)
 		position.z = clamp(position.z, -35, 0)
-		position.y = clamp(position.y, 0, 20)
+		position.y = clamp(position.y, -23, 0)
 
 
 		if Input.is_action_just_pressed("megabomb"):

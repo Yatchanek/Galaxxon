@@ -54,10 +54,8 @@ func blink(dir : Vector3 = Vector3.ZERO):
     mat.set_shader_parameter("shot_direction", dir)
     mat.set_shader_parameter("is_hit", true)
     var tw : Tween = create_tween()
-    #tw.tween_property(mat, "shader_parameter/shield_color", Color.WHITE, 0.1)
     tw.parallel().tween_property(mat, "shader_parameter/alpha_threshold", 0.05, 0.1)
-    #tw.tween_property(mat, "shader_parameter/shield_color", Color.CYAN, 0.1)
-    tw.parallel().tween_property(mat, "shader_parameter/alpha_threshold", 0.25, 0.1)   
+    tw.parallel().tween_property(mat, "shader_parameter/alpha_threshold", 0.35, 0.1)   
     tw.finished.connect(_on_blink_end)
 
 func _on_blink_end():

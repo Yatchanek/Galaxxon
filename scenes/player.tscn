@@ -5,29 +5,46 @@
 [ext_resource type="PackedScene" uid="uid://mato0xxl1qce" path="res://scenes/weapons/laser_weapon.tscn" id="4_hqtel"]
 [ext_resource type="PackedScene" uid="uid://kn6jwqy71lme" path="res://scenes/weapons/rocket_launcher.tscn" id="5_sweqy"]
 [ext_resource type="Script" uid="uid://dufaoa4a0ltqi" path="res://scripts/components/hitbox.gd" id="5_tuyoq"]
-[ext_resource type="ArrayMesh" uid="uid://gi8ciiriw8qu" path="res://resources/player.res" id="6_f1ej7"]
+[ext_resource type="ArrayMesh" uid="uid://f74ls5op8n8t" path="res://resources/jet fighter_Cube.res" id="6_a8ls1"]
 [ext_resource type="PackedScene" uid="uid://br7xolltkcw1r" path="res://scenes/weapons/vulcan_cannon.tscn" id="6_fjrip"]
-[ext_resource type="Material" uid="uid://b6p5pbojykn45" path="res://resources/materials/grey_metallic_material.tres" id="6_jej6c"]
-[ext_resource type="Material" uid="uid://8n56rfwyy6kn" path="res://resources/materials/yellow_material.tres" id="6_smehm"]
+[ext_resource type="Texture2D" uid="uid://cox1imtotkxjx" path="res://resources/texture/Metal046A_2K-JPG_Color.jpg" id="7_qfm1y"]
+[ext_resource type="Texture2D" uid="uid://d1v8ygku6upwl" path="res://resources/texture/Metal046A_2K-JPG_Metalness.jpg" id="8_fulsm"]
+[ext_resource type="Texture2D" uid="uid://bxn8xsjgpwrei" path="res://resources/texture/Metal046A_2K-JPG_NormalGL.jpg" id="9_4r5pv"]
 [ext_resource type="Material" uid="uid://bevt7q662s8p8" path="res://resources/materials/black_material.tres" id="9_a8ls1"]
 [ext_resource type="Script" uid="uid://cwv7dq0rcps82" path="res://scripts/components/shield.gd" id="9_d2wvv"]
-[ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="9_f1ej7"]
-[ext_resource type="Material" uid="uid://k4je6fqs1vlc" path="res://resources/materials/blue_material.tres" id="9_oprun"]
 [ext_resource type="Shader" uid="uid://iokt1hpq5o6d" path="res://resources/shaders/shield.gdshader" id="9_y4r1p"]
+[ext_resource type="Texture2D" uid="uid://b406ujxeqgu24" path="res://resources/texture/Metal046A_2K-JPG_Roughness.jpg" id="10_60mlk"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="10_d2wvv"]
 [ext_resource type="Script" uid="uid://brtodd45brrv0" path="res://scripts/components/shield_hitbox.gd" id="13_jej6c"]
 
-[sub_resource type="PrismMesh" id="PrismMesh_d2wvv"]
-left_to_right = 0.0
-size = Vector3(2.5, 3, 0.25)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i4ail"]
+albedo_texture = ExtResource("7_qfm1y")
+metallic = 1.0
+metallic_texture = ExtResource("8_fulsm")
+roughness_texture = ExtResource("10_60mlk")
+normal_enabled = true
+normal_texture = ExtResource("9_4r5pv")
+uv1_scale = Vector3(5, 5, 5)
 
-[sub_resource type="PrismMesh" id="PrismMesh_fj7yv"]
-left_to_right = 1.0
-size = Vector3(2.5, 3, 0.25)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a38lo"]
+albedo_color = Color(0, 0.627451, 1, 1)
+albedo_texture = ExtResource("7_qfm1y")
+metallic = 1.0
+metallic_texture = ExtResource("8_fulsm")
+roughness_texture = ExtResource("10_60mlk")
+normal_enabled = true
+normal_texture = ExtResource("9_4r5pv")
+uv1_scale = Vector3(5, 5, 5)
 
-[sub_resource type="PrismMesh" id="PrismMesh_fjrip"]
-left_to_right = 0.0
-size = Vector3(1.25, 1.25, 0.25)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4ni07"]
+albedo_color = Color(1, 0, 0, 1)
+albedo_texture = ExtResource("7_qfm1y")
+metallic = 1.0
+metallic_texture = ExtResource("8_fulsm")
+roughness_texture = ExtResource("10_60mlk")
+normal_enabled = true
+normal_texture = ExtResource("9_4r5pv")
+uv1_scale = Vector3(5, 5, 5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fjrip"]
 size = Vector3(1.5, 1, 2)
@@ -73,6 +90,8 @@ vertex_color_use_as_albedo = true
 
 [sub_resource type="TorusMesh" id="TorusMesh_qfm1y"]
 material = SubResource("StandardMaterial3D_4r5pv")
+rings = 8
+ring_segments = 5
 
 [sub_resource type="SphereMesh" id="SphereMesh_3v2ag"]
 radius = 3.5
@@ -122,32 +141,12 @@ weapon_scenes = Dictionary[int, PackedScene]({
 
 [node name="Body" type="MeshInstance3D" parent="BodyPivot"]
 transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, -5.79973e-08, 0, -0.663412)
-mesh = ExtResource("6_f1ej7")
+mesh = ExtResource("6_a8ls1")
 skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("6_jej6c")
-surface_material_override/1 = ExtResource("9_oprun")
+surface_material_override/0 = SubResource("StandardMaterial3D_i4ail")
+surface_material_override/1 = SubResource("StandardMaterial3D_a38lo")
 surface_material_override/2 = ExtResource("9_a8ls1")
-surface_material_override/3 = ExtResource("9_f1ej7")
-
-[node name="Wings" type="MeshInstance3D" parent="BodyPivot"]
-transform = Transform3D(0.984808, -6.64077e-10, 0.173648, -0.173648, -7.5904e-09, 0.984808, 6.64077e-10, -1, -7.5904e-09, 1.5, 0.025, 0.27)
-visible = false
-mesh = SubResource("PrismMesh_d2wvv")
-skeleton = NodePath("../Body")
-surface_material_override/0 = ExtResource("6_smehm")
-
-[node name="Wings2" type="MeshInstance3D" parent="BodyPivot"]
-transform = Transform3D(0.984808, 6.64077e-10, -0.173648, 0.173648, -7.5904e-09, 0.984808, -6.64077e-10, -1, -7.5904e-09, -1.5, 0.025, 0.27)
-visible = false
-mesh = SubResource("PrismMesh_fj7yv")
-skeleton = NodePath("../Body")
-surface_material_override/0 = ExtResource("6_smehm")
-
-[node name="Tail" type="MeshInstance3D" parent="BodyPivot"]
-transform = Transform3D(-0.0502269, 0, 0.998738, 0, 1, 0, -0.998738, 0, -0.0502269, -0.00313649, 1.02971, 1.00134)
-visible = false
-mesh = SubResource("PrismMesh_fjrip")
-surface_material_override/0 = ExtResource("9_f1ej7")
+surface_material_override/3 = SubResource("StandardMaterial3D_4ni07")
 
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.1

@@ -1,14 +1,35 @@
-[gd_scene load_steps=21 format=3 uid="uid://jio4jnlmcbf2"]
+[gd_scene load_steps=25 format=3 uid="uid://jio4jnlmcbf2"]
 
 [ext_resource type="Script" uid="uid://bc88jdevxu1bt" path="res://scripts/enemies/diagonal_enemy.gd" id="1_l1rku"]
 [ext_resource type="ArrayMesh" uid="uid://cxe28hw3crajx" path="res://resources/enemy_2.res" id="2_7346a"]
-[ext_resource type="Material" uid="uid://cothpdxipjw2v" path="res://resources/materials/dark_green_material.tres" id="2_l4qja"]
+[ext_resource type="Texture2D" uid="uid://cox1imtotkxjx" path="res://resources/texture/Metal046A_2K-JPG_Color.jpg" id="3_1pwl4"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="3_l4qja"]
 [ext_resource type="Material" uid="uid://k4je6fqs1vlc" path="res://resources/materials/blue_material.tres" id="3_skeds"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="4_5thxe"]
+[ext_resource type="Texture2D" uid="uid://d1v8ygku6upwl" path="res://resources/texture/Metal046A_2K-JPG_Metalness.jpg" id="4_vig3d"]
 [ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="5_4l4xq"]
-[ext_resource type="Material" uid="uid://b6p5pbojykn45" path="res://resources/materials/grey_metallic_material.tres" id="6_3omks"]
+[ext_resource type="Texture2D" uid="uid://bxn8xsjgpwrei" path="res://resources/texture/Metal046A_2K-JPG_NormalGL.jpg" id="5_56eop"]
+[ext_resource type="Texture2D" uid="uid://b406ujxeqgu24" path="res://resources/texture/Metal046A_2K-JPG_Roughness.jpg" id="6_5c3gn"]
 [ext_resource type="Material" uid="uid://bevt7q662s8p8" path="res://resources/materials/black_material.tres" id="7_1pwl4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6gv4a"]
+albedo_texture = ExtResource("3_1pwl4")
+metallic = 1.0
+metallic_texture = ExtResource("4_vig3d")
+roughness_texture = ExtResource("6_5c3gn")
+normal_enabled = true
+normal_texture = ExtResource("5_56eop")
+uv1_scale = Vector3(5, 5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3omks"]
+albedo_color = Color(0.188235, 1, 0, 1)
+albedo_texture = ExtResource("3_1pwl4")
+metallic = 1.0
+metallic_texture = ExtResource("4_vig3d")
+roughness_texture = ExtResource("6_5c3gn")
+normal_enabled = true
+normal_texture = ExtResource("5_56eop")
+uv1_scale = Vector3(5, 5, 5)
 
 [sub_resource type="Curve" id="Curve_7346a"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.720648, 0.325581), -1.81899, -1.81899, 0, 0, Vector2(0.951417, 0), 0.0, 0.0, 0, 0]
@@ -70,10 +91,10 @@ speed = 8.0
 [node name="Body" type="MeshInstance3D" parent="BodyPivot"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0.5)
 mesh = ExtResource("2_7346a")
-surface_material_override/0 = ExtResource("6_3omks")
+surface_material_override/0 = SubResource("StandardMaterial3D_6gv4a")
 surface_material_override/1 = ExtResource("3_skeds")
 surface_material_override/2 = ExtResource("5_4l4xq")
-surface_material_override/3 = ExtResource("2_l4qja")
+surface_material_override/3 = SubResource("StandardMaterial3D_3omks")
 surface_material_override/4 = ExtResource("7_1pwl4")
 
 [node name="Engine" type="GPUParticles3D" parent="BodyPivot"]

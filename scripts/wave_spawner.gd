@@ -89,7 +89,7 @@ func spawn_enemy(wave_data : WaveData):
 		add_child.call_deferred(enemy)
 	else:
 		var path_follow : EnemyPathFollow = path_follow_scene.instantiate()
-		var enemy : PathEnemy = enemy_scene[wave_data.enemy_type].instantiate()
+		var enemy : PathEnemy = enemy_scene[wave_data.enemy_data.enemy_type].instantiate()
 		enemy.tree_exited.connect(_on_enemy_tree_exit)
 		path_follow.tree_exited.connect(enemy_path._on_enemy_exited)
 
@@ -202,20 +202,22 @@ func setup_next_stage():
 
 	else:
 		if currently_spawning == SpawnType.ENEMY:
-			var roll : float = Globals.RNG.randf()
-			if current_stage > 3 and roll < 0.2:
-				launch_asteroid_field()
-				#print("Launching asteroids")
+			await get_tree().create_timer(2.0).timeout
+			EventBus.waves_ended.emit()
+			# var roll : float = Globals.RNG.randf()
+			# if current_stage > 3 and roll < 0.2:
+			# 	launch_asteroid_field()
+			# 	#print("Launching asteroids")
 				
-			elif roll < 0.65 or current_stage <= 3:
-				total_waves = Globals.RNG.randi_range(5, 10)
-				launch_normal_waves()
+			# elif roll < 0.65 or current_stage <= 3:
+			# 	total_waves = Globals.RNG.randi_range(5, 10)
+			# 	launch_normal_waves()
 				
-				#print("Launching normal waves")
-			elif roll < 1.0 or current_stage % 7 == 0:	
-				await get_tree().create_timer(2.0).timeout
-				EventBus.waves_ended.emit()
-				#print("Going isometric")
+			# 	#print("Launching normal waves")
+			# elif roll < 1.0 or current_stage % 2 == 0:	
+			# 	await get_tree().create_timer(2.0).timeout
+			# 	EventBus.waves_ended.emit()
+			# 	#print("Going isometric")
 
 		else:
 			var roll : float = Globals.RNG.randf()
