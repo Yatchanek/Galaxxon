@@ -140,7 +140,8 @@ func _physics_process(delta: float) -> void:
 		position += velocity * delta
 		position.x = clamp(position.x, -30, 30)
 		position.z = clamp(position.z, -35, 0)
-		position.y = clamp(position.y, -23, 0)
+		if Globals.game_mode == Globals.GameMode.ZAXXON:
+			position.y = clamp(position.y, -15, 0)
 
 
 		if Input.is_action_just_pressed("megabomb"):

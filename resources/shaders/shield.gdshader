@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_mix, cull_disabled, depth_draw_opaque;
+render_mode blend_mix, depth_draw_opaque,cull_disabled;
 
 uniform vec4 shield_color : source_color;
 uniform vec4 hit_shield_color = vec4(1.0, 1.0, 1.0, 1.0);
@@ -19,12 +19,13 @@ void fragment() {
 		vec3 world_normal = (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
 		float dot_product = dot(world_normal, shot_direction);
 		dot_product = (dot_product + 1.0) * 0.5;
+			ALBEDO = vec3(1.0);
 			ALBEDO = mix(albedo_color, shield_color.rgb, smoothstep(0.0, 0.5, dot_product));
-			ALPHA = (smoothstep(alpha_threshold, 1.0, noise) - dot_product);
+			ALPHA = max((smoothstep(alpha_threshold, 1.0, noise) - dot_product + 0.25), 0.0);
 	}
 	else {
 		ALBEDO = mix(albedo_color, shield_color.rgb, 1.0);
-		ALPHA = smoothstep(alpha_threshold + 0.25, 1.0, noise);
+		ALPHA = smoothstep(alpha_threshold + 0.2, 1.0, noise);
 	}
 	
 	METALLIC = 0.5;

@@ -1,21 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://gbwi00phf4bv"]
+[gd_scene load_steps=8 format=3 uid="uid://gbwi00phf4bv"]
 
 [ext_resource type="Script" uid="uid://co8q02stiur23" path="res://scripts/tube.gd" id="1_5aisg"]
-[ext_resource type="ArrayMesh" uid="uid://ttobsci10tx6" path="res://resources/wall.res" id="2_7c6xm"]
 [ext_resource type="PackedScene" uid="uid://bi0mp8sg3bf40" path="res://scenes/buildings/bunker.tscn" id="4_785nk"]
 [ext_resource type="PackedScene" uid="uid://dds0ktaejirs" path="res://scenes/buildings/silo.tscn" id="5_cy6co"]
 [ext_resource type="PackedScene" uid="uid://but5dbkrg6w7f" path="res://scenes/buildings/stationary_plane.tscn" id="6_cy6co"]
 [ext_resource type="PackedScene" uid="uid://dn0yb86brv6fk" path="res://scenes/components/moving_hole_obstacle.tscn" id="6_sfi0d"]
 [ext_resource type="PackedScene" uid="uid://77qysjyonave" path="res://scenes/components/slit_obstacle.tscn" id="7_3j2uh"]
 [ext_resource type="PackedScene" uid="uid://cdmt86esslfgf" path="res://scenes/components/block.tscn" id="7_nx8nc"]
-[ext_resource type="Material" uid="uid://carggi0qnfq5e" path="res://resources/materials/tube.tres" id="8_7c6xm"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_lf0ay"]
-material = ExtResource("8_7c6xm")
-size = Vector3(92, 3, 450)
 
 [node name="Tube" type="Node3D"]
-visible = false
 script = ExtResource("1_5aisg")
 bunker_scene = ExtResource("4_785nk")
 silo_scene = ExtResource("5_cy6co")
@@ -23,21 +16,3 @@ stationary_plane_scene = ExtResource("6_cy6co")
 obstacle_scene = ExtResource("7_3j2uh")
 hole_obstacle_scene = ExtResource("6_sfi0d")
 block_scene = ExtResource("7_nx8nc")
-
-[node name="Body" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, -5, 0)
-
-[node name="LeftWall" type="MeshInstance3D" parent="Body"]
-transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 450, 0, 0, -225)
-mesh = ExtResource("2_7c6xm")
-skeleton = NodePath("../..")
-
-[node name="RightWall" type="MeshInstance3D" parent="Body"]
-transform = Transform3D(-15, 0, 0, 0, 15, 0, 0, 0, 450, 92, 0, -225)
-mesh = ExtResource("2_7c6xm")
-skeleton = NodePath("../..")
-
-[node name="Floor" type="MeshInstance3D" parent="Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 1.5, -225)
-mesh = SubResource("BoxMesh_lf0ay")
-skeleton = NodePath("../..")

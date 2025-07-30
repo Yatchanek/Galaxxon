@@ -38,6 +38,7 @@ enemy_data = Array[ExtResource("8_x751n")]([ExtResource("9_vk5hk"), ExtResource(
 total_waves = 20
 
 [node name="EnemyPath" parent="." instance=ExtResource("7_fxn12")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 curve = SubResource("Curve3D_fprlg")
 point_num = 3
 

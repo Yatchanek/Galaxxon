@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://g7u1uank1std"]
+[gd_scene load_steps=43 format=3 uid="uid://g7u1uank1std"]
 
 [ext_resource type="Script" uid="uid://cn012ndn2bvy8" path="res://scripts/world.gd" id="1_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://42m5coqfeveg" path="res://scenes/player.tscn" id="1_f3sb7"]
@@ -22,7 +22,9 @@
 [ext_resource type="PackedScene" uid="uid://c8rhhptsmt63u" path="res://scenes/enemies/asteroid.tscn" id="18_ctatt"]
 [ext_resource type="PackedScene" uid="uid://bnpqmu30lv5t0" path="res://scenes/enemies/boss.tscn" id="19_xgqkh"]
 [ext_resource type="Script" uid="uid://51unt42sqa7b" path="res://scripts/enemies/mountains.gd" id="22_kpybi"]
-[ext_resource type="ArrayMesh" uid="uid://bj64f77drum37" path="res://resources/mountain.res" id="23_ctatt"]
+[ext_resource type="ArrayMesh" uid="uid://cpfwmuhgkdtl1" path="res://resources/mountains_Cylinder_002.res" id="23_xgqkh"]
+[ext_resource type="ArrayMesh" uid="uid://bn24bl7b0wusr" path="res://resources/mountains_Cylinder_003.res" id="24_munwf"]
+[ext_resource type="ArrayMesh" uid="uid://d4kddl6m5fjce" path="res://resources/mountains_Cylinder_004.res" id="25_ts3gi"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_7iits"]
 
@@ -44,7 +46,7 @@ shader_parameter/speed_scale = 0.0
 shader_parameter/dist = 0.0
 shader_parameter/mesh_size = Vector2(80, 60)
 shader_parameter/mix_rate = 0.5
-shader_parameter/uv_scale = 4.0
+shader_parameter/uv_scale = 5.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_f3sb7"]
 material = SubResource("ShaderMaterial_4mrxx")
@@ -115,6 +117,7 @@ bomb_explosion_scene = ExtResource("6_q5onr")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.5813, -27, -44)
+visible = false
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_f3sb7")
 
@@ -240,7 +243,7 @@ text = "STAGE COMPLETED"
 label_settings = SubResource("LabelSettings_pm21f")
 
 [node name="Player" parent="." instance=ExtResource("1_f3sb7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -1)
 
 [node name="GalagaCamera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.0871558, 0.996195, 0, -0.996195, -0.0871558, 0, 20, -17)
@@ -249,13 +252,13 @@ current = true
 size = 40.0
 
 [node name="ZaxxonCamera" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390732, -0.707107, -0.276289, 0.650895, 56.5, 20, 44)
+transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390732, -0.707107, -0.276289, 0.650895, 56.5, 23, 44)
 cull_mask = 524287
 projection = 1
 size = 40.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.519158, 16.2413, -25.7029)
+transform = Transform3D(0.983581, 7.88849e-09, -0.180468, 0.180468, -4.29937e-08, 0.983581, -3.60075e-15, -1, -4.37114e-08, 0.519158, 16.2413, -25.7029)
 layers = 3
 shadow_enabled = true
 shadow_opacity = 0.85
@@ -317,54 +320,200 @@ total_waves = 1
 transform = Transform3D(1, 0, 0, 0, -0.0871558, 0.996195, 0, -0.996195, -0.0871558, 0, 20, -17)
 
 [node name="ZaxxonCameraPos" type="Marker3D" parent="."]
-transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390732, -0.707107, -0.276289, 0.650895, 56.5, 20, 44)
+transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390732, -0.707107, -0.276289, 0.650895, 56.5, 23, 44)
 
 [node name="Mountains" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, -27, -44)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.37635, -17, -44)
 script = ExtResource("22_kpybi")
 max_z_pos = 150.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Mountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.967, 0, 59.7483)
-mesh = ExtResource("23_ctatt")
+[node name="Front" type="Node3D" parent="Mountains"]
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mountains"]
-transform = Transform3D(0.880321, 0, -0.4511, 0, 1.25, 0, 0.357121, 0, 1.11198, -46.7595, 0, 31.74)
-mesh = ExtResource("23_ctatt")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mountains/Front"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -50, 0, 67.5657)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../..")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Mountains"]
-transform = Transform3D(0.990107, 0, 0.140314, 0, 1, 0, -0.140314, 0, 0.990107, -46.7595, 0, -1.02528)
-mesh = ExtResource("23_ctatt")
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Mountains/Front"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -50, 0, 54.1911)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../..")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="Mountains"]
-transform = Transform3D(1.18128, 0, -0.211162, 0, 0.8, 0, 0.211162, 0, 1.18128, -46.7595, 0, -29.4878)
-mesh = ExtResource("23_ctatt")
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Mountains/Front"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -50, 0, -47.0339)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../..")
 
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="Mountains"]
-transform = Transform3D(0.812976, 0, -0.88265, 0, 0.8, 0, 0.88265, 0, 0.812976, -46.7595, 0, -58.8011)
-mesh = ExtResource("23_ctatt")
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mountains/Front"]
+transform = Transform3D(1.85331, 0, -0.751833, 0, 2, 0, 0.751833, 0, 1.85331, -50, 0, 36.888)
+cast_shadow = 0
+mesh = ExtResource("24_munwf")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Mountains/Front"]
+transform = Transform3D(1.85331, 0, -0.751833, 0, 2, 0, 0.751833, 0, 1.85331, -50, 0, -66.0208)
+cast_shadow = 0
+mesh = ExtResource("24_munwf")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Mountains/Front"]
+transform = Transform3D(1.98021, 0, 0.280628, 0, 2, 0, -0.280628, 0, 1.98021, -50, 0, 18.3515)
+cast_shadow = 0
+mesh = ExtResource("25_ts3gi")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Mountains/Front"]
+transform = Transform3D(1.98021, 0, 0.280628, 0, 2, 0, -0.280628, 0, 1.98021, -50, 0, 1.20342)
+cast_shadow = 0
+mesh = ExtResource("25_ts3gi")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Mountains/Front"]
+transform = Transform3D(1.96879, 0, -0.351935, 0, 2, 0, 0.351935, 0, 1.96879, -50, 0, -12.2191)
+cast_shadow = 0
+mesh = ExtResource("24_munwf")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Mountains/Front"]
+transform = Transform3D(1.35496, 0, -1.47108, 0, 2, 0, 1.47108, 0, 1.35496, -50, 0, -28.4866)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../..")
+
+[node name="Back" type="Node3D" parent="Mountains"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mountains/Back"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -62, 0, 59.151)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mountains/Back"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -62, 0, -55.7368)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Mountains/Back"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -62, 0, 27.2355)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Mountains/Back"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -62, 0, -28.5125)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="Mountains/Back"]
+transform = Transform3D(2.95319, 0, -0.527903, 0, 3, 0, 0.527903, 0, 2.95319, -62, 0, -1.20633)
+cast_shadow = 0
+mesh = ExtResource("24_munwf")
+skeleton = NodePath("../..")
+
+[node name="Ground" type="MeshInstance3D" parent="Mountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.581, 0, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_f3sb7")
 
 [node name="Mountains2" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, -27, -194)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.37635, -17, -194)
 script = ExtResource("22_kpybi")
-max_z_pos = 95.0
+max_z_pos = 150.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Mountains2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.967, 0, 59.7483)
-mesh = ExtResource("23_ctatt")
+[node name="Front" type="Node3D" parent="Mountains2"]
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mountains2"]
-transform = Transform3D(0.880321, 0, -0.4511, 0, 1.25, 0, 0.357121, 0, 1.11198, -46.7595, 0, 31.74)
-mesh = ExtResource("23_ctatt")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mountains2/Front"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -50, 0, 67.5657)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../..")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Mountains2"]
-transform = Transform3D(0.990107, 0, 0.140314, 0, 1, 0, -0.140314, 0, 0.990107, -46.7595, 0, -1.02528)
-mesh = ExtResource("23_ctatt")
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Mountains2/Front"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -50, 0, 54.1911)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../..")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="Mountains2"]
-transform = Transform3D(1.18128, 0, -0.211162, 0, 0.8, 0, 0.211162, 0, 1.18128, -46.7595, 0, -29.4878)
-mesh = ExtResource("23_ctatt")
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Mountains2/Front"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -50, 0, -47.0339)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../..")
 
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="Mountains2"]
-transform = Transform3D(0.812976, 0, -0.88265, 0, 0.8, 0, 0.88265, 0, 0.812976, -46.7595, 0, -58.8011)
-mesh = ExtResource("23_ctatt")
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mountains2/Front"]
+transform = Transform3D(1.85331, 0, -0.751833, 0, 2, 0, 0.751833, 0, 1.85331, -50, 0, 36.888)
+cast_shadow = 0
+mesh = ExtResource("24_munwf")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Mountains2/Front"]
+transform = Transform3D(1.85331, 0, -0.751833, 0, 2, 0, 0.751833, 0, 1.85331, -50, 0, -66.0208)
+cast_shadow = 0
+mesh = ExtResource("24_munwf")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Mountains2/Front"]
+transform = Transform3D(1.98021, 0, 0.280628, 0, 2, 0, -0.280628, 0, 1.98021, -50, 0, 18.3515)
+cast_shadow = 0
+mesh = ExtResource("25_ts3gi")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Mountains2/Front"]
+transform = Transform3D(1.98021, 0, 0.280628, 0, 2, 0, -0.280628, 0, 1.98021, -50, 0, 1.20342)
+cast_shadow = 0
+mesh = ExtResource("25_ts3gi")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Mountains2/Front"]
+transform = Transform3D(1.96879, 0, -0.351935, 0, 2, 0, 0.351935, 0, 1.96879, -50, 0, -12.2191)
+cast_shadow = 0
+mesh = ExtResource("24_munwf")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Mountains2/Front"]
+transform = Transform3D(1.35496, 0, -1.47108, 0, 2, 0, 1.47108, 0, 1.35496, -50, 0, -28.4866)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../..")
+
+[node name="Back" type="Node3D" parent="Mountains2"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mountains2/Back"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -62, 0, 59.151)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mountains2/Back"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -62, 0, -55.7368)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Mountains2/Back"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -62, 0, 27.2355)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Mountains2/Back"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -62, 0, -28.5125)
+cast_shadow = 0
+mesh = ExtResource("23_xgqkh")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="Mountains2/Back"]
+transform = Transform3D(2.95319, 0, -0.527903, 0, 3, 0, 0.527903, 0, 2.95319, -62, 0, -1.20633)
+cast_shadow = 0
+mesh = ExtResource("24_munwf")
+skeleton = NodePath("../..")
+
+[node name="Ground" type="MeshInstance3D" parent="Mountains2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.581, 0, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_f3sb7")

@@ -34,16 +34,13 @@ var transforming : bool = false
 
 var elapsed_time : float = 0.0
 
-func _input(event: InputEvent) -> void:
-	if event is InputEventKey:
-		if event.pressed and event.keycode == KEY_C:
-			transforming = true
 
 func _ready() -> void:
 	left_top_border.set_deferred("disabled", true)
 	right_top_border.set_deferred("disabled", true)
 	back_border.position.z = 3.5
-	flow_speed = 5.0 / bkg.mesh.size.y
+	Globals.scroll_speed = 5.0
+	flow_speed = Globals.scroll_speed / bkg.mesh.size.y
 
 	EventBus.enemy_hit.connect(_on_enemy_hit)
 	EventBus.enemy_destroyed.connect(_on_enemy_destroyed)
@@ -57,11 +54,10 @@ func _ready() -> void:
 	spawn_manager.start()
 
 func _process(delta: float) -> void:
-	distance += flow_speed * delta
-	bkg.mesh.material.set_shader_parameter("dist", distance)
+	
 	if transforming:
 		elapsed_time += delta
-		var weight = min(elapsed_time / 2.0, 2.0) * 0.125
+		var weight = min(elapsed_time / 2.0, 2.0) * 0.135
 		if Globals.game_mode == Globals.GameMode.GALAGA:
 			galaga_camera.transform = galaga_camera.transform.interpolate_with($ZaxxonCameraPos.transform, weight)
 		else:
@@ -127,6 +123,7 @@ func _on_player_died():
 	if segment:
 		segment.set_physics_process(false)
 	player.hide()
+	Globals.scroll_speed = 0.0
 	var explosion : GPUParticles3D = explosion_scene.instantiate()
 	explosion.position = player.position
 	explosion.finished.connect(remove_bullets)
@@ -140,35 +137,41 @@ func _on_player_died():
 
 
 func _on_waves_ended():
+	print("Requested transform")
 	player.disable()
-	transforming = true
 	elapsed_time = 0.0
-	set_process(true)
 	var tw : Tween = create_tween()
 	tw.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	tw.set_parallel()
-	tw.tween_property(player, "position:z", -2.0, 2.0)
-	tw.tween_property(player, "position:x", 0.0, 2.0)
-	
-	tw.tween_property(player, "transform", Transform3D.IDENTITY, 2.0)
+
 	
 
 	if Globals.game_mode == Globals.GameMode.GALAGA:
-		#tw.tween_property(galaga_camera, "transform", $ZaxxonCameraPos.transform, 2.0)
-		tw.tween_property(player, "position:y", -22.0, 2.0)
-		tw.tween_property(self, "flow_speed", 5.0/30.0, 2.0)
-		tw.tween_property(Globals, "scroll_speed", 25.0, 2.0)
-		#tw.tween_property(bkg.mesh, "size:y", 180.0, 2.0)
+		transforming = true
+		tw.set_parallel()
+		tw.tween_property(player, "position:z", -2.0, 1.0)
+		tw.tween_property(player, "position:x", 0.0, 1.0)
+		tw.tween_property(player, "transform", Transform3D.IDENTITY, 1.0)
+		tw.tween_property(player, "position:y", -15.0, 2.0)
+		tw.tween_property(self, "flow_speed", 5.0/37.5, 2.0)
+		tw.tween_property(Globals, "scroll_speed", 20.0, 2.0)
+		tw.finished.connect(transforming_done)
 		left_top_border.set_deferred("disabled", false)
 		right_top_border.set_deferred("disabled", false)
 		top_border.set_deferred("disabled", true)
 		back_border.position.z = 40.5
+
 	else:
-		#tw.tween_property(galaga_camera, "transform", $GalagaCameraPos.transform, 2.0)
-		tw.tween_property(player, "position:y", 0.0, 2.0)
+		tw.set_parallel()
+		tw.tween_property(player, "position:z", -2.0, 1.0)
+		tw.tween_property(player, "position:x", 0.0, 1.0)
+		tw.tween_property(player, "transform", Transform3D.IDENTITY, 1.0)
+		tw.tween_property(player, "position:y", 5.0, 2.0)
 		tw.tween_property(self, "flow_speed", 5.0/150.0, 2.0)
 		tw.tween_property(Globals, "scroll_speed", 5.0, 2.0)
-		#tw.tween_property(bkg.mesh, "size:y", 60.0, 2.0)		
+		tw.finished.connect(func(): 
+			transforming = true
+			await get_tree().create_timer(2.0).timeout
+			transforming_done())
 
 		left_top_border.set_deferred("disabled", true)
 		right_top_border.set_deferred("disabled", true)
@@ -176,7 +179,8 @@ func _on_waves_ended():
 		back_border.position.z = 3.5
 
 
-	tw.finished.connect(transforming_done)
+
+
 
 
 func _on_mega_bomb_exploded(pos : Vector3, bomb : MegaBomb):
@@ -186,6 +190,7 @@ func _on_mega_bomb_exploded(pos : Vector3, bomb : MegaBomb):
 	add_child.call_deferred(explosion)
 
 func transforming_done():
+	print("Transforming done")
 	transforming = false
 	if Globals.game_mode == Globals.GameMode.GALAGA:
 		Globals.game_mode = Globals.GameMode.ZAXXON
@@ -194,7 +199,7 @@ func transforming_done():
 
 
 		var tube : Segment = tube_scene.instantiate()
-		tube.position = Vector3(0, 0, -95)
+		tube.position = Vector3(0, -17, -95)
 		tube.tree_exited.connect(_on_waves_ended)
 		tube.initialize()
 		segment = tube

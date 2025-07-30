@@ -46,10 +46,11 @@ func _physics_process(delta: float) -> void:
 func blink():
 	if !can_blink:
 		return
+	can_blink = false
 	for surface : int in $BodyPivot/Body.get_surface_override_material_count():
 		var tw : Tween = create_tween()
-		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "albedo_color", Color.WHITE, 0.1)
-		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "albedo_color", body_colors[surface], 0.1)		
+		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "emission_energy_multiplier", 1.0, 0.1)
+		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "emission_energy_multiplier", 0.0, 0.1)		
 
 		if surface == $BodyPivot/Body.get_surface_override_material_count() - 1:
 			tw.finished.connect(func(): can_blink = true)

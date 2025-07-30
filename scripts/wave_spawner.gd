@@ -34,6 +34,10 @@ var current_stage : int = 0
 
 var stage_ended : bool = false
 
+var last_stage_was_isometric : bool = false
+
+var stages_from_last_isometric : int = 0
+
 var max_lines_in_wave : int = 1
 
 func _ready() -> void:
@@ -57,7 +61,7 @@ func _process(delta: float) -> void:
 
 func spawn_boss():
 	var boss : Enemy = enemy_scene[Enums.EnemyType.FIRST_BOSS].instantiate()
-	boss.position = Vector3(0, 0, -45)
+	boss.position = Vector3(0, 5, -45)
 	boss.tree_exited.connect(_on_boss_defeated)
 	add_child.call_deferred(boss)
 	timer.stop()
@@ -67,7 +71,7 @@ func spawn_asteroid():
 	enemies_spawned += 1
 	var asteroid : Asteroid = enemy_scene[Enums.EnemyType.ASTEROID].instantiate()
 	asteroid.tree_exited.connect(_on_enemy_tree_exit)
-	asteroid.position = Vector3(Globals.RNG.randf_range(-25, 25), 0, -40)
+	asteroid.position = Vector3(Globals.RNG.randf_range(-25, 25), 5, -40)
 	add_child.call_deferred(asteroid)
 
 
@@ -75,7 +79,7 @@ func spawn_asteroid():
 func spawn_enemy(wave_data : WaveData):
 	if wave_data.enemy_data.enemy_type < Enums.EnemyType.BASIC_PATH_ENEMY:
 		var enemy : Enemy = enemy_scene[wave_data.enemy_data.enemy_type].instantiate()
-		enemy.position = Vector3(wave_data.x_coord, 0, -50)
+		enemy.position = Vector3(wave_data.x_coord, 5, -50)
 		enemy.hp = ceil(min(wave_data.enemy_data.base_hp * (1.0 + 0.1 * current_stage / 3), wave_data.enemy_data.base_hp * 5))
 		enemy.rotate_y(PI)
 		if enemy is SineEnemy or enemy is ShootingEnemy:
@@ -194,42 +198,47 @@ func set_wave_data(wave_data : WaveData, data : EnemyData):
 
 
 func setup_next_stage():
-	
 	current_stage += 1
-	if current_stage % 5 == 0:
+	if current_stage % 99 == 0:
 		#print("Spawn boss")
 		spawn_boss()
 
 	else:
 		if currently_spawning == SpawnType.ENEMY:
-			await get_tree().create_timer(2.0).timeout
-			EventBus.waves_ended.emit()
-			# var roll : float = Globals.RNG.randf()
-			# if current_stage > 3 and roll < 0.2:
-			# 	launch_asteroid_field()
-			# 	#print("Launching asteroids")
+			var roll : float = Globals.RNG.randf()				
+			if roll < 0.5:
+				total_waves = Globals.RNG.randi_range(2, 5)
+				launch_normal_waves()
+				stages_from_last_isometric += 1
 				
-			# elif roll < 0.65 or current_stage <= 3:
-			# 	total_waves = Globals.RNG.randi_range(5, 10)
-			# 	launch_normal_waves()
-				
-			# 	#print("Launching normal waves")
-			# elif roll < 1.0 or current_stage % 2 == 0:	
-			# 	await get_tree().create_timer(2.0).timeout
-			# 	EventBus.waves_ended.emit()
-			# 	#print("Going isometric")
-
+			elif current_stage >= 2 and stages_from_last_isometric > 3:
+				stages_from_last_isometric = 0
+				await get_tree().create_timer(2.0).timeout
+				EventBus.waves_ended.emit()
+				print("Going isometric")
+			else:
+				total_waves = Globals.RNG.randi_range(2, 5)
+				print("Waves from last else")
+				stages_from_last_isometric += 1
+				launch_normal_waves()			
+			
 		else:
 			var roll : float = Globals.RNG.randf()
 			if roll < 0.65 or current_stage <= 3:
 				total_waves = Globals.RNG.randi_range(5, 10)
 				launch_normal_waves()
-				#print("Launching normal waves")
+				stages_from_last_isometric += 1
+				#print("Launching normal waves II")
 
-			else:
+			elif current_stage >= 2 and stages_from_last_isometric > 3:
 				await get_tree().create_timer(2.0).timeout
+				stages_from_last_isometric = 0
 				EventBus.waves_ended.emit()				
-				#print("Going isometric")
+				#print("Going isometric II")
+			else:
+				total_waves = Globals.RNG.randi_range(5, 10)
+				launch_normal_waves()
+				stages_from_last_isometric += 1	
 
 
 func launch_asteroid_field():
@@ -241,14 +250,15 @@ func launch_asteroid_field():
 
 
 func launch_normal_waves():
+	print("Launching normal waves")
 	last_wave_spawned = false
 	current_wave = 0
 	enemies_spawned = 0
 	currently_spawning = SpawnType.ENEMY
 	timer.wait_time = 2.0
 	timer.start()
-	#print("Launching waves")
 	set_process(true)
+	last_stage_was_isometric = false
 
 
 func _on_enemy_tree_exit():
@@ -267,6 +277,7 @@ func _on_timer_timeout() -> void:
 	if stage_ended:
 		stage_ended = false
 		EventBus.stage_ended.emit()
+		print("Stage ended, launching next stage")
 		setup_next_stage()
 	else:
 		if currently_spawning == SpawnType.ENEMY:
@@ -279,7 +290,7 @@ func _on_timer_timeout() -> void:
 	
 
 func start():
-	#print("Starting")
+	print("Starting")
 	last_wave_spawned = false
 	current_wave = 0
 	enemies_spawned = 0

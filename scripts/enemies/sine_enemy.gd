@@ -9,6 +9,9 @@ var angle_2 : float = 0.0
 func _ready() -> void:
 	super()
 	set_process(turning)
+	if turning:
+		rolling = true
+		yawing = true
 
 
 func set_colors():
@@ -16,7 +19,7 @@ func set_colors():
 		body_colors.append($BodyPivot/Body.get_surface_override_material(surface).albedo_color)
 
 func _process(delta: float) -> void:
-	angle += delta * 4.0
+	angle += delta * 2.0
 
 
 func _physics_process(delta: float) -> void:
@@ -48,6 +51,7 @@ func _physics_process(delta: float) -> void:
 func blink():
 	if !can_blink:
 		return
+	can_blink = false
 	for surface : int in $BodyPivot/Body.get_surface_override_material_count():
 		var tw : Tween = create_tween()
 		tw.tween_property($BodyPivot/Body.get_surface_override_material(surface), "albedo_color", Color.WHITE, 0.1)
