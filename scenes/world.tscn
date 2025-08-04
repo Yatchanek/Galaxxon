@@ -72,7 +72,7 @@ shader_parameter/wave_direction = Vector2(0, -1)
 shader_parameter/wave_2_direction = Vector2(0, 1)
 shader_parameter/time_scale = 0.025
 shader_parameter/noise_scale = 150.0
-shader_parameter/height_scale = 1.785
+shader_parameter/height_scale = 0.15
 shader_parameter/edge_scale = 0.1
 shader_parameter/near = 0.5
 shader_parameter/far = 100.0
@@ -140,15 +140,15 @@ size = Vector3(100, 50, 1)
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7t5mc"]
 plane = Plane(0, 1, 0, -1)
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_7iits"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0nbtd"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_oo54l"]
 width = 1024
 height = 1024
 seamless = true
-noise = SubResource("FastNoiseLite_7iits")
+noise = SubResource("FastNoiseLite_0nbtd")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4mrxx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_37qwj"]
 render_priority = 0
 shader = ExtResource("2_tlwt5")
 shader_parameter/albedo_tex = ExtResource("8_7iits")
@@ -163,7 +163,7 @@ shader_parameter/mix_rate = 0.5
 shader_parameter/uv_scale = 5.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_f3sb7"]
-material = SubResource("ShaderMaterial_4mrxx")
+material = SubResource("ShaderMaterial_37qwj")
 size = Vector2(200, 150)
 
 [node name="World" type="Node3D"]
@@ -175,7 +175,7 @@ damage_label_scene = ExtResource("5_e3hyu")
 bomb_explosion_scene = ExtResource("6_q5onr")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.5813, -27, -39.7656)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.581, -30, -39.766)
 layers = 2
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_4kbfs")

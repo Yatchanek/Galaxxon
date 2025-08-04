@@ -79,12 +79,15 @@ func spawn_asteroid():
 
 
 func spawn_island():
+	if stages_from_last_isometric == 0:
+		return
 	var island : Island = island_scene.instantiate()
 	island.position.x = Globals.RNG.randf_range(-30, 30)
-	island.position.y = -29
-	island.position.z = -70
+	island.position.y = -25
+	island.position.z = -60
 	distance_from_last_island = 0.0
 	add_child.call_deferred(island)
+	$IslandTimer.start()
 
 
 func spawn_enemy(wave_data : WaveData):
@@ -186,7 +189,7 @@ func generate_wave():
 		if current_wave == total_waves:
 			timer.stop()
 			last_wave_spawned = true
-			#print("Last wave spawned")
+			print("Timer stopped")
 	#print("Enemies spawned", enemies_spawned)		
 
 func set_wave_data(wave_data : WaveData, data : EnemyData):
@@ -210,46 +213,53 @@ func set_wave_data(wave_data : WaveData, data : EnemyData):
 
 func setup_next_stage():
 	current_stage += 1
-	if current_stage % 99 == 0:
-		#print("Spawn boss")
-		spawn_boss()
+	stages_from_last_isometric = 0
+	timer.stop()
+	await get_tree().create_timer(2.0).timeout
+	EventBus.waves_ended.emit()
+	print("Going isometric")
+	# if current_stage % 99 == 0:
+	# 	#print("Spawn boss")
+	# 	spawn_boss()
 
-	else:
-		if currently_spawning == SpawnType.ENEMY:
-			var roll : float = Globals.RNG.randf()				
-			if roll < 0.5:
-				total_waves = Globals.RNG.randi_range(2, 5)
-				launch_normal_waves()
-				stages_from_last_isometric += 1
+	# else:
+	# 	if currently_spawning == SpawnType.ENEMY:
+	# 		var roll : float = Globals.RNG.randf()				
+	# 		if roll < 0.5:
+	# 			total_waves = Globals.RNG.randi_range(2, 5)
+	# 			launch_normal_waves()
+	# 			stages_from_last_isometric += 1
 				
-			elif current_stage >= 2 and stages_from_last_isometric > 3:
-				stages_from_last_isometric = 0
-				await get_tree().create_timer(2.0).timeout
-				EventBus.waves_ended.emit()
-				print("Going isometric")
-			else:
-				total_waves = Globals.RNG.randi_range(2, 5)
-				print("Waves from last else")
-				stages_from_last_isometric += 1
-				launch_normal_waves()			
+	# 		elif current_stage >= 2 and stages_from_last_isometric > 3:
+	# 			stages_from_last_isometric = 0
+	# 			timer.stop()
+	# 			await get_tree().create_timer(2.0).timeout
+	# 			EventBus.waves_ended.emit()
+	# 			print("Going isometric")
+	# 		else:
+	# 			total_waves = Globals.RNG.randi_range(2, 5)
+	# 			print("Waves from last else")
+	# 			stages_from_last_isometric += 1
+	# 			launch_normal_waves()			
 			
-		else:
-			var roll : float = Globals.RNG.randf()
-			if roll < 0.65 or current_stage <= 3:
-				total_waves = Globals.RNG.randi_range(5, 10)
-				launch_normal_waves()
-				stages_from_last_isometric += 1
-				#print("Launching normal waves II")
+	# 	else:
+	# 		var roll : float = Globals.RNG.randf()
+	# 		if roll < 0.65 or current_stage <= 3:
+	# 			total_waves = Globals.RNG.randi_range(5, 10)
+	# 			launch_normal_waves()
+	# 			stages_from_last_isometric += 1
+	# 			#print("Launching normal waves II")
 
-			elif current_stage >= 2 and stages_from_last_isometric > 3:
-				await get_tree().create_timer(2.0).timeout
-				stages_from_last_isometric = 0
-				EventBus.waves_ended.emit()				
-				#print("Going isometric II")
-			else:
-				total_waves = Globals.RNG.randi_range(5, 10)
-				launch_normal_waves()
-				stages_from_last_isometric += 1	
+	# 		elif current_stage >= 2 and stages_from_last_isometric > 3:
+	# 			await get_tree().create_timer(2.0).timeout
+	# 			stages_from_last_isometric = 0
+	# 			timer.stop()
+	# 			EventBus.waves_ended.emit()				
+	# 			#print("Going isometric II")
+	# 		else:
+	# 			total_waves = Globals.RNG.randi_range(5, 10)
+	# 			launch_normal_waves()
+	# 			stages_from_last_isometric += 1	
 
 
 func launch_asteroid_field():
@@ -291,7 +301,6 @@ func _on_timer_timeout() -> void:
 		print("Stage ended, launching next stage")
 		setup_next_stage()
 	else:
-		distance_from_last_island += Globals.scroll_speed * timer.wait_time
 		if currently_spawning == SpawnType.ENEMY:
 			if (Globals.RNG.randf() < 0.17 and waves.size() < 4) or waves.is_empty():
 				generate_wave()
@@ -300,18 +309,15 @@ func _on_timer_timeout() -> void:
 				spawn_asteroid()
 				asteroids_to_spawn -= 1
 
-		if distance_from_last_island > 100 or (distance_from_last_island > 50 and Globals.RNG.randf() < 0.1):
-			spawn_island()
-			print("Spawn Island")
+
 	
 
 func start():
-	print("Starting")
 	last_wave_spawned = false
 	current_wave = 0
 	enemies_spawned = 0
 	setup_next_stage()
-
+	$IslandTimer.start()
 		
 func stop():
 	set_process(false)
@@ -322,3 +328,14 @@ func _on_boss_defeated():
 	if is_inside_tree():
 		stage_ended = true
 		timer.start(2.0)
+
+
+func _on_island_timer_timeout() -> void:
+	distance_from_last_island += Globals.scroll_speed * $IslandTimer.wait_time
+
+	if distance_from_last_island > 100 or (distance_from_last_island > 50 and Globals.RNG.randf() < 0.1):
+		spawn_island()
+		print("Spawn Island")
+	else:
+		if stages_from_last_isometric == 0:
+			$IslandTimer.start()

@@ -47,7 +47,6 @@ func move():
 	tw.finished.connect(func():
 		grid[gap] = grid[move_from]
 		grid[gap].position = target_pos
-		print(target_pos, grid[gap].position)
 		grid[move_from] = null
 		gap = move_from
 		$Timer.start()

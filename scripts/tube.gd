@@ -1,13 +1,14 @@
 extends Node3D
 class_name Segment
 
-@export var length : int = 450    
+@export var length : int = 500
 @export var bunker_scene : PackedScene
 @export var silo_scene : PackedScene
 @export var stationary_plane_scene : PackedScene
 @export var obstacle_scene : PackedScene
 @export var hole_obstacle_scene : PackedScene
 @export var block_scene : PackedScene
+@export var mountain_meshes : Array[ArrayMesh] = []
 
 signal obstacles_placed
 
@@ -20,11 +21,14 @@ enum ObstacleTypes {
 
 var thread : Thread
 var grid_size : Vector2i
-var cell_size : Vector2i = Vector2(10, 10)
+var cell_size : Vector2i = Vector2(10, 15)
 
 var obstacle_grid : PackedInt32Array = []
 
-var y_pos : float = 0.0
+var y_pos : float = 10.0
+
+var signal_sent : bool = false
+var exit_signal_sent : bool = false
 
 var current_z : int
 
@@ -35,23 +39,50 @@ func initialize():
     obstacle_grid.fill(ObstacleTypes.NOTHING)
     thread = Thread.new()
     thread.start(create_obstacles)
-    
+
+func _ready() -> void:
+    await get_tree().create_timer(0.1).timeout
+    show()
+
+func create_mountains():
+    var current_z : float = 0.0
+    while current_z >= -500:
+        var mountain : MeshInstance3D = MeshInstance3D.new()
+        mountain.scale *= 2.0
+        mountain.mesh = mountain_meshes.pick_random()
+        mountain.position.x = randf_range(-2, 2)
+        mountain.position.z = current_z
+        mountain.rotate_y(randf_range(0, TAU))
+        $Land/Front.add_child(mountain)
+        current_z -= 15
+
+    current_z = 0.0
+    while current_z >= -560:
+        var mountain : MeshInstance3D = MeshInstance3D.new()
+        mountain.scale *= 3.0
+        mountain.mesh = mountain_meshes.pick_random()
+        mountain.position.x = randf_range(-2, 2)
+        mountain.position.z = current_z
+        mountain.rotate_y(randf_range(0, TAU))
+        $Land/Back.add_child(mountain)
+        current_z -= 30
+    obstacles_placed.emit()
 
 
 func create_obstacles():
     var row : int = 0
     while row < grid_size.y:
         var roll : float = Globals.RNG.randf()
-        if roll < 0.1:
+        if roll < 0.05:
             row += 2
             roll = Globals.RNG.randf()
             var obstacle : Node3D
-            if roll < 0.0:
+            if roll < 0.9:
                 obstacle = obstacle_scene.instantiate()
             else:
                 obstacle = hole_obstacle_scene.instantiate()
-
-            obstacle.position = Vector3(-30, 0, -cell_size.y * (5 + row))
+  
+            obstacle.position = Vector3(-30, 10, -65 -cell_size.y * (5 + row))
             add_child(obstacle)     
             row += 3
         elif roll < 0.6:
@@ -81,15 +112,14 @@ func create_obstacles():
                         x_coord = slots[idx]
                         slots.remove_at(idx)
 
-                bldg.position = Vector3(-30 + cell_size.x * (x_coord + 0.5), y_pos, -cell_size.y * (5 + row))
+                bldg.position = Vector3(-30 + cell_size.x * (x_coord + 0.5), y_pos, -65 - cell_size.y * (5 + row))
                 obstacle_grid[row * grid_size.x + x_coord] = ObstacleTypes.NORMAL_OBSTACLE
                 roll = Globals.RNG.randf()
 
                 add_child(bldg)
 
             row += 1            
-
-    obstacles_placed.emit()
+    create_mountains()
 
 
 func spawn_block(x_coord : int, row : int) -> float:
@@ -106,8 +136,15 @@ func spawn_block(x_coord : int, row : int) -> float:
 
 func _physics_process(delta: float) -> void:
     if !Engine.is_editor_hint():
-        position.z += Globals.scroll_speed * 0.75 * delta
-        if position.z >= 490:
+        position.z += Globals.scroll_speed * delta
+        if position.z >= -20 and !signal_sent:
+            print("Entered")
+            EventBus.tube_entered.emit()
+            signal_sent = true
+        if position.z >= 575 and !exit_signal_sent:
+            EventBus.tube_end_reached.emit()
+            exit_signal_sent = true
+        if position.z >= 650:
             queue_free()
 
 func _exit_tree() -> void:

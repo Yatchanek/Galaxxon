@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://gbwi00phf4bv"]
+[gd_scene load_steps=17 format=3 uid="uid://gbwi00phf4bv"]
 
 [ext_resource type="Script" uid="uid://co8q02stiur23" path="res://scripts/tube.gd" id="1_5aisg"]
 [ext_resource type="PackedScene" uid="uid://bi0mp8sg3bf40" path="res://scenes/buildings/bunker.tscn" id="4_785nk"]
@@ -7,6 +7,30 @@
 [ext_resource type="PackedScene" uid="uid://dn0yb86brv6fk" path="res://scenes/components/moving_hole_obstacle.tscn" id="6_sfi0d"]
 [ext_resource type="PackedScene" uid="uid://77qysjyonave" path="res://scenes/components/slit_obstacle.tscn" id="7_3j2uh"]
 [ext_resource type="PackedScene" uid="uid://cdmt86esslfgf" path="res://scenes/components/block.tscn" id="7_nx8nc"]
+[ext_resource type="ArrayMesh" uid="uid://cpfwmuhgkdtl1" path="res://resources/mountains_Cylinder_002.res" id="8_0133b"]
+[ext_resource type="ArrayMesh" uid="uid://bn24bl7b0wusr" path="res://resources/mountains_Cylinder_003.res" id="9_hj5cu"]
+[ext_resource type="ArrayMesh" uid="uid://d4kddl6m5fjce" path="res://resources/mountains_Cylinder_004.res" id="10_toump"]
+[ext_resource type="Texture2D" uid="uid://wvw6q1t6bjca" path="res://resources/texture/Grass003_2K-JPG_Color.jpg" id="11_nmr0y"]
+[ext_resource type="Texture2D" uid="uid://r5ue8iyb7tlb" path="res://resources/texture/Grass003_2K-JPG_NormalGL.jpg" id="12_4rv1j"]
+[ext_resource type="Texture2D" uid="uid://ym26reirx20x" path="res://resources/texture/Bricks082A_2K-JPG_Roughness.jpg" id="13_ivuka"]
+[ext_resource type="ArrayMesh" uid="uid://brvwjx0sik6vs" path="res://resources/shaders/island_2_small.res" id="14_m8ei8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qvc67"]
+resource_name = "Material"
+cull_mode = 2
+albedo_color = Color(0.906332, 0.906332, 0.906332, 1)
+albedo_texture = ExtResource("11_nmr0y")
+metallic_specular = 0.0
+roughness_texture = ExtResource("13_ivuka")
+normal_enabled = true
+normal_scale = 2.0
+normal_texture = ExtResource("12_4rv1j")
+uv1_scale = Vector3(0.05, 0.05, 0.05)
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_db26y"]
+material = SubResource("StandardMaterial3D_qvc67")
+size = Vector2(200, 500)
 
 [node name="Tube" type="Node3D"]
 script = ExtResource("1_5aisg")
@@ -16,3 +40,28 @@ stationary_plane_scene = ExtResource("6_cy6co")
 obstacle_scene = ExtResource("7_3j2uh")
 hole_obstacle_scene = ExtResource("6_sfi0d")
 block_scene = ExtResource("7_nx8nc")
+mountain_meshes = Array[ArrayMesh]([ExtResource("8_0133b"), ExtResource("9_hj5cu"), ExtResource("10_toump")])
+
+[node name="Land" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.376, 0, 0)
+
+[node name="Front" type="Node3D" parent="Land"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 9.5, -65)
+
+[node name="Back" type="Node3D" parent="Land"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -70, 9.5, -50)
+
+[node name="Ground" type="MeshInstance3D" parent="Land"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.581, 10, -310)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_db26y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Land"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -28.3936, 0, -60)
+mesh = ExtResource("14_m8ei8")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Land"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -28.394, 0, -560)
+mesh = ExtResource("14_m8ei8")
+skeleton = NodePath("../..")

@@ -47,6 +47,8 @@ func _ready() -> void:
 	EventBus.building_destroyed.connect(_on_building_destroyed)
 	EventBus.player_died.connect(_on_player_died)
 	EventBus.waves_ended.connect(_on_waves_ended)
+	EventBus.tube_entered.connect(_on_request_transform)
+	EventBus.tube_end_reached.connect(_on_request_transform)
 	EventBus.score_changed.emit(score)
 	EventBus.mega_bomb_exploded.connect(_on_mega_bomb_exploded)
 	spawn_manager.total_waves = 1#Globals.RNG.randi_range(5, 10)
@@ -58,7 +60,7 @@ func _process(delta: float) -> void:
 	bkg.mesh.material.set_shader_parameter("offset", Vector2(0, -distance))
 	if transforming:
 		elapsed_time += delta
-		var weight = min(elapsed_time / 2.0, 2.0) * 0.135
+		var weight = min(elapsed_time / 3.0, 3.0) * 0.135
 		if Globals.game_mode == Globals.GameMode.GALAGA:
 			galaga_camera.transform = galaga_camera.transform.interpolate_with($ZaxxonCameraPos.transform, weight)
 		else:
@@ -138,7 +140,17 @@ func _on_player_died():
 
 
 func _on_waves_ended():
-	print("Requested transform")
+	var tube : Segment = tube_scene.instantiate()
+	tube.position = Vector3(0, -27, -40)
+	tube.initialize()
+	segment = tube
+	tube.obstacles_placed.connect(func(): 
+		print("Tube created")
+		add_child.call_deferred(tube))
+
+
+func _on_request_transform():
+	
 	player.disable()
 	elapsed_time = 0.0
 	var tw : Tween = create_tween()
@@ -149,12 +161,12 @@ func _on_waves_ended():
 	if Globals.game_mode == Globals.GameMode.GALAGA:
 		transforming = true
 		tw.set_parallel()
-		tw.tween_property(player, "position:z", -2.0, 1.0)
-		tw.tween_property(player, "position:x", 0.0, 1.0)
-		tw.tween_property(player, "transform", Transform3D.IDENTITY, 1.0)
-		tw.tween_property(player, "position:y", -15.0, 2.0)
-		tw.tween_property(self, "flow_speed", 5.0/37.5, 2.0)
-		tw.tween_property(Globals, "scroll_speed", 20.0, 2.0)
+		tw.tween_property(player, "position:z", -2.0, 2.0)
+		tw.tween_property(player, "position:x", 0.0, 2.0)
+		tw.tween_property(player, "transform", Transform3D.IDENTITY, 2.0)
+		tw.tween_property(player, "position:y", -15.0, 3.0)
+		tw.tween_property(self, "flow_speed", 5.0/37.5, 3.0)
+		tw.tween_property(Globals, "scroll_speed", 20.0, 3.0)
 		tw.finished.connect(transforming_done)
 		left_top_border.set_deferred("disabled", false)
 		right_top_border.set_deferred("disabled", false)
@@ -163,15 +175,15 @@ func _on_waves_ended():
 
 	else:
 		tw.set_parallel()
-		tw.tween_property(player, "position:z", -2.0, 1.0)
-		tw.tween_property(player, "position:x", 0.0, 1.0)
-		tw.tween_property(player, "transform", Transform3D.IDENTITY, 1.0)
-		tw.tween_property(player, "position:y", 5.0, 2.0)
-		tw.tween_property(self, "flow_speed", 5.0/150.0, 2.0)
-		tw.tween_property(Globals, "scroll_speed", 5.0, 2.0)
+		tw.tween_property(player, "position:z", -2.0, 2.0)
+		tw.tween_property(player, "position:x", 0.0, 2.0)
+		tw.tween_property(player, "transform", Transform3D.IDENTITY, 2.0)
+		tw.tween_property(player, "position:y", 5.0, 3.0)
+		tw.tween_property(self, "flow_speed", 5.0/150.0, 3.0)
+		tw.tween_property(Globals, "scroll_speed", 5.0, 3.0)
 		tw.finished.connect(func(): 
 			transforming = true
-			await get_tree().create_timer(2.0).timeout
+			await get_tree().create_timer(3.0).timeout
 			transforming_done())
 
 		left_top_border.set_deferred("disabled", true)
@@ -190,6 +202,7 @@ func _on_mega_bomb_exploded(pos : Vector3, bomb : MegaBomb):
 	explosion.parent_bomb = bomb
 	add_child.call_deferred(explosion)
 
+
 func transforming_done():
 	print("Transforming done")
 	transforming = false
@@ -199,12 +212,7 @@ func transforming_done():
 		galaga_camera.transform = $ZaxxonCameraPos.transform
 
 
-		var tube : Segment = tube_scene.instantiate()
-		tube.position = Vector3(0, -17, -95)
-		tube.tree_exited.connect(_on_waves_ended)
-		tube.initialize()
-		segment = tube
-		tube.obstacles_placed.connect(func(): add_child.call_deferred(tube))
+
 	else:
 		Globals.game_mode = Globals.GameMode.GALAGA
 		player.steering_mode = player.SteeringMode.GALAGA

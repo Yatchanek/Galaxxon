@@ -17,4 +17,7 @@ signal player_died
 signal waves_ended
 signal stage_ended
 
+signal tube_entered
+signal tube_end_reached
+
 var player : Player
