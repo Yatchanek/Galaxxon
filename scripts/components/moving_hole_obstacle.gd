@@ -1,6 +1,8 @@
 extends Node3D
 class_name MovingHoleObstacle
 
+@export var block_scene : PackedScene
+
 var grid : Dictionary[Vector2i, MeshInstance3D] = {}
 
 var grid_size : Vector2i = Vector2i(6, 4)
@@ -24,15 +26,13 @@ func _ready() -> void:
 func fill_grid():
 	for y in grid_size.y:
 		for x in grid_size.x:
-			var block : MeshInstance3D = MeshInstance3D.new()
-			block.mesh = BoxMesh.new()
-			block.mesh.size = Vector3(10, 5, 5)
-			block.position = Vector3((x + 0.5) * block.mesh.size.x, 1.5 * SQRT_3 + (y + 0.5) * block.mesh.size.y, 0)
+			var block : MeshInstance3D = block_scene.instantiate()
+
+			block.position = Vector3((x + 0.5) * 10, (y + 0.5) * 5, 0)
 
 			grid[Vector2i(x, y)] = block
 
 			$MovingParts.add_child(block)
-
 
 
 func move():
@@ -41,15 +41,17 @@ func move():
 	var move_from : Vector2i = gap + neighbour
 	
 	var tw : Tween = create_tween()
-
-	tw.tween_property(grid[move_from], "position", grid[move_from].position - Vector3(neighbour.x * 10, neighbour.y * 5, 0), 2.0)
+	var target_pos : Vector3 = grid[move_from].position - Vector3(neighbour.x * 10, neighbour.y * 5, 0)
+	tw.tween_property(grid[move_from], "position", target_pos, 2.0)
 
 	tw.finished.connect(func():
 		grid[gap] = grid[move_from]
+		grid[gap].position = target_pos
+		print(target_pos, grid[gap].position)
 		grid[move_from] = null
 		gap = move_from
 		$Timer.start()
-
+		
 	)
 
 	

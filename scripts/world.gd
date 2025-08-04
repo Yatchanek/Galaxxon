@@ -54,7 +54,8 @@ func _ready() -> void:
 	spawn_manager.start()
 
 func _process(delta: float) -> void:
-	
+	distance += Globals.scroll_speed * delta * 1.25	
+	bkg.mesh.material.set_shader_parameter("offset", Vector2(0, -distance))
 	if transforming:
 		elapsed_time += delta
 		var weight = min(elapsed_time / 2.0, 2.0) * 0.135

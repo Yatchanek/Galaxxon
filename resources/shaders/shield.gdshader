@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_mix, depth_draw_opaque,cull_disabled;
+render_mode blend_mix, unshaded, shadows_disabled;
 
 uniform vec4 shield_color : source_color;
 uniform vec4 hit_shield_color = vec4(1.0, 1.0, 1.0, 1.0);

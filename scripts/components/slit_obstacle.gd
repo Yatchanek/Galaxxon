@@ -1,4 +1,3 @@
-@tool
 extends Node3D
 class_name SlitObstacle
 
@@ -13,9 +12,8 @@ class_name SlitObstacle
 const mesh_scale : float = 15.0
 var slit_height : float = 6.0
 var slit_position : float
-var total_height : float = (1.5 - sqrt(3) * 0.1) * mesh_scale
-var top_pos : float = 1.5 * mesh_scale
-var bottom_pos : float = sqrt(3) * 0.1 * mesh_scale
+var total_height : float = 17
+var bottom_pos : float = 0
 
 func _ready() -> void:
 	set_process(false)
@@ -28,7 +26,7 @@ func _ready() -> void:
 		bottom_hurtbox.disable()
 
 	upper_body.mesh.size.y = slit_position - slit_height * 0.5
-	upper_body.position.y = top_pos - upper_body.mesh.size.y * 0.5
+	upper_body.position.y = total_height - upper_body.mesh.size.y * 0.5
 	upper_collision.shape.size = upper_body.mesh.size
 	upper_collision.position = upper_body.position
 

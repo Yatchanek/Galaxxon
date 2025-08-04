@@ -1,13 +1,82 @@
-[gd_scene load_steps=11 format=3 uid="uid://dppaho64ksomi"]
+[gd_scene load_steps=20 format=3 uid="uid://dppaho64ksomi"]
 
 [ext_resource type="Script" uid="uid://c5186jr5uk3wk" path="res://scripts/enemies/sine_enemy.gd" id="1_bybiq"]
-[ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="2_o841t"]
 [ext_resource type="ArrayMesh" uid="uid://c2hnb5sief2xt" path="res://resources/enemy_1.res" id="2_yo4tp"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="3_o841t"]
+[ext_resource type="Texture2D" uid="uid://cib6143ka3chu" path="res://resources/texture/Metal044A_2K-JPG_Color.jpg" id="3_ox54m"]
+[ext_resource type="Texture2D" uid="uid://dywhi8tlvc8qn" path="res://resources/texture/Metal044A_2K-JPG_Metalness.jpg" id="4_h8g6m"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="4_hbm6f"]
-[ext_resource type="Material" uid="uid://k4je6fqs1vlc" path="res://resources/materials/blue_material.tres" id="4_pksqs"]
-[ext_resource type="Material" uid="uid://b6p5pbojykn45" path="res://resources/materials/grey_metallic_material.tres" id="5_mgm4g"]
-[ext_resource type="Material" uid="uid://bevt7q662s8p8" path="res://resources/materials/black_material.tres" id="6_qoibk"]
+[ext_resource type="Texture2D" uid="uid://d4glhiri2cy5n" path="res://resources/texture/Metal044A_2K-JPG_NormalGL.jpg" id="5_ojalv"]
+[ext_resource type="Texture2D" uid="uid://bawbo136xgiom" path="res://resources/texture/Metal044A_2K-JPG_Roughness.jpg" id="6_qh2ad"]
+[ext_resource type="Texture2D" uid="uid://cox1imtotkxjx" path="res://resources/texture/Metal046A_2K-JPG_Color.jpg" id="7_n4dni"]
+[ext_resource type="Texture2D" uid="uid://d1v8ygku6upwl" path="res://resources/texture/Metal046A_2K-JPG_Metalness.jpg" id="8_xaycq"]
+[ext_resource type="Texture2D" uid="uid://bxn8xsjgpwrei" path="res://resources/texture/Metal046A_2K-JPG_NormalGL.jpg" id="9_0hljc"]
+[ext_resource type="Texture2D" uid="uid://b406ujxeqgu24" path="res://resources/texture/Metal046A_2K-JPG_Roughness.jpg" id="10_wod4a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_25nkx"]
+resource_local_to_scene = true
+albedo_color = Color(0.954127, 0.00310277, 0.00170056, 1)
+albedo_texture = ExtResource("3_ox54m")
+metallic = 1.0
+metallic_texture = ExtResource("4_h8g6m")
+roughness_texture = ExtResource("6_qh2ad")
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+normal_enabled = true
+normal_texture = ExtResource("5_ojalv")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dgx5x"]
+resource_local_to_scene = true
+albedo_color = Color(0.273386, 0.490289, 0.999979, 1)
+albedo_texture = ExtResource("3_ox54m")
+metallic = 1.0
+metallic_texture = ExtResource("4_h8g6m")
+roughness_texture = ExtResource("6_qh2ad")
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+normal_enabled = true
+normal_texture = ExtResource("5_ojalv")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dl1gn"]
+resource_local_to_scene = true
+albedo_texture = ExtResource("7_n4dni")
+metallic = 1.0
+metallic_texture = ExtResource("8_xaycq")
+roughness_texture = ExtResource("10_wod4a")
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+normal_enabled = true
+normal_texture = ExtResource("9_0hljc")
+uv1_scale = Vector3(5, 5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kety8"]
+resource_local_to_scene = true
+albedo_texture = ExtResource("7_n4dni")
+metallic = 1.0
+metallic_texture = ExtResource("8_xaycq")
+roughness_texture = ExtResource("10_wod4a")
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+normal_enabled = true
+normal_texture = ExtResource("9_0hljc")
+uv1_scale = Vector3(5, 5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ijv7h"]
+resource_local_to_scene = true
+albedo_texture = ExtResource("7_n4dni")
+metallic = 1.0
+metallic_texture = ExtResource("8_xaycq")
+roughness_texture = ExtResource("10_wod4a")
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+normal_enabled = true
+normal_texture = ExtResource("9_0hljc")
+uv1_scale = Vector3(5, 5, 5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o841t"]
 size = Vector3(1, 1, 2.8)
@@ -29,11 +98,11 @@ speed = 9.0
 [node name="Body" type="MeshInstance3D" parent="BodyPivot"]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, -0.25)
 mesh = ExtResource("2_yo4tp")
-surface_material_override/0 = ExtResource("2_o841t")
-surface_material_override/1 = ExtResource("4_pksqs")
-surface_material_override/2 = ExtResource("5_mgm4g")
-surface_material_override/3 = ExtResource("6_qoibk")
-surface_material_override/4 = ExtResource("6_qoibk")
+surface_material_override/0 = SubResource("StandardMaterial3D_25nkx")
+surface_material_override/1 = SubResource("StandardMaterial3D_dgx5x")
+surface_material_override/2 = SubResource("StandardMaterial3D_dl1gn")
+surface_material_override/3 = SubResource("StandardMaterial3D_kety8")
+surface_material_override/4 = SubResource("StandardMaterial3D_ijv7h")
 
 [node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("actor")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.5)

@@ -31,7 +31,6 @@ var current_z : int
 func initialize():
     current_z = 0
     grid_size = Vector2i(60 / cell_size.x, (length - 10 * cell_size.y) / cell_size.y)
-    prints("Grid size:", grid_size)
     obstacle_grid.resize(grid_size.x * grid_size.y)
     obstacle_grid.fill(ObstacleTypes.NOTHING)
     thread = Thread.new()
@@ -43,7 +42,19 @@ func create_obstacles():
     var row : int = 0
     while row < grid_size.y:
         var roll : float = Globals.RNG.randf()
-        if roll < 0.5:
+        if roll < 0.1:
+            row += 2
+            roll = Globals.RNG.randf()
+            var obstacle : Node3D
+            if roll < 0.0:
+                obstacle = obstacle_scene.instantiate()
+            else:
+                obstacle = hole_obstacle_scene.instantiate()
+
+            obstacle.position = Vector3(-30, 0, -cell_size.y * (5 + row))
+            add_child(obstacle)     
+            row += 3
+        elif roll < 0.6:
             var items_in_row : int = 1
             roll = Globals.RNG.randf()
             if roll < 0.025:
@@ -76,7 +87,7 @@ func create_obstacles():
 
                 add_child(bldg)
 
-        row += 1            
+            row += 1            
 
     obstacles_placed.emit()
 

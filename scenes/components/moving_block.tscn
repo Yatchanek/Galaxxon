@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cu6xqw43w7jfb"]
+
+[ext_resource type="Material" uid="uid://durhuyowpyuv0" path="res://resources/materials/slit_obstacle.tres" id="1_541k2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_7wfq4"]
+material = ExtResource("1_541k2")
+size = Vector3(10, 5, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rwxgb"]
+size = Vector3(10, 5, 5)
+
+[node name="MovingBlock" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_7wfq4")
+
+[node name="MovingBlock" type="StaticBody3D" parent="."]
+collision_layer = 256
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MovingBlock"]
+shape = SubResource("BoxShape3D_rwxgb")

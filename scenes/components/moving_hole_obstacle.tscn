@@ -1,11 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://dn0yb86brv6fk"]
+[gd_scene load_steps=8 format=3 uid="uid://dn0yb86brv6fk"]
 
 [ext_resource type="Script" uid="uid://b7adbwjwobvq8" path="res://scripts/components/moving_hole_obstacle.gd" id="1_3me31"]
-[ext_resource type="ArrayMesh" uid="uid://b1yt1fhvvto2g" path="res://resources/block_no_margin.res" id="2_vphvp"]
+[ext_resource type="PackedScene" uid="uid://cu6xqw43w7jfb" path="res://scenes/components/moving_block.tscn" id="2_dxvb1"]
+[ext_resource type="Material" uid="uid://durhuyowpyuv0" path="res://resources/materials/slit_obstacle.tres" id="2_vphvp"]
 [ext_resource type="Script" uid="uid://bc287iiupc46g" path="res://scripts/indicator.gd" id="3_vphvp"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dxvb1"]
-size = Vector3(30, 19.902, 5)
+material = ExtResource("2_vphvp")
+size = Vector3(30, 20, 5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v6io7"]
 albedo_color = Color(1, 0, 0, 1)
@@ -16,17 +18,10 @@ size = Vector3(0.5, 0.5, 0.1)
 
 [node name="MovingHoleObstacle" type="Node3D"]
 script = ExtResource("1_3me31")
-
-[node name="LeftSide" type="MeshInstance3D" parent="."]
-transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 5, 0, 0, 0)
-mesh = ExtResource("2_vphvp")
-
-[node name="RightSide" type="MeshInstance3D" parent="."]
-transform = Transform3D(-15, 0, 0, 0, 15, 0, 0, 0, 5, 90, 0, 0)
-mesh = ExtResource("2_vphvp")
+block_scene = ExtResource("2_dxvb1")
 
 [node name="RightFiller" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75, 12.549, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75, 10, 0)
 mesh = SubResource("BoxMesh_dxvb1")
 
 [node name="MovingParts" type="Node3D" parent="."]
@@ -36,7 +31,7 @@ wait_time = 2.0
 one_shot = true
 
 [node name="Indicator" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.491995, 10.778, 2.6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.778, 2.6)
 layers = 2
 mesh = SubResource("BoxMesh_juvfu")
 script = ExtResource("3_vphvp")

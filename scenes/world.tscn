@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://g7u1uank1std"]
+[gd_scene load_steps=53 format=3 uid="uid://g7u1uank1std"]
 
 [ext_resource type="Script" uid="uid://cn012ndn2bvy8" path="res://scripts/world.gd" id="1_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://42m5coqfeveg" path="res://scenes/player.tscn" id="1_f3sb7"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dxj4h0ee4wh1w" path="res://scenes/components/damage_label.tscn" id="5_e3hyu"]
 [ext_resource type="FontFile" uid="uid://cwcwuijx2mhrk" path="res://resources/fonts/Orbitron-VariableFont_wght.ttf" id="5_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://ctcjauugj4hvq" path="res://scenes/projectiles/mega_bomb_explosion.tscn" id="6_q5onr"]
+[ext_resource type="Shader" uid="uid://dk6myhe533ryj" path="res://resources/shaders/water2.gdshader" id="7_munwf"]
 [ext_resource type="PackedScene" uid="uid://gbwi00phf4bv" path="res://scenes/components/tube.tscn" id="8_4mrxx"]
 [ext_resource type="Texture2D" uid="uid://wvw6q1t6bjca" path="res://resources/texture/Grass003_2K-JPG_Color.jpg" id="8_7iits"]
 [ext_resource type="PackedScene" uid="uid://cmaalf560lg66" path="res://scenes/spawn_manager.tscn" id="9_7r4gi"]
@@ -20,37 +21,69 @@
 [ext_resource type="PackedScene" uid="uid://cir3mi5ohwsr3" path="res://scenes/enemies/aiming_enemy.tscn" id="16_oo54l"]
 [ext_resource type="PackedScene" uid="uid://d0g4cnld8nlvm" path="res://scenes/enemies/basic_path_enemy.tscn" id="17_kpybi"]
 [ext_resource type="PackedScene" uid="uid://c8rhhptsmt63u" path="res://scenes/enemies/asteroid.tscn" id="18_ctatt"]
+[ext_resource type="PackedScene" uid="uid://biki30fm61e8y" path="res://scenes/components/island.tscn" id="19_ts3gi"]
 [ext_resource type="PackedScene" uid="uid://bnpqmu30lv5t0" path="res://scenes/enemies/boss.tscn" id="19_xgqkh"]
 [ext_resource type="Script" uid="uid://51unt42sqa7b" path="res://scripts/enemies/mountains.gd" id="22_kpybi"]
 [ext_resource type="ArrayMesh" uid="uid://cpfwmuhgkdtl1" path="res://resources/mountains_Cylinder_002.res" id="23_xgqkh"]
 [ext_resource type="ArrayMesh" uid="uid://bn24bl7b0wusr" path="res://resources/mountains_Cylinder_003.res" id="24_munwf"]
 [ext_resource type="ArrayMesh" uid="uid://d4kddl6m5fjce" path="res://resources/mountains_Cylinder_004.res" id="25_ts3gi"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_7iits"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ts3gi"]
+frequency = 0.0131
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_oo54l"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0nbtd"]
 width = 1024
 height = 1024
 seamless = true
-noise = SubResource("FastNoiseLite_7iits")
+as_normal_map = true
+noise = SubResource("FastNoiseLite_ts3gi")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4mrxx"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_37qwj"]
+seed = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_navra"]
+width = 1024
+height = 1024
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_37qwj")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_luhhm"]
+seed = 1
+frequency = 0.0347
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fh13f"]
+width = 1024
+height = 1024
+seamless = true
+noise = SubResource("FastNoiseLite_luhhm")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rup4s"]
 render_priority = 0
-shader = ExtResource("2_tlwt5")
-shader_parameter/albedo_tex = ExtResource("8_7iits")
-shader_parameter/roughness_tex = ExtResource("10_kpybi")
-shader_parameter/normal_tex = ExtResource("9_oo54l")
-shader_parameter/noise_tex = SubResource("NoiseTexture2D_oo54l")
-shader_parameter/albedo_color = Color(0, 0, 0, 1)
-shader_parameter/speed_scale = 0.0
-shader_parameter/dist = 0.0
-shader_parameter/mesh_size = Vector2(80, 60)
-shader_parameter/mix_rate = 0.5
-shader_parameter/uv_scale = 5.0
+shader = ExtResource("7_munwf")
+shader_parameter/base_color = Color(2.04556e-07, 3.60981e-08, 0.170815, 1)
+shader_parameter/albedo_2 = Color(0.178631, 0.410143, 0.999951, 1)
+shader_parameter/metallic = 1.0
+shader_parameter/roughness = 0.0
+shader_parameter/texture_normal1 = SubResource("NoiseTexture2D_0nbtd")
+shader_parameter/texture_normal2 = SubResource("NoiseTexture2D_navra")
+shader_parameter/wave = SubResource("NoiseTexture2D_fh13f")
+shader_parameter/wave_direction = Vector2(0, -1)
+shader_parameter/wave_2_direction = Vector2(0, 1)
+shader_parameter/time_scale = 0.025
+shader_parameter/noise_scale = 150.0
+shader_parameter/height_scale = 1.785
+shader_parameter/edge_scale = 0.1
+shader_parameter/near = 0.5
+shader_parameter/far = 100.0
+shader_parameter/edge_color = Color(0, 0, 0, 1)
+shader_parameter/offset = Vector2(0, 0)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_f3sb7"]
-material = SubResource("ShaderMaterial_4mrxx")
-size = Vector2(200, 150)
+[sub_resource type="PlaneMesh" id="PlaneMesh_4kbfs"]
+material = SubResource("ShaderMaterial_rup4s")
+size = Vector2(150, 150)
+subdivide_width = 64
+subdivide_depth = 64
 
 [sub_resource type="LabelSettings" id="LabelSettings_dwbse"]
 font = ExtResource("5_w7kh3")
@@ -107,6 +140,32 @@ size = Vector3(100, 50, 1)
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7t5mc"]
 plane = Plane(0, 1, 0, -1)
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7iits"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_oo54l"]
+width = 1024
+height = 1024
+seamless = true
+noise = SubResource("FastNoiseLite_7iits")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4mrxx"]
+render_priority = 0
+shader = ExtResource("2_tlwt5")
+shader_parameter/albedo_tex = ExtResource("8_7iits")
+shader_parameter/roughness_tex = ExtResource("10_kpybi")
+shader_parameter/normal_tex = ExtResource("9_oo54l")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_oo54l")
+shader_parameter/albedo_color = Color(0, 0, 0, 1)
+shader_parameter/speed_scale = 0.0
+shader_parameter/dist = 0.0
+shader_parameter/mesh_size = Vector2(80, 60)
+shader_parameter/mix_rate = 0.5
+shader_parameter/uv_scale = 5.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_f3sb7"]
+material = SubResource("ShaderMaterial_4mrxx")
+size = Vector2(200, 150)
+
 [node name="World" type="Node3D"]
 script = ExtResource("1_aqk2v")
 explosion_scene = ExtResource("2_pkg7o")
@@ -116,10 +175,10 @@ damage_label_scene = ExtResource("5_e3hyu")
 bomb_explosion_scene = ExtResource("6_q5onr")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.5813, -27, -44)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.5813, -27, -39.7656)
+layers = 2
 cast_shadow = 0
-mesh = SubResource("PlaneMesh_f3sb7")
+mesh = SubResource("PlaneMesh_4kbfs")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 3
@@ -258,7 +317,7 @@ projection = 1
 size = 40.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.983581, 7.88849e-09, -0.180468, 0.180468, -4.29937e-08, 0.983581, -3.60075e-15, -1, -4.37114e-08, 0.519158, 16.2413, -25.7029)
+transform = Transform3D(0.998924, 0.0137955, -0.0442851, 0.0397064, 0.239201, 0.970158, 0.0239768, -0.970872, 0.238395, 0.519158, 16.2413, -25.7029)
 layers = 3
 shadow_enabled = true
 shadow_opacity = 0.85
@@ -314,6 +373,7 @@ enemy_scene = Dictionary[int, PackedScene]({
 5: ExtResource("18_ctatt"),
 6: ExtResource("19_xgqkh")
 })
+island_scene = ExtResource("19_ts3gi")
 total_waves = 1
 
 [node name="GalagaCameraPos" type="Marker3D" parent="."]
@@ -324,6 +384,7 @@ transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390732, -0
 
 [node name="Mountains" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.37635, -17, -44)
+visible = false
 script = ExtResource("22_kpybi")
 max_z_pos = 150.0
 
@@ -422,6 +483,7 @@ mesh = SubResource("PlaneMesh_f3sb7")
 
 [node name="Mountains2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.37635, -17, -194)
+visible = false
 script = ExtResource("22_kpybi")
 max_z_pos = 150.0
 

@@ -12,6 +12,7 @@ enum SpawnType {
 
 @export var enemy_scene : Dictionary[Enums.EnemyType, PackedScene] = {}
 @export var path_follow_scene : PackedScene
+@export var island_scene : PackedScene
 
 @export var enemy_data : Array[EnemyData] = []
 
@@ -39,6 +40,8 @@ var last_stage_was_isometric : bool = false
 var stages_from_last_isometric : int = 0
 
 var max_lines_in_wave : int = 1
+
+var distance_from_last_island : float = 0.0
 
 func _ready() -> void:
 	currently_spawning = SpawnType.ENEMY
@@ -74,6 +77,14 @@ func spawn_asteroid():
 	asteroid.position = Vector3(Globals.RNG.randf_range(-25, 25), 5, -40)
 	add_child.call_deferred(asteroid)
 
+
+func spawn_island():
+	var island : Island = island_scene.instantiate()
+	island.position.x = Globals.RNG.randf_range(-30, 30)
+	island.position.y = -29
+	island.position.z = -70
+	distance_from_last_island = 0.0
+	add_child.call_deferred(island)
 
 
 func spawn_enemy(wave_data : WaveData):
@@ -280,6 +291,7 @@ func _on_timer_timeout() -> void:
 		print("Stage ended, launching next stage")
 		setup_next_stage()
 	else:
+		distance_from_last_island += Globals.scroll_speed * timer.wait_time
 		if currently_spawning == SpawnType.ENEMY:
 			if (Globals.RNG.randf() < 0.17 and waves.size() < 4) or waves.is_empty():
 				generate_wave()
@@ -287,6 +299,10 @@ func _on_timer_timeout() -> void:
 			if asteroids_to_spawn > 0:
 				spawn_asteroid()
 				asteroids_to_spawn -= 1
+
+		if distance_from_last_island > 100 or (distance_from_last_island > 50 and Globals.RNG.randf() < 0.1):
+			spawn_island()
+			print("Spawn Island")
 	
 
 func start():

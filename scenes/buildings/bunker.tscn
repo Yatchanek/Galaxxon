@@ -64,7 +64,6 @@ skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("5_ttu5d")
 
 [node name="TurretPivot" type="Node3D" parent="BodyParts/TurretBody"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="PulseCannon" parent="BodyParts/TurretBody/TurretPivot" instance=ExtResource("2_ewk1p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.456945, -6.5817)
@@ -73,7 +72,6 @@ bullet_power = 1
 is_player_weapon = false
 
 [node name="Turret" type="MeshInstance3D" parent="BodyParts/TurretBody/TurretPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = ExtResource("9_j1due")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("6_k3v4v")
