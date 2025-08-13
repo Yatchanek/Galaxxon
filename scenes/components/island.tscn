@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://biki30fm61e8y"]
 
 [ext_resource type="Script" uid="uid://bdn1xpkr7nonb" path="res://scripts/components/island.gd" id="1_amiy2"]
-[ext_resource type="ArrayMesh" uid="uid://bp5gd0dq4yaae" path="res://resources/mini_island_1.res" id="2_ky822"]
-[ext_resource type="ArrayMesh" uid="uid://crwia6t30lkou" path="res://resources/mini_island_2.res" id="3_5uxon"]
-[ext_resource type="ArrayMesh" uid="uid://ip1idjdgad8r" path="res://resources/mini_island_3.res" id="4_6s52l"]
-[ext_resource type="ArrayMesh" uid="uid://n3qy5vn80skx" path="res://resources/mini_island_4.res" id="5_5uxon"]
-[ext_resource type="ArrayMesh" uid="uid://crhmfrqwux7gb" path="res://resources/mini_island_5.res" id="6_6noyf"]
+[ext_resource type="ArrayMesh" uid="uid://bp5gd0dq4yaae" path="res://resources/meshes/mini_island_1.res" id="2_ky822"]
+[ext_resource type="ArrayMesh" uid="uid://crwia6t30lkou" path="res://resources/meshes/mini_island_2.res" id="3_5uxon"]
+[ext_resource type="ArrayMesh" uid="uid://ip1idjdgad8r" path="res://resources/meshes/mini_island_3.res" id="4_6s52l"]
+[ext_resource type="ArrayMesh" uid="uid://n3qy5vn80skx" path="res://resources/meshes/mini_island_4.res" id="5_5uxon"]
+[ext_resource type="ArrayMesh" uid="uid://crhmfrqwux7gb" path="res://resources/meshes/mini_island_5.res" id="6_6noyf"]
 
 [node name="Island" type="Node3D"]
 script = ExtResource("1_amiy2")

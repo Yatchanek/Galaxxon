@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://gbwi00phf4bv"]
+[gd_scene load_steps=23 format=3 uid="uid://gbwi00phf4bv"]
 
 [ext_resource type="Script" uid="uid://co8q02stiur23" path="res://scripts/tube.gd" id="1_5aisg"]
 [ext_resource type="PackedScene" uid="uid://bi0mp8sg3bf40" path="res://scenes/buildings/bunker.tscn" id="4_785nk"]
@@ -7,13 +7,28 @@
 [ext_resource type="PackedScene" uid="uid://dn0yb86brv6fk" path="res://scenes/components/moving_hole_obstacle.tscn" id="6_sfi0d"]
 [ext_resource type="PackedScene" uid="uid://77qysjyonave" path="res://scenes/components/slit_obstacle.tscn" id="7_3j2uh"]
 [ext_resource type="PackedScene" uid="uid://cdmt86esslfgf" path="res://scenes/components/block.tscn" id="7_nx8nc"]
-[ext_resource type="ArrayMesh" uid="uid://cpfwmuhgkdtl1" path="res://resources/mountains_Cylinder_002.res" id="8_0133b"]
-[ext_resource type="ArrayMesh" uid="uid://bn24bl7b0wusr" path="res://resources/mountains_Cylinder_003.res" id="9_hj5cu"]
-[ext_resource type="ArrayMesh" uid="uid://d4kddl6m5fjce" path="res://resources/mountains_Cylinder_004.res" id="10_toump"]
+[ext_resource type="ArrayMesh" uid="uid://cpfwmuhgkdtl1" path="res://resources/meshes/mountains_Cylinder_002.res" id="8_0133b"]
+[ext_resource type="ArrayMesh" uid="uid://bn24bl7b0wusr" path="res://resources/meshes/mountains_Cylinder_003.res" id="9_hj5cu"]
+[ext_resource type="ArrayMesh" uid="uid://d4kddl6m5fjce" path="res://resources/meshes/mountains_Cylinder_004.res" id="10_toump"]
+[ext_resource type="ArrayMesh" uid="uid://ohnjwipv2yh" path="res://resources/meshes/tree_4.res" id="11_hj5cu"]
 [ext_resource type="Texture2D" uid="uid://wvw6q1t6bjca" path="res://resources/texture/Grass003_2K-JPG_Color.jpg" id="11_nmr0y"]
 [ext_resource type="Texture2D" uid="uid://r5ue8iyb7tlb" path="res://resources/texture/Grass003_2K-JPG_NormalGL.jpg" id="12_4rv1j"]
+[ext_resource type="ArrayMesh" uid="uid://dul8w18si1adc" path="res://resources/meshes/tree_3.res" id="12_nmr0y"]
+[ext_resource type="ArrayMesh" uid="uid://c22yoc1bbsl8s" path="res://resources/meshes/tree_5.res" id="13_4rv1j"]
 [ext_resource type="Texture2D" uid="uid://ym26reirx20x" path="res://resources/texture/Bricks082A_2K-JPG_Roughness.jpg" id="13_ivuka"]
-[ext_resource type="ArrayMesh" uid="uid://brvwjx0sik6vs" path="res://resources/shaders/island_2_small.res" id="14_m8ei8"]
+[ext_resource type="ArrayMesh" uid="uid://brvwjx0sik6vs" path="res://resources/meshes/island_2_small.res" id="14_m8ei8"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_ivuka"]
+transform_format = 1
+mesh = ExtResource("11_hj5cu")
+
+[sub_resource type="MultiMesh" id="MultiMesh_m8ei8"]
+transform_format = 1
+mesh = ExtResource("12_nmr0y")
+
+[sub_resource type="MultiMesh" id="MultiMesh_toump"]
+transform_format = 1
+mesh = ExtResource("13_4rv1j")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qvc67"]
 resource_name = "Material"
@@ -46,10 +61,20 @@ mountain_meshes = Array[ArrayMesh]([ExtResource("8_0133b"), ExtResource("9_hj5cu
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.376, 0, 0)
 
 [node name="Front" type="Node3D" parent="Land"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 9.5, -65)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -66, 9.5, -40)
+
+[node name="Trees" type="MultiMeshInstance3D" parent="Land/Front"]
+multimesh = SubResource("MultiMesh_ivuka")
+
+[node name="Trees2" type="MultiMeshInstance3D" parent="Land/Front"]
+multimesh = SubResource("MultiMesh_m8ei8")
+
+[node name="Trees3" type="MultiMeshInstance3D" parent="Land/Front"]
+multimesh = SubResource("MultiMesh_toump")
 
 [node name="Back" type="Node3D" parent="Land"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -70, 9.5, -50)
+visible = false
 
 [node name="Ground" type="MeshInstance3D" parent="Land"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.581, 10, -310)

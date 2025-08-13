@@ -1,7 +1,7 @@
 [gd_scene load_steps=25 format=3 uid="uid://jio4jnlmcbf2"]
 
 [ext_resource type="Script" uid="uid://bc88jdevxu1bt" path="res://scripts/enemies/diagonal_enemy.gd" id="1_l1rku"]
-[ext_resource type="ArrayMesh" uid="uid://cxe28hw3crajx" path="res://resources/enemy_2.res" id="2_7346a"]
+[ext_resource type="ArrayMesh" uid="uid://cxe28hw3crajx" path="res://resources/meshes/enemy_2.res" id="2_7346a"]
 [ext_resource type="Texture2D" uid="uid://cox1imtotkxjx" path="res://resources/texture/Metal046A_2K-JPG_Color.jpg" id="3_1pwl4"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="3_l4qja"]
 [ext_resource type="Material" uid="uid://k4je6fqs1vlc" path="res://resources/materials/blue_material.tres" id="3_skeds"]

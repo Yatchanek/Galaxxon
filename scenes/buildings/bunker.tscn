@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" uid="uid://37l4po4iwb4u" path="res://scripts/bunker.gd" id="1_764y3"]
 [ext_resource type="PackedScene" uid="uid://cego0uqcbg47c" path="res://scenes/weapons/pulse_cannon.tscn" id="2_ewk1p"]
-[ext_resource type="ArrayMesh" uid="uid://dl0vqqnvq4sa7" path="res://resources/bunker_Cube_001.res" id="4_18dne"]
+[ext_resource type="ArrayMesh" uid="uid://dl0vqqnvq4sa7" path="res://resources/meshes/bunker_Cube_001.res" id="4_18dne"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="4_hk1w7"]
 [ext_resource type="Material" uid="uid://8n56rfwyy6kn" path="res://resources/materials/yellow_material.tres" id="5_18dne"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="5_hk1w7"]
 [ext_resource type="Material" uid="uid://bevt7q662s8p8" path="res://resources/materials/black_material.tres" id="5_ttu5d"]
-[ext_resource type="ArrayMesh" uid="uid://d2oh25p6frmq1" path="res://resources/turret_body_Sphere_009.res" id="6_3ofwy"]
+[ext_resource type="ArrayMesh" uid="uid://d2oh25p6frmq1" path="res://resources/meshes/turret_body_Sphere_009.res" id="6_3ofwy"]
 [ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="6_k3v4v"]
-[ext_resource type="ArrayMesh" uid="uid://bbo1bflkvurk3" path="res://resources/turret_Sphere_008.res" id="9_j1due"]
+[ext_resource type="ArrayMesh" uid="uid://bbo1bflkvurk3" path="res://resources/meshes/turret_Sphere_008.res" id="9_j1due"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tyiie"]
 size = Vector3(6, 3, 6)

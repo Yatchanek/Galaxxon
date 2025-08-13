@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://ceuvyrhk16fv6" path="res://scenes/buildings/building_template.tscn" id="1_7bw2i"]
 [ext_resource type="Script" uid="uid://detp15ghvoaor" path="res://scripts/buildings/plane.gd" id="2_lr2p3"]
-[ext_resource type="ArrayMesh" uid="uid://cxe28hw3crajx" path="res://resources/enemy_2.res" id="3_ko7u4"]
+[ext_resource type="ArrayMesh" uid="uid://cxe28hw3crajx" path="res://resources/meshes/enemy_2.res" id="3_ko7u4"]
 [ext_resource type="Material" uid="uid://h0x8s1cld2tu" path="res://resources/materials/red_material.tres" id="3_wcvdg"]
 [ext_resource type="Material" uid="uid://b6p5pbojykn45" path="res://resources/materials/grey_metallic_material.tres" id="4_5cll2"]
 [ext_resource type="Material" uid="uid://k4je6fqs1vlc" path="res://resources/materials/blue_material.tres" id="5_iupx6"]

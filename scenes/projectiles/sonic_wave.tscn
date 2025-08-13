@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://b10sqkan6u4w5"]
 
 [ext_resource type="Script" uid="uid://bk2x1xyl76wpx" path="res://scripts/projectiles/sonic_wave.gd" id="1_o7gk7"]
-[ext_resource type="Shader" uid="uid://bvwpn6qq7n5m3" path="res://sonic_wave.gdshader" id="1_ylbuq"]
+[ext_resource type="Shader" uid="uid://bvwpn6qq7n5m3" path="res://resources/shaders/sonic_wave.gdshader" id="1_ylbuq"]
 [ext_resource type="PackedScene" uid="uid://cp5rswyvstmo4" path="res://scenes/components/hurtbox.tscn" id="2_o7gk7"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="3_1iebk"]
 

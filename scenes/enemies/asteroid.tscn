@@ -1,12 +1,12 @@
 [gd_scene load_steps=12 format=3 uid="uid://c8rhhptsmt63u"]
 
 [ext_resource type="Script" uid="uid://thdvv5woi8ig" path="res://scripts/enemies/asteroid.gd" id="1_j2n00"]
-[ext_resource type="ArrayMesh" uid="uid://d1xxs3td50x6c" path="res://resources/rocks_rock.res" id="2_w7b4c"]
-[ext_resource type="ArrayMesh" uid="uid://b732t4x04toxr" path="res://resources/rocks_rock_001.res" id="3_eyico"]
+[ext_resource type="ArrayMesh" uid="uid://d1xxs3td50x6c" path="res://resources/meshes/rocks_rock.res" id="2_w7b4c"]
+[ext_resource type="ArrayMesh" uid="uid://b732t4x04toxr" path="res://resources/meshes/rocks_rock_001.res" id="3_eyico"]
 [ext_resource type="Material" uid="uid://f14hnulde65m" path="res://resources/materials/grey_material.tres" id="3_prswt"]
-[ext_resource type="ArrayMesh" uid="uid://dwokfqk455f16" path="res://resources/rocks_rock_002.res" id="4_xemuc"]
-[ext_resource type="ArrayMesh" uid="uid://dmbkggm1lw6qt" path="res://resources/rocks_rock_003.res" id="5_xr4jj"]
-[ext_resource type="ArrayMesh" uid="uid://bcmb8wjie0jrw" path="res://resources/rocks_rock_004.res" id="6_xemuc"]
+[ext_resource type="ArrayMesh" uid="uid://dwokfqk455f16" path="res://resources/meshes/rocks_rock_002.res" id="4_xemuc"]
+[ext_resource type="ArrayMesh" uid="uid://dmbkggm1lw6qt" path="res://resources/meshes/rocks_rock_003.res" id="5_xr4jj"]
+[ext_resource type="ArrayMesh" uid="uid://bcmb8wjie0jrw" path="res://resources/meshes/rocks_rock_004.res" id="6_xemuc"]
 [ext_resource type="Script" uid="uid://dvaeel6ym74wp" path="res://scripts/components/hurtbox.gd" id="7_p6f1c"]
 [ext_resource type="PackedScene" uid="uid://bu881agq7bkoc" path="res://scenes/components/hitbox.tscn" id="8_wjlib"]
 

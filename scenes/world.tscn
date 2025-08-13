@@ -24,9 +24,9 @@
 [ext_resource type="PackedScene" uid="uid://biki30fm61e8y" path="res://scenes/components/island.tscn" id="19_ts3gi"]
 [ext_resource type="PackedScene" uid="uid://bnpqmu30lv5t0" path="res://scenes/enemies/boss.tscn" id="19_xgqkh"]
 [ext_resource type="Script" uid="uid://51unt42sqa7b" path="res://scripts/enemies/mountains.gd" id="22_kpybi"]
-[ext_resource type="ArrayMesh" uid="uid://cpfwmuhgkdtl1" path="res://resources/mountains_Cylinder_002.res" id="23_xgqkh"]
-[ext_resource type="ArrayMesh" uid="uid://bn24bl7b0wusr" path="res://resources/mountains_Cylinder_003.res" id="24_munwf"]
-[ext_resource type="ArrayMesh" uid="uid://d4kddl6m5fjce" path="res://resources/mountains_Cylinder_004.res" id="25_ts3gi"]
+[ext_resource type="ArrayMesh" uid="uid://cpfwmuhgkdtl1" path="res://resources/meshes/mountains_Cylinder_002.res" id="23_xgqkh"]
+[ext_resource type="ArrayMesh" uid="uid://bn24bl7b0wusr" path="res://resources/meshes/mountains_Cylinder_003.res" id="24_munwf"]
+[ext_resource type="ArrayMesh" uid="uid://d4kddl6m5fjce" path="res://resources/meshes/mountains_Cylinder_004.res" id="25_ts3gi"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ts3gi"]
 frequency = 0.0131
@@ -175,7 +175,7 @@ damage_label_scene = ExtResource("5_e3hyu")
 bomb_explosion_scene = ExtResource("6_q5onr")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.581, -30, -39.766)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.581, -22, -39.766)
 layers = 2
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_4kbfs")
@@ -311,7 +311,7 @@ current = true
 size = 40.0
 
 [node name="ZaxxonCamera" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390732, -0.707107, -0.276289, 0.650895, 56.5, 23, 44)
+transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390732, -0.707107, -0.276289, 0.650895, 51, 23, 44)
 cull_mask = 524287
 projection = 1
 size = 40.0
@@ -380,7 +380,7 @@ total_waves = 1
 transform = Transform3D(1, 0, 0, 0, -0.0871558, 0.996195, 0, -0.996195, -0.0871558, 0, 20, -17)
 
 [node name="ZaxxonCameraPos" type="Marker3D" parent="."]
-transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390732, -0.707107, -0.276289, 0.650895, 56.5, 23, 44)
+transform = Transform3D(0.707107, -0.276289, 0.650895, 0, 0.920505, 0.390732, -0.707107, -0.276289, 0.650895, 51, 23, 44)
 
 [node name="Mountains" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.37635, -17, -44)

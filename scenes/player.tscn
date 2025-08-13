@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://mato0xxl1qce" path="res://scenes/weapons/laser_weapon.tscn" id="4_hqtel"]
 [ext_resource type="PackedScene" uid="uid://kn6jwqy71lme" path="res://scenes/weapons/rocket_launcher.tscn" id="5_sweqy"]
 [ext_resource type="Script" uid="uid://dufaoa4a0ltqi" path="res://scripts/components/hitbox.gd" id="5_tuyoq"]
-[ext_resource type="ArrayMesh" uid="uid://f74ls5op8n8t" path="res://resources/jet fighter_Cube.res" id="6_a8ls1"]
+[ext_resource type="ArrayMesh" uid="uid://f74ls5op8n8t" path="res://resources/meshes/jet fighter_Cube.res" id="6_a8ls1"]
 [ext_resource type="PackedScene" uid="uid://br7xolltkcw1r" path="res://scenes/weapons/vulcan_cannon.tscn" id="6_fjrip"]
 [ext_resource type="Texture2D" uid="uid://cox1imtotkxjx" path="res://resources/texture/Metal046A_2K-JPG_Color.jpg" id="7_qfm1y"]
 [ext_resource type="Texture2D" uid="uid://d1v8ygku6upwl" path="res://resources/texture/Metal046A_2K-JPG_Metalness.jpg" id="8_fulsm"]
